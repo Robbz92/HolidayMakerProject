@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Country;
-import com.example.demo.services.CountryService;
+import com.example.demo.entities.City;
+import com.example.demo.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rest")
-public class CountryController {
+public class CityController {
     @Autowired
-    private CountryService countryService;
+    private CityService cityService;
 
-    @GetMapping("/getCountry")
-    public List<Country> getAll(){ return countryService.getAll(); }
+    @GetMapping("/getCity")
+    public List<City> getAll(){ return cityService.getAll(); }
 }
