@@ -1,9 +1,11 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link>
-    <router-link to="/login">Login</router-link>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/hotel">Hotel</router-link> |
+    <router-link to="/login">Login</router-link> |
     <router-link to="/register">Register</router-link>
   </div>
+  <div id="search"><searchBar/></div>
 
   <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
   <button class="sameBtns" v-if="isLoggedIn" @click="logout">Logga ut</button>
@@ -12,9 +14,13 @@
 </template>
 
 <script>
-
+import searchBar from "./components/SearchBar.vue"
 
 export default {
+  components:{
+    searchBar
+  },
+
    computed: {
     loggedInUser(){
       return this.$store.state.loggedInUser;

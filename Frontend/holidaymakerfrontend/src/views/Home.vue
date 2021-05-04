@@ -1,17 +1,25 @@
 <template>
-  <div>
-<h1>
-  home page
-</h1>
+  <div class="home">
+    <hotelList/>
   </div>
 </template>
 
 <script>
+import hotelList from "../components/HotelList.vue"
+
 export default {
+  name: 'Home',
+    components:{
+        hotelList
+    },
+
 
 }
 </script>
 
-<style>
-
+<style scoped>
+  .home{
+    margin: none;
+    width: 100vw;
+  }
 </style>
