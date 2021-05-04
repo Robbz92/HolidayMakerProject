@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.City;
 import com.example.demo.entities.Hotel;
 import com.example.demo.services.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,4 +26,6 @@ public class HotelController {
     @GetMapping("/hotelInformation/{id}")
     public Optional<Hotel> getHotelInformationID(@PathVariable long id){return hotelService.getAllById(id);}
 
+    @GetMapping("hotelSearch/{phrase}")
+    public List<Hotel> getByName(@PathVariable String phrase){ return hotelService.getByPhrase(phrase); }
 }

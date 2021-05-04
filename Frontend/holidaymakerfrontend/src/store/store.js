@@ -5,6 +5,7 @@ export default createStore({
   state: {
     countryList: [],
     cityList: [],
+    hotelList: [],
     searchPhrase: '',
     hotelInfo: String,
   },
@@ -15,6 +16,10 @@ export default createStore({
 
     setCityList(state,payload){
       state.cityList = payload
+    },
+
+    setHotelList(state, payload) {
+      state.hotelList = payload
     },
 
     setSearchPhrase(state,payload) {
@@ -54,6 +59,12 @@ export default createStore({
         console.log(response.data)
         this.commit("setCountryList", response.data)
       })
+    
+      await axios.get("http://localhost:3000/rest/hotelSearch/" + this.state.searchPhrase)
+      .then(response => {
+        console.log(response.data)
+        this.commit("setHotelList", response.data)
+      })
     },
   
     //async fetchHotelInfo(store, hotelid){
@@ -78,6 +89,10 @@ export default createStore({
       
       getCities(state){
         return state.cityList
+      },
+
+      getHotels(state) {
+        return state.hotelList
       },
 
       getSearchPhrase(state) {

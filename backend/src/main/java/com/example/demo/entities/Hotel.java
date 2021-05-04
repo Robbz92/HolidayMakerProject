@@ -34,7 +34,6 @@ public class Hotel {
     public long getId() {
         return id;
     }
-    @JsonIgnore
     public void setId(long id) {
         this.id = id;
     }

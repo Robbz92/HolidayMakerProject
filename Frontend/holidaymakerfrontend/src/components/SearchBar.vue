@@ -16,6 +16,13 @@
               <p>{{city.id}} - {{city.name}} - {{city.country_id}}</p>
             </li>
         </ol>
+
+        <h3 v-if="hotelList != ''">Hotels</h3> 
+        <ol id="hotelList">
+            <li v-for="(hotel, index) in setHotels"  :key="index" @click="viewHotel(hotel.id)">
+              <p>{{hotel.id}} - {{hotel.name}} - {{hotel.address}}</p>
+            </li>
+        </ol>
   </div>
 </template>
 
@@ -25,6 +32,7 @@ export default {
     return{
       countryList: [],
       cityList: [],
+      hotelList: [],
       searchPhrase: ''
     }
   },
@@ -40,6 +48,12 @@ export default {
       var cities = this.$store.getters.getCities
       this.updateCityList()
       return cities
+    },
+
+    setHotels(){
+      var hotels = this.$store.getters.getHotels
+      this.updateHotelList()
+      return hotels
     }
   },
 
@@ -54,11 +68,20 @@ export default {
       console.log(this.cityList)
     },
 
+    updateHotelList(){
+      this.hotelList = this.$store.getters.getHotels
+      console.log(this.hotelList)
+    },
+
     searchFor(phrase){
       console.log(phrase)
       this.$store.commit('setSearchPhrase',phrase)
       console.log(this.$store.getters.getSearchPhrase)
       this.$store.dispatch("searchFor")
+    },
+
+    viewHotel(id){
+      alert(id)
     }
   },
 
