@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CityService {
@@ -21,10 +22,14 @@ public class CityService {
 
     public List<City> getByPhrase(String phrase) {
         List<City> cityList = new ArrayList<>();
-        if(cityRepo.findByName(phrase).getName() != ""){
+        if(cityRepo.findByName(phrase) != null){
             System.out.println(cityRepo.findByName(phrase));
             cityList.add(cityRepo.findByName(phrase));
         }
         return cityList;
+    }
+
+    public Optional<City> getById(Long id) {
+        return cityRepo.findById(id);
     }
 }

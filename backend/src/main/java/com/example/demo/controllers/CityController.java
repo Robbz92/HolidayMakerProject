@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest")
@@ -20,7 +21,10 @@ public class CityController {
     public List<City> getAll(){ return cityService.getAll(); }
 
     @GetMapping("/getCityForCountry/{id}")
-    public List<City> getById(@PathVariable Long id){ return cityService.getByCountry(id); }
+    public List<City> getByCountry(@PathVariable Long id){ return cityService.getByCountry(id); }
+
+    @GetMapping("/getCity/{id}")
+    public Optional<City> getById(@PathVariable Long id){ return cityService.getById(id); }
 
     @GetMapping("citySearch/{phrase}")
     public List<City> getByName(@PathVariable String phrase){ return cityService.getByPhrase(phrase); }
