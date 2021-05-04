@@ -1,10 +1,22 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">About</router-link> |
+    <router-link to="/hotel">Hotel</router-link>
   </div>
+  <div id="search"><searchBar/></div>
   <router-view/>
 </template>
+
+<script>
+import searchBar from "./components/SearchBar.vue"
+
+export default{
+  components:{
+    searchBar
+  }
+}
+</script>
 
 <style>
 #app {
