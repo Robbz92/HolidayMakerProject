@@ -50,10 +50,11 @@ export default {
 
       await fetch("http://localhost:3000/login", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
         mode: "no-cors",
         body: credentials,
       });
+     
 
       let user = await fetch("/api/auth/whoami");
       try {

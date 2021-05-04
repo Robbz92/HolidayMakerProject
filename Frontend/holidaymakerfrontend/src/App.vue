@@ -6,6 +6,7 @@
   </div>
 
   <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
+  <button class="sameBtns" v-if="isLoggedIn" @click="logout">Logga ut</button>
 
   <router-view/>
 </template>
