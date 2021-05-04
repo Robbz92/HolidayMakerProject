@@ -4,6 +4,9 @@
     <router-link to="/login">Login</router-link>
     <router-link to="/register">Register</router-link>
   </div>
+
+  <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
+
   <router-view/>
 </template>
 

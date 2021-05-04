@@ -3,15 +3,15 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    email:String,
-    password:String,
-    loggedInUser:null,
-    firstName:String,
-    lastName:String,
+    email: String,
+    password: String,
+    loggedInUser: null,
+    firstName: String,
+    lastName: String,
   },
   mutations: {
     setLoggedInUser(state, user){
-      state.loggedInUser=user
+      state.loggedInUser=user;
     },
   },
   actions: {
