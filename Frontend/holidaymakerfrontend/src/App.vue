@@ -1,10 +1,53 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">Home</router-link>
+    <router-link to="/login">Login</router-link>
+    <router-link to="/register">Register</router-link>
   </div>
+
+  <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
+  <button class="sameBtns" v-if="isLoggedIn" @click="logout">Logga ut</button>
+
   <router-view/>
 </template>
+
+<script>
+
+
+export default {
+   computed: {
+    loggedInUser(){
+      return this.$store.state.loggedInUser;
+    },
+
+    isLoggedIn(){
+      return this.loggedInUser !=null;
+    },
+  },
+
+  methods:{
+    async logout(){
+      fetch("/logout", {mode:"no-cors"});
+
+      this.$store.commit("setLoggedInUser",null);
+      this.$router.push("/");
+      alert("you have logged out! have fun on your holiday!")
+
+    },
+  },
+  async mounted(){
+    let user = await fetch("/api/auth/whoami");
+    try{
+      user = await user.json();
+      this.$store.commit("setLoggedInUser", user);
+    }catch{
+      console.log("not logged in");
+    }
+  },
+};
+  
+
+</script>
 
 <style>
 #app {
