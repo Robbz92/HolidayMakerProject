@@ -26,6 +26,9 @@ public class HotelController {
     @GetMapping("/hotelInformation/{id}")
     public Optional<Hotel> getHotelInformationID(@PathVariable long id){return hotelService.getAllById(id);}
 
+    @GetMapping("/getHotelForCity/{id}")
+    public List<Hotel> getByCountry(@PathVariable Long id){ return hotelService.getByCity(id); }
+
     @GetMapping("hotelSearch/{phrase}")
     public List<Hotel> getByName(@PathVariable String phrase){ return hotelService.getByPhrase(phrase); }
 }

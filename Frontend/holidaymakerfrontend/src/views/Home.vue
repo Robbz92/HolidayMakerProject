@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <hotelList/>
-    naj
   </div>
 </template>
 
@@ -12,6 +11,15 @@ export default {
   name: 'Home',
     components:{
         hotelList
-    }
+    },
+
+
 }
 </script>
+
+<style scoped>
+  .home{
+    margin: none;
+    width: 100vw;
+  }
+</style>

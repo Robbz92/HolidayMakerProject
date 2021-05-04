@@ -7,7 +7,7 @@ export default createStore({
     cityList: [],
     hotelList: [],
     searchPhrase: '',
-    hotelInfo: String,
+    hotelInfo: String
   },
   mutations: {
     setCountryList(state,payload){

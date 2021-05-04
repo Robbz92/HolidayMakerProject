@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.entities.City;
 import com.example.demo.entities.Country;
+import com.example.demo.entities.Hotel;
 import com.example.demo.repositories.CountryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,17 @@ public class CountryService {
     @Autowired
     private CityService cityService;
 
+    @Autowired HotelService hotelService;
+
     public List<Country> getAll() {
         List<Country> countryList = countryRepo.findAll();
         return countryList;
     }
 
-    public List<City> getByPhrase(String phrase) {
+    public List<Hotel> getByPhrase(String phrase) {
         List<Country> countryList = new ArrayList<>();
         List<City> cityList = new ArrayList<>();
+        List<Hotel> hotelList = new ArrayList<>();
 
         if(countryRepo.findByName(phrase) != null){
             System.out.println(countryRepo.findByName(phrase));
@@ -35,9 +39,13 @@ public class CountryService {
             for(Country country : countryList){
                 cityList.addAll(cityService.getByCountry(country.getId()));
             }
+
+            for(City city : cityList){
+                hotelList.addAll(hotelService.getByCity(city.getId()));
+            }
         }
 
-        return cityList;
+        return hotelList;
     }
 
     public Optional<Country> getById(Long id) { return countryRepo.findById(id); }

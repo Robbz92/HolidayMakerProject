@@ -28,4 +28,6 @@ public class HotelService {
         }
         return hotelList;
     }
+
+    public List<Hotel> getByCity(Long id) { return hotelRepo.getByCityId(id); }
 }
