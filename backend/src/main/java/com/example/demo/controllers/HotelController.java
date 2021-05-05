@@ -8,21 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest")
 public class HotelController {
     @Autowired
     private HotelService hotelService;
-
-    @GetMapping("/hotelInformation/")
-    public List<Hotel> getHotelInformation(){
-        return hotelService.getAll();
-    }
-
-    @GetMapping("/hotelInformation/{id}")
-    public Optional<Hotel> getHotelInformationID(@PathVariable long id){return hotelService.getAllById(id);}
 
     @GetMapping("/getHotelForCity/{id}")
     public List<Hotel> getByCountry(@PathVariable Long id){ return hotelService.getByCity(id); }

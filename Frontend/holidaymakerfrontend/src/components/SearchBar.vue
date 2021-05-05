@@ -20,10 +20,6 @@ export default {
       console.log(this.$store.getters.getSearchPhrase)
       this.$store.dispatch("searchFor")
     },
-
-    viewHotel(id){
-      this.$router.push("/hotel/" + id)
-    }
   },
 
   mounted(){

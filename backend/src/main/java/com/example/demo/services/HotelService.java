@@ -13,14 +13,6 @@ public class HotelService {
     @Autowired
     private HotelRepo hotelRepo;
 
-    public List<Hotel> getAll() {
-        return hotelRepo.findAll();
-    }
-
-    public Optional<Hotel> getAllById(long id) {
-        return hotelRepo.findById(id);
-    }
-
     public List<Hotel> getByPhrase(String phrase) {
         List<Hotel> hotelList = new ArrayList<>();
         if(hotelRepo.findByName(phrase) != null){
