@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface HotelRepo extends JpaRepository<Hotel, Long> {
@@ -13,4 +14,24 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
 
     @Query(value = "Select * FROM hotels WHERE city_id = ?", nativeQuery = true)
     List<Hotel> getByCityId (Long id);
+
+    @Query(value="SELECT * FROM hotels WHERE id = ?1",nativeQuery = true )
+     List<Map> infoHotelById(Long id);
+    
+    @Query(value="SELECT cities.name as City, countries.name as Country, countries.temperature\n" +
+            "FROM cities INNER JOIN countries on countries.id = cities.country_id\n" +
+            "INNER JOIN hotels on hotels.city_id = cities.id\n" +
+            "WHERE hotels.id = ?1",nativeQuery = true )
+    List<Map> theInfo(Long id);
+
+    @Query(value="SELECT attractions.name FROM attractions\n" +
+            "INNER JOIN ca_list ON attractions.id = ca_list.attractions_id\n" +
+            "INNER JOIN cities ON cities.id = ca_list.city_id\n" +
+            "INNER JOIN hotels on hotels.city_id = cities.id\n" +
+            "WHERE hotels.id = ?1", nativeQuery = true )
+    List<Map> allAttractions(Long id);
+
+    @Query(value="SELECT comforts.name FROM comforts INNER JOIN hc_list on comforts.id = hc_list.comforts_id\n" +
+            "INNER JOIN hotels on hotels.id = hc_list.hotel_id WHERE hotels.id = ?1", nativeQuery = true)
+    List<Map> hotelsComforts(Long id);
 }

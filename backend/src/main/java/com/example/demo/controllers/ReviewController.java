@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-//@RequestMapping("/rest")
+@RequestMapping("/rest")
 public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
 
-    @GetMapping("/rest/reviews/{id}")
+    @GetMapping("/reviews/{id}")
     public List<Map> getReviews(@PathVariable long id){return reviewService.getReviewsByHotelId(id);}
 }

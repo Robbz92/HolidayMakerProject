@@ -17,7 +17,8 @@
 
         <h3 v-if="hotelList != ''">Hotels</h3> 
         <ol id="hotelList">
-            <li v-for="(hotel, index) in setHotels" :key="index" @click="viewHotel()">
+            <li v-for="(hotel, index) in setHotels" :key="index"  @click="allReviews(hotel.id), hotelInfo(hotel.id),
+            hotelTemperature(hotel.id), hotelAttraction(hotel.id), hotelComforts(hotel.id)">
               <Card :card="hotel"/>
             </li>
         </ol>
@@ -26,10 +27,11 @@
 
 <script>
 import Card from "./HotelCard.vue"
+
 export default {
+ 
   components:{
     Card,
-      
   },
 
     data(){
@@ -57,7 +59,7 @@ export default {
       var hotels = this.$store.getters.getHotels
       this.updateHotelList()
       return hotels
-    }
+    },
   },
 
   methods:{
@@ -78,11 +80,28 @@ export default {
     viewHotel(){
       this.$router.push("/hotel")
     },
+    allReviews(hotelId){
+      this.$store.dispatch("fetchReviews", hotelId);
+      this.$router.push("/hotel")
+    },
+    hotelInfo(hotelId){
+      this.$store.dispatch("fetchInformation", hotelId);
+      this.$router.push("/hotel")
+    },
+    hotelTemperature(hotelId){
+      this.$store.dispatch("fetchTemperature", hotelId);
+      this.$router.push("/hotel")
+    },
+    hotelAttraction(hotelId){
+      this.$store.dispatch("fetchAttractions", hotelId);
+      this.$router.push("/hotel")
+    },
+    hotelComforts(hotelId){
+      this.$store.dispatch("fetchComforts", hotelId);
+      this.$router.push("/hotel")
+    },
   },
-
-   mounted(){
-  }
-}
+} 
 </script>
 
 <style scoped>
