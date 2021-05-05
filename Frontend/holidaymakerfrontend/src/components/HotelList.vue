@@ -17,7 +17,7 @@
 
         <h3 v-if="hotelList != ''">Hotels</h3> 
         <ol id="hotelList">
-            <li v-for="(hotel, index) in setHotels"  :key="index" @click="viewHotel(hotel.id)">
+            <li v-for="(hotel, index) in setHotels" :key="index" @click="viewHotel()">
               <Card :card="hotel"/>
             </li>
         </ol>
@@ -28,7 +28,8 @@
 import Card from "./HotelCard.vue"
 export default {
   components:{
-    Card
+    Card,
+      
   },
 
     data(){
@@ -74,13 +75,12 @@ export default {
       this.hotelList = this.$store.getters.getHotels
       console.log(this.hotelList)
     },
-
-    viewHotel(id){
-      alert(id)
-    }
+    viewHotel(){
+      this.$router.push("/hotel")
+    },
   },
 
-  mounted(){
+   mounted(){
   }
 }
 </script>
