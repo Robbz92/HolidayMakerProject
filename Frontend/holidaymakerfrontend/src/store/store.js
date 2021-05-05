@@ -66,15 +66,9 @@ export default createStore({
         this.commit("setHotelList", response.data)
       })
     },
-  
-    //async fetchHotelInfo(store, hotelid){
-     // await axios.get("http://localhost:3000/rest/hotelInformation/" + hotelid)
-     // .then(response=>{
-     //   this.commit("setHotelInfo", response.data)
-     // })
-  
-     async fetchHotelInfo(){
-      await axios.get("http://localhost:3000/rest/hotelInformation/")
+
+    async fetchHotelInfo(store, id){
+      await axios.get("http://localhost:3000/rest/hotelInformation/"+ id)
       .then(response=>{
         this.commit("setHotelInfo", response.data)
       })

@@ -81,7 +81,7 @@ export default {
     },
 
     viewHotel(id){
-      alert(id)
+      this.$router.push("/hotel/" + id)
     }
   },
 
