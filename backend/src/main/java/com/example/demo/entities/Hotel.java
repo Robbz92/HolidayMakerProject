@@ -19,16 +19,18 @@ public class Hotel {
     private long totalScore;
     private long distanceDowntown;
     private long distanceBeach;
+    private long hotelImg;
 
     public Hotel() {
     }
 
-    public Hotel(String name, String address, long totalScore, long distanceDowntown, long distanceBeach) {
+    public Hotel(String name, String address, long totalScore, long distanceDowntown, long distanceBeach, long hotelImg) {
         this.name = name;
         this.address = address;
         this.totalScore = totalScore;
         this.distanceDowntown = distanceDowntown;
         this.distanceBeach = distanceBeach;
+        this.hotelImg = hotelImg;
     }
 
     public long getId() {
@@ -85,6 +87,14 @@ public class Hotel {
 
     public void setDistanceBeach(long distanceBeach) {
         this.distanceBeach = distanceBeach;
+    }
+
+    public long getHotelImg() {
+        return hotelImg;
+    }
+
+    public void setHotelImg(long hotelImg) {
+        this.hotelImg = hotelImg;
     }
 
     @Override

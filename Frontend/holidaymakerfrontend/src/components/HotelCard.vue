@@ -1,5 +1,5 @@
 <template>
-  <div id="hotelCard">
+  <div id="hotelCard" style="background-image: {{card.hotelImg}}">
     <p>Hotel Name: {{ card.name }}</p>
     <p>Address: {{ card.address }}</p>
     <p>Total score: {{ card.totalScore }}</p>
@@ -19,7 +19,6 @@ export default {
   display: block;
   width: 45vw;
   height: 20vh;
-  background-color: gray;
   margin: 15px;
 }
 </style>
