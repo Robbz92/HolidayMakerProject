@@ -11,7 +11,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/hotel',
+    path: '/hotel/:id',
     name: 'Hotel',
     component: Hotel
   },
@@ -28,7 +28,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 
