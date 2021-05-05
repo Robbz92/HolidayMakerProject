@@ -76,4 +76,8 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+html, body{
+  overflow-x: hidden;
+}
 </style>

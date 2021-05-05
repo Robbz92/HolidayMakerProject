@@ -1,26 +1,28 @@
 <template>
     <div id="bigList">
-    
-      <h3 v-if="countryList != ''">Countries</h3>
-      <ol id="countryList">
-          <li v-for="(country, index) in setCountries"  :key="index" @click="viewHotel(country.id)">
-            <Card :card="country"/>
-          </li>
-      </ol>
-      
-      <h3 v-if="cityList != ''">Cities</h3>
-      <ol id="cityList">
-          <li v-for="(city, index) in setCities"  :key="index" @click="viewHotel(city.id)">
-            <Card :card="city"/>
-          </li>
-      </ol>
 
         <h3 v-if="hotelList != ''">Hotels</h3> 
         <ol id="hotelList">
             <li v-for="(hotel, index) in setHotels" :key="index" @click="viewHotel()">
-              <Card :card="hotel"/>
+              <Card :card="hotel" :imageUrl="hotel.hotelImg"/>
             </li>
         </ol>
+      
+      <h3 v-if="cityList != ''">Cities</h3>
+      <ol id="cityList">
+          <li v-for="(city, index) in setCities"  :key="index" @click="viewHotel(city.id)">
+            <Card :card="city" :imageUrl="city.hotelImg"/>
+          </li>
+      </ol>
+    
+      <h3 v-if="countryList != ''">Countries</h3>
+      <ol id="countryList">
+          <li v-for="(country, index) in setCountries"  :key="index" @click="viewHotel(country.id)">
+            <Card :card="country" :imageUrl="country.hotelImg"/>
+          </li>
+      </ol>
+
+      <h3 v-if="hotelList == '' && cityList == '' && countryList == ''">No hotels matching searchphrase</h3>
     </div>
 </template>
 
@@ -90,5 +92,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     list-style-type: none; 
+    width: 85vw;
+    margin: auto;
   }
 </style>

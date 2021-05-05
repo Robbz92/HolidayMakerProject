@@ -19,12 +19,13 @@ public class Hotel {
     private long totalScore;
     private long distanceDowntown;
     private long distanceBeach;
-    private long hotelImg;
+    private String hotelImg;
 
     public Hotel() {
     }
 
-    public Hotel(String name, String address, long totalScore, long distanceDowntown, long distanceBeach, long hotelImg) {
+    public Hotel(String name, String address, long totalScore, long distanceDowntown,
+                 long distanceBeach, String hotelImg) {
         this.name = name;
         this.address = address;
         this.totalScore = totalScore;
@@ -89,11 +90,11 @@ public class Hotel {
         this.distanceBeach = distanceBeach;
     }
 
-    public long getHotelImg() {
+    public String getHotelImg() {
         return hotelImg;
     }
 
-    public void setHotelImg(long hotelImg) {
+    public void setHotelImg(String hotelImg) {
         this.hotelImg = hotelImg;
     }
 
