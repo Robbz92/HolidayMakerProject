@@ -3,13 +3,32 @@
     <div id="imageBlock">
       <img :src="imageUrl">
     </div>
-    <h2>{{card.name}}</h2>
+    <h2 id="hotelName">{{card.name}}</h2>
+    <div id="priceDiv">
+      <h2 id="price">From: {{card.price}}:-</h2>
+    </div>
     <div id="descriptionBlock">
-      <p>Hotel Name: {{ card.name }}</p>
-      <p>Address: {{ card.address }}</p>
-      <p v-if="card.totalScore != 0">Total score: {{ card.totalScore }}</p>
-      <p v-if="card.distanceDowntown != 0">Distance down town: {{ card.distanceDowntown }}</p>
-      <p v-if="card.distanceBeach != 0">distance to beach: {{ card.distanceBeach }}</p>
+      <div id="bigger">
+        <span>Hotel Name: {{ card.name }}</span>
+        <br>
+        <span>Address: {{ card.address }}</span>
+      </div>
+      <div id="distances">
+        <span v-if="card.totalScore != 0">Total score: {{ card.totalScore }}<br></span>
+        <span v-if="card.distanceDowntown != 0">Distance down town: {{ card.distanceDowntown }}<br></span>
+        <span v-if="card.distanceBeach != 0">distance to beach: {{ card.distanceBeach }}<br></span>
+      </div>
+      <br>
+      <div v-if="card.comfortList != ''">
+        <span id="comfort">comforts:</span>
+        <ol id="comfyList">
+          <li v-for="(comfort, index) in card.comfortList" :key="index">
+            <span>
+              {{comfort}}
+            </span>
+          </li>
+        </ol>
+      </div>
     </div>
   </div>
 </template>
@@ -28,8 +47,58 @@ export default {
   margin: 15px;
 }
 
+#comfyList{
+  list-style: none;
+  padding: 0;
+}
+
+#comfort{
+  font-weight: 600;
+}
+
+#distances{
+  margin: auto;
+}
+
+#bigger{
+  font-weight: 600;
+  font-size: larger;
+  margin-top: 25px;
+  margin-bottom: 5px;
+}
+
+#hotelName{
+  text-shadow:.5px .5px 1px rgba(255, 255, 255, .5),.5px -.5px 1px rgba(255, 255, 255, .5),
+                     -.5px .5px 1px rgba(255, 255, 255, .5),-.5px -.5px 1px rgba(255, 255, 255, .5);
+  color: rgba(0, 0, 0, .7);
+  mix-blend-mode: difference;
+  }
+
+#price{
+  position: absolute;
+  white-space: nowrap;
+  z-index: 2;
+  bottom: 0;
+  right: 1vw;
+  color: red;
+  text-shadow:.5px .5px 1px rgba(255, 255, 255, .5),.5px -.5px 1px rgba(255, 255, 255, .5),
+                     -.5px .5px 1px rgba(255, 255, 255, .5),-.5px -.5px 1px rgba(255, 255, 255, .5);
+}
+
+#priceDiv{
+  position: relative;
+}
+
+span{
+  margin-left: 15px;
+  font-size: large;
+}
+
 #descriptionBlock{
   position: absolute;
+  z-index: 3;
+  display: flexbox;
+  flex-wrap: wrap;
   width: 25vw;
   height: 20vw;
 
@@ -47,6 +116,7 @@ export default {
 }
 
 #imageBlock {
+  z-index: 1;
   position: absolute;
   object-fit: contain;
   width: 25vw;
@@ -78,11 +148,8 @@ p{
 
 h2{
   position: relative;
+  z-index: 2;
   font-weight: 900;
-  text-shadow:.5px .5px 1px rgba(255, 255, 255, .5),.5px -.5px 1px rgba(255, 255, 255, .5),
-                     -.5px .5px 1px rgba(255, 255, 255, .5),-.5px -.5px 1px rgba(255, 255, 255, .5);
-  color: rgba(0, 0, 0, .7);
-  mix-blend-mode: difference;
   margin: auto;
   margin-top: 0;
   opacity: 100%;

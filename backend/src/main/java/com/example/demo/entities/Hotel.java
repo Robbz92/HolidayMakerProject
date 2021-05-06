@@ -3,10 +3,10 @@ package com.example.demo.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="hotels")
-
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +20,10 @@ public class Hotel {
     private long distanceDowntown;
     private long distanceBeach;
     private String hotelImg;
+    @Transient
+    private List<String> comfortList;
+    @Transient
+    private int price;
 
     public Hotel() {
     }
@@ -32,6 +36,21 @@ public class Hotel {
         this.distanceDowntown = distanceDowntown;
         this.distanceBeach = distanceBeach;
         this.hotelImg = hotelImg;
+    }
+
+    public Hotel(long id, long cityId, String name, String address, long totalScore,
+                 long distanceDowntown, long distanceBeach, String hotelImg,
+                 List<String> comfortList, int price) {
+        this.id = id;
+        this.cityId = cityId;
+        this.name = name;
+        this.address = address;
+        this.totalScore = totalScore;
+        this.distanceDowntown = distanceDowntown;
+        this.distanceBeach = distanceBeach;
+        this.hotelImg = hotelImg;
+        this.comfortList = comfortList;
+        this.price = price;
     }
 
     public long getId() {
@@ -98,14 +117,35 @@ public class Hotel {
         this.hotelImg = hotelImg;
     }
 
+    public List<String> getComfortList() {
+        return comfortList;
+    }
+
+    public void setComfortList(List<String> comfortList) {
+        this.comfortList = comfortList;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Hotel{" +
+                "id=" + id +
+                ", cityId=" + cityId +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", totalScore=" + totalScore +
-                ", distanceDownTown=" + distanceDowntown +
+                ", distanceDowntown=" + distanceDowntown +
                 ", distanceBeach=" + distanceBeach +
+                ", hotelImg='" + hotelImg + '\'' +
+                ", comfortList=" + comfortList +
+                ", price=" + price +
                 '}';
     }
 }

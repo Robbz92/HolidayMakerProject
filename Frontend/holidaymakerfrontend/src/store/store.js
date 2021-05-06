@@ -90,6 +90,7 @@ export default createStore({
           this.commit("setHotelList", response.data)
         })
     },
+
     async fetchHotel() {
       await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.chosenHotel)
         .then(response => {
@@ -97,10 +98,6 @@ export default createStore({
           this.commit("setRoomList", response.data)
         })
     },
-  },
-  
-    actions: {
-
   },
 
     getters: {

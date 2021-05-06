@@ -18,9 +18,6 @@ export default {
       console.log(phrase)
       this.$store.commit('setSearchPhrase',phrase)
 
-      this.$store.commit('setFromDate', fromDate)
-      this.$store.commit('setToDate', toDate)
-
       console.log(this.$store.getters.getSearchPhrase)
       this.$store.dispatch("searchFor")
     },
