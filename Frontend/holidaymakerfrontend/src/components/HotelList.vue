@@ -81,6 +81,7 @@ export default {
     viewHotel(id){
       this.$store.commit('setChosenHotel', id)
       this.$store.dispatch("searchFor")
+      this.$store.dispatch("fetchHotel")
       this.$router.push("/hotel")
     },
     allReviews(hotelId){

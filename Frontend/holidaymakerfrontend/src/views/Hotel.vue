@@ -33,6 +33,18 @@
           </ul>
         </div>   
     </div>  
+        <div id="allRooms"> <h2>Rooms:</h2>
+            <ul v-for="(room, index) in getRoomList"  :key="index">
+            <li id="liRoom">
+              <img id="roomPic" :src="room.room_img">
+              <p>id: {{room.id}}</p>
+              <p>type: {{room.type}}</p>
+              <p>size: {{room.size}}</p>
+              <p>description: {{room.description}}</p>
+              <p>price: {{room.price}} kr</p>
+            </li>
+          </ul>
+        </div>
       <div id="holder">
         <div class="reviews">
         <h2>Reviews</h2>
@@ -41,12 +53,10 @@
               <p>{{review.first_name}} {{review.last_name}}</p>
               <p>{{review.score}}/5</p>
               <p>{{review.text}}</p>
-
-            </li>
-            
+            </li> 
           </ul>
    
-        </div>          
+        </div>        
       </div> 
 </template>
 
@@ -68,19 +78,37 @@ export default {
     },
     getComfort(){
       return this.$store.getters.getComforts;
+    },
+    getRoomList(){
+      console.log(this.$store.getters.getRoomList)
+      return this.$store.getters.getRoomList;
+      
     }
     
   },
-
 
 }
 </script>
 
 <style scoped>
+
 #picture {
   width: 50%;
 }
-#holder {
+
+#roomPic{
+  width: 30%;
+}
+#liRoom{
+  list-style-type: none;
+  border: 1px solid rgb(187, 184, 184);
+  width: 95%;
+  background-color:white;
+  margin-bottom: 20px;
+  padding: 4px;
+  border-radius: 5px;
+}
+#holder{
   display: flex;
   justify-content: center;
 }

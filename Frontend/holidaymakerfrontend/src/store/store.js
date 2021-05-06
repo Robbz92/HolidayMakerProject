@@ -17,8 +17,28 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
+    fromDate: '',
+    toDate: '',
+    chosenHotel: '',
+    roomList: []
   },
   mutations: {
+    setFromDate(state, payload) {
+      state.fromDate = payload
+      console.log(this.fromDate);
+    },
+
+    setToDate(state, payload) {
+      state.toDate = payload
+    },
+
+    setChosenHotel(state, payload) {
+      state.chosenHotel = payload
+    },
+
+    setRoomList(state, payload) {
+      state.roomList = payload
+    },
     setComforts(state,payload){
       state.comforts = payload
     },
@@ -74,7 +94,16 @@ export default createStore({
     }
   },
   actions: {
-    async fetchCountries() {
+    async fetchHotel() {
+      console.log("store !!! "+this.state.fromDate);
+      console.log("store !!! "+this.state.chosenHotel);
+      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.chosenHotel)
+        .then(response => {
+          console.log(response.data)
+          this.commit("setRoomList", response.data)
+        })
+    },
+    async fetchCountries(){
       await axios.get("http://localhost:3000/rest/getCountry")
         .then(response => {
           console.log(response.data)
@@ -83,7 +112,6 @@ export default createStore({
     },
 
     async fetchReviews(store, hotelId){
-      console.log(hotelId);
       await axios.get("http://localhost:3000/rest/reviews/" + hotelId)
       .then(response => {
         console.log(response.data)
@@ -120,7 +148,6 @@ export default createStore({
     },
 
     async fetchInformation (store, hotelId){
-      console.log(hotelId);
       await axios.get("http://localhost:3000/rest/hotelInfo/" + hotelId)
       .then(response => {
         this.commit("setInformation", response.data)
@@ -148,6 +175,9 @@ export default createStore({
   },
 
     getters: {
+      getRoomList(state) {
+        return state.roomList
+      },
       getComforts(state){
         return state.comforts
       },
