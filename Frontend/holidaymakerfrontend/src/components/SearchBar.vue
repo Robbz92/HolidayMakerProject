@@ -25,7 +25,6 @@ name:'SearchBar',
       toDate: '',
     }
   },
- 
 
   methods:{
     searchFor(phrase){
@@ -35,6 +34,7 @@ name:'SearchBar',
       console.log(this.$store.getters.getSearchPhrase)
       this.$store.dispatch("searchFor")
     },
+
     sendFromDate(fromDate){
     var d = new Date(fromDate),
         month = '' + (d.getMonth() + 1),
@@ -51,6 +51,7 @@ name:'SearchBar',
       console.log(newDate)
       this.$store.commit('setFromDate',newDate)
     },
+
     sendToDate(toDate){
     var d = new Date(toDate),
         month = '' + (d.getMonth() + 1),
@@ -65,7 +66,6 @@ name:'SearchBar',
     var newDate = [year, month, day].join('-');
       console.log(newDate)
       this.$store.commit('setToDate', newDate)
-      
     }
   },
 

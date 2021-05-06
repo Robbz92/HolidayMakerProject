@@ -76,16 +76,18 @@ export default createStore({
       state.toDate = payload
     },
   },
+  
   actions: {
     async fetchHotel() {
       console.log("store !!! "+this.state.fromDate);
       console.log("store !!! "+this.state.chosenHotel);
-      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" + this.state.toDate + "/" + this.state.fromDate)
+      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" +  this.state.fromDate+ "/" + this.state.toDate)
         .then(response => {
           console.log(response.data)
           this.commit("setRoomList", response.data)
         })
     },
+
     async fetchCountries(){
       await axios.get("http://localhost:3000/rest/getCountry")
         .then(response => {
