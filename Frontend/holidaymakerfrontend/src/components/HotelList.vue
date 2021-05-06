@@ -3,21 +3,21 @@
 
         <h3 v-if="hotelList != ''">Hotels</h3> 
         <ol id="hotelList">
-            <li v-for="(hotel, index) in setHotels" :key="index" @click="viewHotel(hotel.id)">
+            <li v-for="(hotel, index) in setHotels" :key="index" @click="onClick(hotel.id)">
               <Card :card="hotel" :imageUrl="hotel.hotelImg"/>
             </li>
         </ol>
       
       <h3 v-if="cityList != ''">Cities</h3>
       <ol id="cityList">
-          <li v-for="(city, index) in setCities"  :key="index" @click="viewHotel(city.id)">
+          <li v-for="(city, index) in setCities"  :key="index" @click="onClick(city.id)">
             <Card :card="city" :imageUrl="city.hotelImg"/>
           </li>
       </ol>
     
       <h3 v-if="countryList != ''">Countries</h3>
       <ol id="countryList">
-          <li v-for="(country, index) in setCountries"  :key="index" @click="viewHotel(country.id)">
+          <li v-for="(country, index) in setCountries"  :key="index" @click="onClick(country.id)">
             <Card :card="country" :imageUrl="country.hotelImg"/>
           </li>
       </ol>
@@ -64,6 +64,15 @@ export default {
   },
 
   methods:{
+    onClick(id){
+      this.viewHotel(id)
+      this.allReviews(id)
+      this.hotelInfo(id)
+      this.hotelTemperature(id)
+      this.hotelAttraction(id)
+      this.hotelComforts(id)
+    },
+
     updateCountryList(){
       this.countryList = this.$store.getters.getCountries
       console.log(this.countryList)

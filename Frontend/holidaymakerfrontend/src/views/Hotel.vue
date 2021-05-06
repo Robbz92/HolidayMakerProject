@@ -80,7 +80,7 @@ export default {
       return this.$store.getters.getComforts;
     },
     getRoomList(){
-      console.log(this.$store.getters.getRoomList)
+      console.log("roomlist" + this.$store.getters.getRoomList)
       return this.$store.getters.getRoomList;
       
     }

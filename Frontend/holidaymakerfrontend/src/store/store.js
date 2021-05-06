@@ -80,7 +80,7 @@ export default createStore({
     async fetchHotel() {
       console.log("store !!! "+this.state.fromDate);
       console.log("store !!! "+this.state.chosenHotel);
-      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.chosenHotel)
+      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" + this.state.toDate + "/" + this.state.fromDate)
         .then(response => {
           console.log(response.data)
           this.commit("setRoomList", response.data)
