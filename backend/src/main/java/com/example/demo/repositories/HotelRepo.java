@@ -15,6 +15,9 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
             "WHERE hotels.name LIKE %?%", nativeQuery = true)
     List<Map> findDescriptionByName(String phrase);
 
+    @Query(value = "SELECT * FROM hotels WHERE hotels.name LIKE %?%", nativeQuery = true)
+    List<Hotel> findByName(String name);
+
     @Query(value = "Select * FROM hotels WHERE city_id = ?", nativeQuery = true)
     List<Hotel> getByCityId (Long id);
 

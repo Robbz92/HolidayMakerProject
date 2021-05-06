@@ -43,7 +43,6 @@ public class HotelService {
     private int getPrice(Long id){
         return hotelRepo.cheapestPrice(id);
     }
-    public List<Hotel> getByCity(Long id) { return hotelRepo.getByCityId(id); }
 
     public List<Map> hotelById(Long id) {
          List<Map> countryCity = hotelRepo.infoHotelById(id);

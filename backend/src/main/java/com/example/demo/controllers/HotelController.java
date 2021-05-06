@@ -32,5 +32,5 @@ public class HotelController {
     public List<Map> getComfortsById(@PathVariable Long id){return hotelService.comfortsById(id);}
 
     @GetMapping("hotelSearch/{phrase}")
-    public List<Map> getByName(@PathVariable String phrase){ return hotelService.getByPhrase(phrase); }
+    public List<Hotel> getByName(@PathVariable String phrase){ return hotelService.getByPhrase(phrase); }
 }
