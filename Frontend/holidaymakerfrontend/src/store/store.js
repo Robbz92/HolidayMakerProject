@@ -17,6 +17,7 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
+    price: []
   },
   mutations: {
     setComforts(state,payload){
@@ -55,6 +56,9 @@ export default createStore({
 
     setLoggedInUser(state, user){
       state.loggedInUser=user;
+    },
+    setRooms(state, payload){
+      state.price=payload;
     },
   },
   actions: {
@@ -128,7 +132,13 @@ export default createStore({
         this.commit("setComforts", response.data)
       })
     },
-    
+    async fetchRooms (){
+      await axios.get("http://localhost:3000/rest/getRooms")
+      .then(response => {
+        console.log(response.data)
+        this.commit("setRooms", response.data)
+      })
+    },
   },
 
     getters: {
