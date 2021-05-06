@@ -3,7 +3,7 @@
 
         <h3 v-if="hotelList != ''">Hotels</h3> 
         <ol id="hotelList">
-            <li v-for="(hotel, index) in setHotels" :key="index" @click="viewHotel()">
+            <li v-for="(hotel, index) in setHotels" :key="index" @click="viewHotel(hotel.id)">
               <Card :card="hotel" :imageUrl="hotel.hotelImg"/>
             </li>
         </ol>
@@ -59,7 +59,7 @@ export default {
       var hotels = this.$store.getters.getHotels
       this.updateHotelList()
       return hotels
-    }
+    },
   },
 
   methods:{
@@ -77,7 +77,9 @@ export default {
       this.hotelList = this.$store.getters.getHotels
       console.log(this.hotelList)
     },
-    viewHotel(){
+    viewHotel(id){
+      this.$store.commit('setChosenHotel', id)
+      this.$store.dispatch("searchFor")
       this.$router.push("/hotel")
     },
   },

@@ -12,6 +12,10 @@ export default createStore({
     loggedInUser: null,
     firstName: String,
     lastName: String,
+    fromDate: String,
+    toDate: String,
+    chosenHotel: '',
+    roomList: []
   },
   mutations: {
     setCountryList(state,payload){
@@ -33,44 +37,70 @@ export default createStore({
     setLoggedInUser(state, user){
       state.loggedInUser=user;
     },
+
+    setFromDate(state, payload) {
+      state.fromDate = payload
+    },
+
+    setToDate(state, payload) {
+      state.toDate = payload
+    },
+
+    setChosenHotel(state, payload) {
+      state.chosenHotel = payload
+    },
+
+    setRoomList(state, payload) {
+      state.roomList = payload
+    }
   },
   actions: {
-    async fetchCountries(){
+    async fetchCountries() {
       await axios.get("http://localhost:3000/rest/getCountry")
-      .then(response => {
-        console.log(response.data)
-        this.commit("setCountryList", response.data)
-      })
+        .then(response => {
+          console.log(response.data)
+          this.commit("setCountryList", response.data)
+        })
     },
 
-    async fetchCities(){
+    async fetchCities() {
       await axios.get("http://localhost:3000/rest/getCity")
-      .then(response => {
-        console.log(response.data)
-        this.commit("setCityList", response.data)
-      })
+        .then(response => {
+          console.log(response.data)
+          this.commit("setCityList", response.data)
+        })
     },
 
-  async searchFor() {
-    await axios.get("http://localhost:3000/rest/citySearch/" + this.state.searchPhrase)
-      .then(response => {
-        console.log(response.data)
-        this.commit("setCityList", response.data)
-      })
+    async searchFor() {
+      await axios.get("http://localhost:3000/rest/citySearch/" + this.state.searchPhrase)
+        .then(response => {
+          console.log(response.data)
+          this.commit("setCityList", response.data)
+        })
     
-    await axios.get("http://localhost:3000/rest/countrySearch/" + this.state.searchPhrase)
-      .then(response => {
-        console.log(response.data)
-        this.commit("setCountryList", response.data)
-      })
+      await axios.get("http://localhost:3000/rest/countrySearch/" + this.state.searchPhrase)
+        .then(response => {
+          console.log(response.data)
+          this.commit("setCountryList", response.data)
+        })
     
       await axios.get("http://localhost:3000/rest/hotelSearch/" + this.state.searchPhrase)
-      .then(response => {
-        console.log(response.data)
-        this.commit("setHotelList", response.data)
-      })
+        .then(response => {
+          console.log(response.data)
+          this.commit("setHotelList", response.data)
+        })
     },
-    
+    async fetchHotel() {
+      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.chosenHotel)
+        .then(response => {
+          console.log(response.data)
+          this.commit("setRoomList", response.data)
+        })
+    },
+  },
+  
+    actions: {
+
   },
 
     getters: {
@@ -89,6 +119,10 @@ export default createStore({
       getSearchPhrase(state) {
         return state.searchPhrase
       },
+
+      getRoomList(state) {
+        return state.roomList
+      }
     },
     modules: {
     
