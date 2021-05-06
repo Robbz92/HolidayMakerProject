@@ -1,4 +1,6 @@
 <template>
+
+
   <div id="hotelCard">
     <div id="imageBlock">
       <img :src="imageUrl">

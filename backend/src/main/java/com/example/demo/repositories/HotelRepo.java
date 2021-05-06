@@ -9,10 +9,11 @@ import java.util.Map;
 
 @Repository
 public interface HotelRepo extends JpaRepository<Hotel, Long> {
-    @Query(value = "SELECT hotels.name AS hotelName, total_score, temperature, cities.name AS city, countries.name AS country FROM hotels \n" +
-            "INNER JOIN countries ON hotels.id = countries.id\n" +
-            "INNER JOIN cities ON hotels.id = cities.country_id\n" +
-            "WHERE hotels.name LIKE %?%", nativeQuery = true)
+    @Query(value = "SELECT h.name AS hotelName, h.distance_beach, h.distance_downtown, h.total_score, c.temperature, y.name AS city, c.name AS country\n" +
+            "FROM hotels h, countries c, cities y\n" +
+            "WHERE h.name LIKE %?%\n" +
+            "AND y.country_id = c.id AND h.city_id = y.id", nativeQuery = true)
+
     List<Map> findDescriptionByName(String phrase);
 
     @Query(value = "SELECT * FROM hotels WHERE hotels.name LIKE %?%", nativeQuery = true)

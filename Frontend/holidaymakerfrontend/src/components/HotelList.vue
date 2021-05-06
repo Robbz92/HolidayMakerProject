@@ -22,6 +22,19 @@
           </li>
       </ol>
 
+        <h3 v-if="hotelList != ''">Hotels</h3> 
+          <button @click="distanchBeach()">Distance beach</button>
+          <button @click="distanceCentrum()">Distance centrum</button>
+        
+          <button @click="test">Liiiiiden knapp</button>
+          <button class="ScaleUP" @click="sortArrayUp()">ScaleUP</button>
+          <button class="ScaleDown" @click="sortArrayDown()">ScaleDown</button>
+        <ol id="hotelList">
+            <li v-for="(hotel, index) in setHotels" :key="index"  @click="allReviews(hotel.id), hotelInfo(hotel.id),
+            hotelTemperature(hotel.id), hotelAttraction(hotel.id), hotelComforts(hotel.id)">
+              <Card :card="hotel"/>
+            </li>
+        </ol>
       <h3 v-if="hotelList == '' && cityList == '' && countryList == ''">No hotels matching searchphrase</h3>
     </div>
 </template>
@@ -44,6 +57,9 @@ export default {
     },
 
   computed:{
+    getRooms(){
+        return this.$store.state.price
+      },
     setCountries(){
       var countries = this.$store.getters.getCountries
       this.updateCountryList()
@@ -64,6 +80,26 @@ export default {
   },
 
   methods:{
+    sortArrayUp(){
+        let rooms = this.$store.state.price
+        return rooms.sort((a, b) => (a.price > b.price) ? 1 : -1)
+    },
+    sortArrayDown(){
+        let rooms = this.$store.state.price
+        return rooms.sort((a, b) => (a.price > b.price) ? -1 : 1)
+    },
+
+    test(){
+        return this.$store.dispatch("fetchRooms");
+    },
+    distanchBeach(){
+        let rooms = this.$store.getters.getHotels
+        return rooms.sort((a, b) => (a.distance_beach > b.distance_beach) ? 1 : -1)
+    },
+    distanceCentrum(){
+      let rooms = this.$store.getters.getHotels
+      return rooms.sort((a, b) => (a.distance_downtown > b.distance_downtown) ? 1 : -1)
+    },
     onClick(id){
       this.viewHotel(id)
       this.allReviews(id)
