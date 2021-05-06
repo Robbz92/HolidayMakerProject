@@ -18,7 +18,7 @@
         <h3 v-if="hotelList != ''">Hotels</h3> 
         <ol id="hotelList">
             <li v-for="(hotel, index) in setHotels" :key="index"  @click="allReviews(hotel.id), hotelInfo(hotel.id),
-            hotelTemperature(hotel.id), hotelAttraction(hotel.id), hotelComforts(hotel.id)">
+            hotelTemperature(hotel.id), hotelAttraction(hotel.id), hotelComforts(hotel.id), viewHotel(hotel.id)">
               <Card :card="hotel"/>
             </li>
         </ol>
@@ -77,7 +77,10 @@ export default {
       this.hotelList = this.$store.getters.getHotels
       console.log(this.hotelList)
     },
-    viewHotel(){
+    viewHotel(id){
+      this.$store.commit('setChosenHotel', id)
+      this.$store.dispatch("searchFor")
+      this.$store.dispatch("fetchHotel")
       this.$router.push("/hotel")
     },
     allReviews(hotelId){
