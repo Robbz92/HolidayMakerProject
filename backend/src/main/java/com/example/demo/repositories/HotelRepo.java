@@ -37,4 +37,12 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
     @Query(value="SELECT comforts.name FROM comforts INNER JOIN hc_list on comforts.id = hc_list.comforts_id\n" +
             "INNER JOIN hotels on hotels.id = hc_list.hotel_id WHERE hotels.id = ?1", nativeQuery = true)
     List<Map> hotelsComforts(Long id);
+
+    //Get all comforts for hotel, add it to comfortList
+    @Query(value = "SELECT name FROM comforts INNER JOIN hc_list ON comforts.id = hc_list" +
+            ".comforts_id WHERE hc_list.hotel_id = ?", nativeQuery = true)
+    List<String> comfortsPerHotel (Long id);
+
+    @Query(value = "SELECT MIN(price) FROM rooms WHERE rooms.hotel_id = ?", nativeQuery = true)
+    int cheapestPrice (Long id);
 }

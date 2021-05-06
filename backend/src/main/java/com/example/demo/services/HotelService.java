@@ -15,14 +15,34 @@ public class HotelService {
     @Autowired
     private HotelRepo hotelRepo;
 
-    public List<Map> getByPhrase(String phrase) {
-        List<Map> hotelList = new ArrayList<>();
-        if(hotelRepo.findDescriptionByName(phrase) != null){
-            hotelList.addAll(hotelRepo.findDescriptionByName(phrase));
+    public List<Hotel> getByPhrase(String phrase) {
+        List<Hotel> hotelList = new ArrayList<>();
+        if(hotelRepo.findByName(phrase) != null){
+            hotelList.addAll(hotelRepo.findByName(phrase));
+            for(Hotel hotel : hotelList){
+                hotel.setComfortList(getComforts(hotel.getId()));
+                hotel.setPrice(getPrice(hotel.getId()));
+            }
         }
         return hotelList;
     }
 
+    public List<Hotel> getByCity(Long id) {
+        List<Hotel> hotelList = hotelRepo.getByCityId(id);
+        for(Hotel hotel : hotelList){
+            hotel.setComfortList(getComforts(hotel.getId()));
+            hotel.setPrice(getPrice(hotel.getId()));
+        }
+        return hotelList;
+    }
+
+    private List<String> getComforts(Long id){
+        return hotelRepo.comfortsPerHotel(id);
+    }
+
+    private int getPrice(Long id){
+        return hotelRepo.cheapestPrice(id);
+    }
     public List<Hotel> getByCity(Long id) { return hotelRepo.getByCityId(id); }
 
     public List<Map> hotelById(Long id) {

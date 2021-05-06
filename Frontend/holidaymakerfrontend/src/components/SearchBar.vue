@@ -23,6 +23,7 @@ export default {
     searchFor(phrase){
       console.log(phrase)
       this.$store.commit('setSearchPhrase',phrase)
+
       console.log(this.$store.getters.getSearchPhrase)
       this.$store.dispatch("searchFor")
     },
