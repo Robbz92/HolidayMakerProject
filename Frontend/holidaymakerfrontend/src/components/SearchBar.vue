@@ -1,15 +1,15 @@
 <template>
   <div class="about">
     <input type="text" placeholder="Sök..." v-model="searchPhrase" id="searchBar">
-      <input type="text" placeholder="from YYYY_MM_DD" v-model="fromDate" id="searchBar">
-      <input type="text" placeholder="to YYYY_MM_DD" v-model="toDate" id="searchBar">
+      <!--<input type="text" placeholder="from YYYY_MM_DD" v-model="fromDate" id="searchBar">
+      <input type="text" placeholder="to YYYY_MM_DD" v-model="toDate" id="searchBar"> -->
     <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Search</button>
-   
+     </div>
     <h6>From...</h6>
-    <date-picker id="fromDate" v-model="fomDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
+  <date-picker id="fromDate" v-model="fromDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
     <h6>To...</h6>
-    <date-picker id="toDate" v-model="tDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker> 
-  </div>
+    <date-picker id="toDate" v-model="toDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker> 
+  
 </template>
 
 <script>
@@ -27,8 +27,6 @@ name:'SearchBar',
       
     }
   },
- 
-
   methods:{
     searchFor(phrase){
       console.log(phrase)
