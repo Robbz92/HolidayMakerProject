@@ -23,15 +23,6 @@ export default createStore({
     roomList: []
   },
   mutations: {
-    setFromDate(state, payload) {
-      state.fromDate = payload
-      console.log(this.fromDate);
-    },
-
-    setToDate(state, payload) {
-      state.toDate = payload
-    },
-
     setChosenHotel(state, payload) {
       state.chosenHotel = payload
     },
@@ -84,14 +75,6 @@ export default createStore({
     setToDate(state, payload) {
       state.toDate = payload
     },
-
-    setChosenHotel(state, payload) {
-      state.chosenHotel = payload
-    },
-
-    setRoomList(state, payload) {
-      state.roomList = payload
-    }
   },
   actions: {
     async fetchHotel() {
@@ -209,10 +192,6 @@ export default createStore({
       getSearchPhrase(state) {
         return state.searchPhrase
       },
-
-      getRoomList(state) {
-        return state.roomList
-      }
     },
     modules: {
     

@@ -1,14 +1,13 @@
 <template>
   <div class="about">
     <input type="text" placeholder="Sök..." v-model="searchPhrase" id="searchBar">
-      <input type="text" placeholder="from YYYY_MM_DD" v-model="fromDate" id="searchBar">
-      <input type="text" placeholder="to YYYY_MM_DD" v-model="toDate" id="searchBar">
     <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Search</button>
-   
+   <div id="dates">
     <h6>From...</h6>
-    <date-picker id="fromDate" v-model="fomDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
+  <date-picker id="fromDate" v-model="fromDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
     <h6>To...</h6>
-    <date-picker id="toDate" v-model="tDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker> 
+    <date-picker id="toDate" v-model="toDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
+    </div>
   </div>
 </template>
 
@@ -24,7 +23,6 @@ name:'SearchBar',
       searchPhrase: '',
       fromDate: '',
       toDate: '',
-      
     }
   },
  
@@ -38,12 +36,35 @@ name:'SearchBar',
       this.$store.dispatch("searchFor")
     },
     sendFromDate(fromDate){
-      console.log(fromDate)
-      this.$store.commit('setFromDate',fromDate)
+    var d = new Date(fromDate),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+        
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    var newDate = [year, month, day].join('-');
+
+      console.log(newDate)
+      this.$store.commit('setFromDate',newDate)
     },
     sendToDate(toDate){
-      console.log(toDate)
-      this.$store.commit('setToDate', toDate)
+    var d = new Date(toDate),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+        
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    var newDate = [year, month, day].join('-');
+      console.log(newDate)
+      this.$store.commit('setToDate', newDate)
       
     }
   },
@@ -56,6 +77,5 @@ name:'SearchBar',
 <style scoped>
 .about {
   display: block;
-  
 }
 </style>
