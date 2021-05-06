@@ -17,8 +17,8 @@
       </div>
       <div id="distances">
         <span v-if="card.totalScore != 0">Total score: {{ card.totalScore }}<br></span>
-        <span v-if="card.distanceDowntown != 0">Distance down town: {{ card.distanceDowntown }}<br></span>
-        <span v-if="card.distanceBeach != 0">distance to beach: {{ card.distanceBeach }}<br></span>
+        <span>Distance down town: {{ card.distanceDowntown }}<br></span>
+        <span>Distance to beach: {{ card.distanceBeach }}<br></span>
       </div>
       <br>
       <div v-if="card.comfortList != ''">

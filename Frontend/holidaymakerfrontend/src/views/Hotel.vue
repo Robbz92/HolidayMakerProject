@@ -7,15 +7,17 @@
               <h4>Hotel: {{info.name}}</h4>
               <img id="picture" :src="info.hotel_img">
               <p>Downtown distance: {{info.distance_downtown}} km</p>
-              <p>Address: {{info.address}}/5</p>
+              <p>Address: {{info.address}}</p>
               <p>Beach distance: {{info.distance_beach}} km</p>
-              <p>Score: {{info.total_score}}</p>
+              <p>Score: {{info.total_score}}/5</p>
             </li>  
           </ul>
            <ul  v-for="(temperature, index) in getTemperature" :key="index">
             <li id="justTemp">
-              <p>Temperature: {{temperature.temperature}} </p>
-              <p>City: {{temperature.City}}/5</p>
+              <p>Temperature: {{temperature.temperature}} C
+                
+              </p>
+              <p>City: {{temperature.City}}</p>
               <p>Country: {{temperature.Country}}</p>
             </li>  
           </ul>

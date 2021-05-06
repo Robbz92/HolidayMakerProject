@@ -17,7 +17,7 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
-    price: []
+    price: [],
     fromDate: '',
     toDate: '',
     chosenHotel: '',

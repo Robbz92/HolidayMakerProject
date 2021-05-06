@@ -1,13 +1,17 @@
 <template>
-  <div class="about">
+  <div class="bar">
     <input type="text" placeholder="Sök..." v-model="searchPhrase" id="searchBar">
+    <div class="date">
+      <div class="checkIn">
+        <h6>Check-out date</h6>
+        <date-picker id="fromDate" v-model="fromDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
+      </div>
+      <div class="checkOut">
+        <h6>Check-in date</h6>
+      <date-picker id="toDate" v-model="toDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
+      </div>      
+    </div>    
     <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Search</button>
-   <div id="dates">
-    <h6>From...</h6>
-  <date-picker id="fromDate" v-model="fromDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
-    <h6>To...</h6>
-    <date-picker id="toDate" v-model="toDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
-    </div>
   </div>
 </template>
 
@@ -33,6 +37,7 @@ name:'SearchBar',
 
       console.log(this.$store.getters.getSearchPhrase)
       this.$store.dispatch("searchFor")
+      this.$router.push("/");
     },
 
     sendFromDate(fromDate){
@@ -75,7 +80,20 @@ name:'SearchBar',
 }
 </script>
 <style scoped>
-.about {
-  display: block;
+.bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.date h6 {
+  padding: 0px;
+  margin: 0px;
 }
 </style>
