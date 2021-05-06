@@ -1,10 +1,10 @@
 <template>
   <div id="hotelCard">
-    <p>Hotel Name: {{ card.name }}</p>
-    <p>Address: {{ card.address }}</p>
-    <p>Total score: {{ card.totalScore }}</p>
-    <p>Distance down town: {{ card.distanceDowntown }}</p>
-    <p>distance to beach: {{ card.distanceBeach }}</p>
+    <p>Hotel Name: {{ card.hotelName }}</p>
+    <p>City: {{ card.city }}</p>
+    <p>Total score: {{ card.total_score }}</p>
+    <p>Temperature: {{ card.temperature }}</p>
+    <p>Country: {{ card.country }}</p>
   </div>
 </template>
 
