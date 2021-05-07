@@ -57,11 +57,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-image: url('assets/BG.jpg');
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   background-size: cover;
   background-position-y: -100px;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: fixed, scroll;
 }
 
 #nav {
