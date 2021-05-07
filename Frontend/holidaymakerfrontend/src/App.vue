@@ -3,7 +3,6 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/login">Login</router-link> |
     <router-link to="/register">Register</router-link>
-     <router-link to="/rooms">Room</router-link>
   </div>
   <div id="search"><searchBar/></div>
 
@@ -62,6 +61,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-image: url('assets/BG.jpg');
+  height: 100vh;
+  background-size: cover;
+  background-position-y: -100px;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 #nav {

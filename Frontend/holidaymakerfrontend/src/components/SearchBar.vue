@@ -3,12 +3,12 @@
     <input type="text" placeholder="Sök..." v-model="searchPhrase" id="searchBar">
     <div class="date">
       <div class="checkIn">
-        <h6>Check-out date</h6>
-        <date-picker id="fromDate" v-model="fromDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
+        <h6>Check-in</h6>
+        <date-picker id="fromDate" v-model="fromDate" language="en" type="date" format="YYYY-MM-DD"></date-picker>
       </div>
       <div class="checkOut">
-        <h6>Check-in date</h6>
-      <date-picker id="toDate" v-model="toDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
+        <h6>Check-out</h6>
+      <date-picker id="toDate" v-model="toDate" language="en" type="date" format="YYYY-MM-DD"></date-picker>
       </div>      
     </div>    
     <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Search</button>
@@ -17,20 +17,28 @@
 
 <script>
 import DatePicker from "vue3-datepicker";
+
 export default {
 name:'SearchBar',
   components: {
     DatePicker
   },
+  props: {
+    
+  },
+
   data(){
+
     return{
       searchPhrase: '',
       fromDate: '',
       toDate: '',
+      today: ''
     }
   },
 
   methods:{
+
     searchFor(phrase){
       console.log(phrase)
       this.$store.commit('setSearchPhrase',phrase)

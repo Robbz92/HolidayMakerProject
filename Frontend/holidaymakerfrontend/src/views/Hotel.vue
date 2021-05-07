@@ -1,5 +1,6 @@
 <template>
-    <div id="info">
+<div class="hotel">
+<div id="info">
         <div class="theInfo">
         <h3>Information:</h3>
           <ul  v-for="(info, index) in getInfo" :key="index">
@@ -60,6 +61,7 @@
    
         </div>        
       </div> 
+</div>    
 </template>
 
 <script>
@@ -128,5 +130,16 @@ export default {
   margin-bottom: 20px;
   padding: 4px;
   border-radius: 5px;
+}
+
+.hotel {
+  width: 70%;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.15);
+  margin: 0 auto;
+}
+
+ul {
+  list-style-type: none;
 }
 </style>
