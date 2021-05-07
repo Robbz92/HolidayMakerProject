@@ -1,6 +1,5 @@
 <template>
-
-
+<div class="info"></div>
   <div id="hotelCard">
     <div id="imageBlock">
       <img :src="imageUrl">
@@ -44,6 +43,7 @@ export default {
 <style scoped>
 #hotelCard {
   display: flex;
+  position: relative;
   width: 25vw;
   height: 20vw;
   margin: 15px;
@@ -110,7 +110,7 @@ span{
   background-color: white;
   opacity: 0%;
   transition: opacity .3s;
-  border-radius: 1vw;
+  border-radius: .8vw;
 }
 
 #descriptionBlock:hover{
@@ -124,7 +124,7 @@ span{
   width: 25vw;
   height: 20vw;
   overflow: hidden;
-  border-radius: 1vw;
+  border-radius: .8vw;
 }
 
 #hotelCard:hover img{
@@ -138,7 +138,7 @@ span{
 img{
   width: 25vw;
   height: 20vw;
-  border-radius: 1vw;
+  border-radius: .8vw;
   transition: filter .3s;
 }
 

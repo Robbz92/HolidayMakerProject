@@ -85,7 +85,6 @@ export default {
       console.log(this.$store.getters.getRoomList)
       return this.$store.getters.getRoomList;
     }
-    
   },
 
 }

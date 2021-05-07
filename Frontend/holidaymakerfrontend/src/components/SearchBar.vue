@@ -8,10 +8,10 @@
       </div>
       <div class="checkOut">
         <h6>Check-in date</h6>
-      <date-picker id="toDate" v-model="toDate" language="en"  type="date" format="YYYY-MM-DD" width="500"></date-picker>
+      <date-picker id="toDate" v-model="toDate" language="en"  type="date" format="YYYY-MM-DD" width="500" ></date-picker>
       </div>      
-    </div>    
-    <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Search</button>
+    </div>
+      <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Search</button>
   </div>
 </template>
 
@@ -25,8 +25,9 @@ name:'SearchBar',
   data(){
     return{
       searchPhrase: '',
-      fromDate: '',
-      toDate: '',
+      today: new Date().toISOString().slice(0, 10),
+      fromDate: this.today,
+      toDate: this.today,
     }
   },
 
@@ -38,6 +39,7 @@ name:'SearchBar',
       console.log(this.$store.getters.getSearchPhrase)
       this.$store.dispatch("searchFor")
       this.$router.push("/");
+      this.$parent.onSearch();
     },
 
     sendFromDate(fromDate){
@@ -75,7 +77,7 @@ name:'SearchBar',
   },
 
   mounted(){
-    
+    console.log(this.today)
   }
 }
 </script>
@@ -84,6 +86,8 @@ name:'SearchBar',
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 15px;
+  background: linear-gradient(rgba(255,255,255,0.5), rgba(120,120,120,0.5) 100%)
 }
 
 .date {

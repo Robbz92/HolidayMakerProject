@@ -1,25 +1,19 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/login">Login</router-link> |
-    <router-link to="/register">Register</router-link>
-     <router-link to="/rooms">Room</router-link>
-  </div>
-  <div id="search"><searchBar/></div>
-
-  <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
+    <router-link to="/" id="backButton">⬅</router-link>
+    <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
+    <router-link to="/login" id="text" v-if="!isLoggedIn">Login |</router-link>
   <button class="sameBtns" v-if="isLoggedIn" @click="logout">Logga ut</button>
+    <router-link to="/register" id="text">Register</router-link> |
+    <router-link to="/rooms" id="text">Room</router-link>
+  </div>
 
   <router-view/>
 </template>
 
 <script>
-import searchBar from "./components/SearchBar.vue"
 
 export default {
-  components:{
-    searchBar
-  },
 
    computed: {
     loggedInUser(){
@@ -65,7 +59,20 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  display: flex;
+  padding: 5px;
+  justify-content: flex-end;
+}
+
+#nav > #text{
+  padding: 5px;
+  padding-top: 0;
+}
+
+#backButton{
+  margin-right: auto;
+  text-decoration: none;
+  font-size: xx-large;
 }
 
 #nav a {
