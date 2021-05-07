@@ -21,9 +21,14 @@ export default createStore({
     fromDate: '',
     toDate: '',
     chosenHotel: '',
-    roomList: []
+    roomList: [],
+    hasSearched: false
   },
   mutations: {
+    setHasSearched(state, payload) {
+      state.hasSearched = payload
+    },
+
     setChosenHotel(state, payload) {
       state.chosenHotel = payload
     },
@@ -169,7 +174,11 @@ export default createStore({
     },
   },
 
-    getters: {
+  getters: {
+    getHasSearched(state) {
+      return state.hasSearched
+    }, 
+
       getRoomList(state) {
         return state.roomList
       },

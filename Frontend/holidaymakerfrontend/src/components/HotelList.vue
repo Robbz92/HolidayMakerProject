@@ -1,45 +1,41 @@
 <template>
   <div id="bigList">
-    <button @click="distanchBeach()">Distance beach</button>
-    <button @click="distanceCentrum()">Distance centrum</button>
-    <button class="ScaleUP" @click="sortArrayUp()">Lowest price</button>
-    <button class="ScaleDown" @click="sortArrayDown()">Highest price</button>
+    <div class="lists" id="forAnimationOnly">
+      <h3 v-if="hotelList != ''">Hotels</h3>
+      <ol id="hotelList">
+        <li
+          v-for="(hotel, index) in setHotels"
+          :key="index"
+          @click="onClick(hotel.id)"
+        >
+          <Card :card="hotel" :imageUrl="hotel.hotelImg" />
+        </li>
+      </ol>
+      <h3 v-if="cityList != ''">Cities</h3>
+      <ol id="cityList">
+        <li
+          v-for="(city, index) in setCities"
+          :key="index"
+          @click="onClick(city.id)"
+        >
+          <Card :card="city" :imageUrl="city.hotelImg" />
+        </li>
+      </ol>
 
-    <h3 v-if="hotelList != ''">Hotels</h3>
-    <ol id="hotelList">
-      <li
-        v-for="(hotel, index) in setHotels"
-        :key="index"
-        @click="onClick(hotel.id)"
-      >
-        <Card :card="hotel" :imageUrl="hotel.hotelImg" />
-      </li>
-    </ol>
-
-    <h3 v-if="cityList != ''">Cities</h3>
-    <ol id="cityList">
-      <li
-        v-for="(city, index) in setCities"
-        :key="index"
-        @click="onClick(city.id)"
-      >
-        <Card :card="city" :imageUrl="city.hotelImg" />
-      </li>
-    </ol>
-
-    <h3 v-if="countryList != ''">Countries</h3>
-    <ol id="countryList">
-      <li
-        v-for="(country, index) in setCountries"
-        :key="index"
-        @click="onClick(country.id)"
-      >
-        <Card :card="country" :imageUrl="country.hotelImg" />
-      </li>
-    </ol>
-    <h3 v-if="hotelList == '' && cityList == '' && countryList == ''">
-      No hotels matching searchphrase
-    </h3>
+      <h3 v-if="countryList != ''">Countries</h3>
+      <ol id="countryList">
+        <li
+          v-for="(country, index) in setCountries"
+          :key="index"
+          @click="onClick(country.id)"
+        >
+          <Card :card="country" :imageUrl="country.hotelImg" />
+        </li>
+      </ol>
+      <h3 v-if="hotelList == '' && cityList == '' && countryList == ''">
+        No hotels matching searchphrase
+      </h3>
+    </div>
   </div>
 </template>
 
@@ -79,26 +75,10 @@ export default {
       var hotels = this.$store.getters.getHotels;
       this.updateHotelList();
       return hotels;
-    },
+    }
   },
 
   methods: {
-    sortArrayUp() {
-      let hotels = this.$store.getters.getHotels;
-      return hotels.sort((a, b) => (a.price > b.price ? 1 : -1));
-    },
-    sortArrayDown() {
-      let hotels = this.$store.getters.getHotels;
-      return hotels.sort((a, b) => (a.price > b.price ? -1 : 1));
-    },
-    distanchBeach() {
-      let hotels = this.$store.getters.getHotels;
-      return hotels.sort((a, b) => (a.distanceBeach > b.distanceBeach ? 1 : -1));
-    },
-    distanceCentrum() {
-      let hotels = this.$store.getters.getHotels;
-      return hotels.sort((a, b) => (a.distanceDowntown > b.distanceDowntown ? 1 : -1));
-    },
     onClick(id) {
       this.viewHotel(id);
       this.allReviews(id);
@@ -148,11 +128,39 @@ export default {
       this.$store.dispatch("fetchComforts", hotelId);
       this.$router.push("/hotel");
     },
+    animateLists(){
+      document.getElementById("forAnimationOnly").style.top = "5vh"
+    }
   },
+
+    mounted(){
+      var x = this.$store.getters.getHasSearched
+      if(x == true){
+        document.getElementById("forAnimationOnly").style.top = "5vh"
+      }
+    }
 };
 </script>
 
 <style scoped>
+.lists{
+  position: fixed;
+  top: 100vh;
+  left: 8.75vw;
+  max-height: 88vh;
+  overflow: auto;
+  overflow-x: hidden;
+  width: 82.5vw;
+  margin: auto;
+  margin-top: 3vh;
+  padding: 0;
+  transition: top .5s;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 ol {
   display: flex;
   flex-wrap: wrap;
