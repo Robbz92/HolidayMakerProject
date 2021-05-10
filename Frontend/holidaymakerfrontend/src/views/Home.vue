@@ -34,6 +34,10 @@ export default {
     },
 
     methods:{
+      /*
+      ifall du inte redan har klickat på search animera,
+      men har du redan klickat animera inte igen
+      */
       onSearch(){
         if(!this.hasClicked){
           var e = document.getElementById('search')

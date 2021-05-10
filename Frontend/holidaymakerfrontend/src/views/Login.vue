@@ -40,7 +40,9 @@ export default {
   },
 
   methods: {
-   
+   /*
+   Skapar login object och postar det till back end
+   */
     async login() {
       const credentials =
         "username=" +
@@ -55,7 +57,9 @@ export default {
         body: credentials,
       });
      
-
+    /*
+    kollar vem/om som är inloggad
+    */
       let user = await fetch("/api/auth/whoami");
       try {
         user = await user.json();

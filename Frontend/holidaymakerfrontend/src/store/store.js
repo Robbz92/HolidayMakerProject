@@ -1,6 +1,7 @@
 import { createStore} from "vuex";
 import axios from 'axios';
 
+
 export default createStore({
   state: {
     countryList: [],
@@ -17,7 +18,6 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
-    price: [],
     fromDate: '',
     toDate: '',
     chosenHotel: '',
@@ -73,9 +73,7 @@ export default createStore({
     setLoggedInUser(state, user){
       state.loggedInUser=user;
     },
-    setRooms(state, payload){
-      state.price=payload;
-    },
+
 
     setFromDate(state, payload) {
       state.fromDate = payload
@@ -88,8 +86,6 @@ export default createStore({
   
   actions: {
     async fetchHotel() {
-      console.log("store !!! "+this.state.fromDate);
-      console.log("store !!! "+this.state.chosenHotel);
       await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" +  this.state.fromDate+ "/" + this.state.toDate)
         .then(response => {
           console.log(response.data)
@@ -139,39 +135,37 @@ export default createStore({
           console.log(response.data)
           this.commit("setHotelList", response.data)
         })
-    },
-
-    async fetchInformation (store, hotelId){
-      await axios.get("http://localhost:3000/rest/hotelInfo/" + hotelId)
-      .then(response => {
+      },
+      
+      async fetchInformation (store, hotelId){
+        await axios.get("http://localhost:3000/rest/hotelInfo/" + hotelId)
+        .then(response => {
+        console.log(response.data)
         this.commit("setInformation", response.data)
       })
     },
     async fetchTemperature (store, hotelId){
-      await axios.get("http://localhost:3000/rest/hotelCity/" + hotelId)
+      await axios.get("http://localhost:3000/rest/hotelCityTemparatureByHotelId/" + hotelId)
       .then(response => {
+        console.log(response.data)
         this.commit("setTemperature", response.data)
       })
     },
     async fetchAttractions (store, hotelId){
       await axios.get("http://localhost:3000/rest/hotelAttraction/" + hotelId)
       .then(response => {
+        console.log(response.data)
         this.commit("setAttractions", response.data)
       })
     },
     async fetchComforts (store, hotelId){
       await axios.get("http://localhost:3000/rest/hotelComforts/" + hotelId)
       .then(response => {
+        console.log(response.data)
         this.commit("setComforts", response.data)
       })
     },
-    async fetchRooms (){
-      await axios.get("http://localhost:3000/rest/getRooms")
-      .then(response => {
-        console.log(response.data)
-        this.commit("setRooms", response.data)
-      })
-    },
+
   },
 
   getters: {
@@ -214,7 +208,7 @@ export default createStore({
         return state.searchPhrase
       },
     },
-    modules: {
+    modules:{
     
   }
 })

@@ -36,6 +36,9 @@
 
 <script>
 export default {
+  /*
+  hämtar information från HotelList via props
+  */
   props: ["card", "imageUrl"],
 };
 </script>

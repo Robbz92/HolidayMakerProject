@@ -22,31 +22,39 @@ public class CountryService {
 
     @Autowired HotelService hotelService;
 
-    public List<Country> getAll() {
-        List<Country> countryList = countryRepo.findAll();
-        return countryList;
-    }
-
+/*
+    Skapar Country lista , City lista och hotel lista
+ */
     public List<Hotel> getByPhrase(String phrase) {
         List<Country> countryList = new ArrayList<>();
         List<City> cityList = new ArrayList<>();
         List<Hotel> hotelList = new ArrayList<>();
-
+            /*
+            om CountryPhrase matchar med databasen,
+            lägg till landet i CountryList
+             */
         if(countryRepo.findByName(phrase) != null){
             System.out.println(countryRepo.findByName(phrase));
             countryList.add(countryRepo.findByName(phrase));
-
+            /*
+            lägger till alla städer i det landet som matchades
+            och lägger dem i cityList
+             */
             for(Country country : countryList){
                 cityList.addAll(cityService.getByCountry(country.getId()));
             }
-
+            /*
+            lägger vi till alla hotell som matchar staden/städerna
+            som läggs till i cityList,
+            lägger vi till i hotelList
+             */
             for(City city : cityList){
                 hotelList.addAll(hotelService.getByCity(city.getId()));
             }
         }
 
+
         return hotelList;
     }
 
-    public Optional<Country> getById(Long id) { return countryRepo.findById(id); }
 }

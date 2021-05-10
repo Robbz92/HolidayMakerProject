@@ -20,12 +20,16 @@ public class CityService {
     @Autowired
     private HotelService hotelService;
 
-    public List<City> getAll() {
-        return cityRepo.findAll();
-    }
 
+    /*
+    kollar alla städer som tillhör ett CountryID
+     */
     public List<City> getByCountry(Long id) { return cityRepo.getByCountryId(id); }
 
+    /*
+    tar emot en fras som ska matcha med en stad.
+    Visar alla hotell som matchar denna stad.
+     */
     public List<Hotel> getByPhrase(String phrase) {
         List<City> cityList = new ArrayList<>();
         List<Hotel> hotelList = new ArrayList<>();
@@ -40,7 +44,4 @@ public class CityService {
         return hotelList;
     }
 
-    public Optional<City> getById(Long id) {
-        return cityRepo.findById(id);
-    }
 }

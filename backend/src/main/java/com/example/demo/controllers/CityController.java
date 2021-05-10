@@ -17,16 +17,14 @@ import java.util.Optional;
 public class CityController {
     @Autowired
     private CityService cityService;
-
-    @GetMapping("/getCity")
-    public List<City> getAll(){ return cityService.getAll(); }
-
+    /*
+    hämtar alla städer i ett land baserat på CountryID
+     */
     @GetMapping("/getCityForCountry/{id}")
     public List<City> getByCountry(@PathVariable Long id){ return cityService.getByCountry(id); }
-
-    @GetMapping("/getCity/{id}")
-    public Optional<City> getById(@PathVariable Long id){ return cityService.getById(id); }
-
+    /*
+    Hämtar alla städer baserat på fras(phrase)
+     */
     @GetMapping("citySearch/{phrase}")
     public List<Hotel> getByName(@PathVariable String phrase){ return cityService.getByPhrase(phrase); }
 }

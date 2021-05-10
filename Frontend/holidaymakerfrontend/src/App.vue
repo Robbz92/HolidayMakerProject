@@ -4,8 +4,7 @@
     <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
     <router-link to="/login" id="text" v-if="!isLoggedIn">Login |</router-link>
   <button class="sameBtns" v-if="isLoggedIn" @click="logout">Logga ut</button>
-    <router-link to="/register" id="text">Register</router-link> |
-    <router-link to="/rooms" id="text">Room</router-link>
+    <router-link to="/register" id="text">Register</router-link>
   </div>
 
   <router-view/>
@@ -15,6 +14,7 @@
 
 export default {
 
+  
    computed: {
     loggedInUser(){
       return this.$store.state.loggedInUser;
@@ -25,6 +25,9 @@ export default {
     },
   },
 
+    /*
+    logout funktion
+    */
   methods:{
     async logout(){
       fetch("/logout", {mode:"no-cors"});

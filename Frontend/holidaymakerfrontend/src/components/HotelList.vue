@@ -40,6 +40,13 @@
 </template>
 
 <script>
+/*
+Vi importerar Card och lägger det som en komponent,
+vilket gör att vi kan använda den som ett element.
+I data skapar vi tomma arrayer som vi populerar via våra
+functions.
+Som vi sen skriver ut på hemsidan på rätt ställen
+*/
 import Card from "./HotelCard.vue";
 
 export default {
@@ -77,6 +84,11 @@ export default {
       return hotels;
     }
   },
+
+  /*
+    skickar ID till funktionerna som finns i store.
+    Som hämtar ut rätt information baserat på ID:et
+  */
 
   methods: {
     onClick(id) {
@@ -128,11 +140,17 @@ export default {
       this.$store.dispatch("fetchComforts", hotelId);
       this.$router.push("/hotel");
     },
-    animateLists(){
-      document.getElementById("forAnimationOnly").style.top = "5vh"
+      /*
+      Animations funktion
+      */
+     animateLists(){
+       document.getElementById("forAnimationOnly").style.top = "5vh"
     }
   },
 
+      /*
+      Animations funktion
+      */
     mounted(){
       var x = this.$store.getters.getHasSearched
       if(x == true){

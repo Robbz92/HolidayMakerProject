@@ -10,6 +10,13 @@
 <script>
 export default {
     methods:{
+      /*
+      Kollar om "a" är större/mindre än "b"
+      om "a" är större/mindre än "b" så byta indexplats på elmentet
+      om inte gå vidare
+      (gäller för alla sorteringsalgoritmer)
+      Filteroption är kopplad till Home View
+      */
     sortArrayUp() {
       let hotels = this.$store.getters.getHotels;
       return hotels.sort((a, b) => (a.price > b.price ? 1 : -1));

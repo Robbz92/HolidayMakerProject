@@ -47,6 +47,9 @@ export default {
             password:"",
         };
     },
+    /*
+    Skapar registrerings object
+    */
     methods:{
         async register(){
             let credentials={
@@ -62,7 +65,7 @@ export default {
                 body: JSON.stringify(credentials),
 
             });
-            alert("register succefurry");
+            alert("register complete");
 
             this.$router.push("/");
         }

@@ -13,11 +13,12 @@ public class RoomService {
     @Autowired
     private RoomRepo roomRepo;
 
+    /*
+    tar emot fromDate + toDate + HotelID
+    skickar till repo
+     */
     public List<Map> getFreeRooms(String dateOne, String dateTwo, long hotelID) {
         return roomRepo.findFreeRoomsOnDate(hotelID,dateOne, dateTwo);
     }
 
-    public List<Room> getAll() {
-        return roomRepo.findAll();
-    }
 }

@@ -14,7 +14,11 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepo reviewRepo;
-
+    /*
+    tar emot HotelID
+    och matchar reviews
+    returnerar lista med reviews
+     */
     public List<Map> getReviewsByHotelId(long id) {
         List<Map> reviewsList = new ArrayList<>();
 

@@ -17,7 +17,9 @@
 
 <script>
 import DatePicker from "vue3-datepicker";
-
+/*
+Datepicker är ett bibliotek för att lättast hantera datum
+*/
 export default {
 name:'SearchBar',
   components: {
@@ -48,9 +50,11 @@ name:'SearchBar',
       this.$router.push("/");
       this.$parent.onSearch();
     },
-
-    sendFromDate(fromDate){
-    var d = new Date(fromDate),
+      /*
+      För att formatera datumet rätt
+      */
+     sendFromDate(fromDate){
+       var d = new Date(fromDate),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
@@ -65,9 +69,12 @@ name:'SearchBar',
       console.log(newDate)
       this.$store.commit('setFromDate',newDate)
     },
+      /*
+      För att formatera datumet rätt
+      */
 
     sendToDate(toDate){
-    var d = new Date(toDate),
+      var d = new Date(toDate),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();

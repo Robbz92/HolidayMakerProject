@@ -19,12 +19,10 @@ public class CountryController {
     @Autowired
     private CountryService countryService;
 
-    @GetMapping("/getCountry")
-    public List<Country> getAll(){ return countryService.getAll(); }
 
-    @GetMapping("/getCountry/{id}")
-    public Optional<Country> getById(@PathVariable Long id){ return countryService.getById(id); }
-
+    /*
+    Hämtar alla hotell som matchar sökningen på länder
+     */
     @GetMapping("/countrySearch/{phrase}")
     public List<Hotel> getByName(@PathVariable String phrase){ return countryService.getByPhrase(phrase); }
 }
