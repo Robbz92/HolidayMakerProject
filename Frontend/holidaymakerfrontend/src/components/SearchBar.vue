@@ -2,111 +2,138 @@
   <div class="bar">
     <div class="search-container">
       <h6>Search hotel, city or country</h6>
-      <input type="text" placeholder="..." v-model="searchPhrase" id="searchBar">
+      <input
+        type="text"
+        placeholder="..."
+        v-model="searchPhrase"
+        id="searchBar"
+      />
     </div>
     <div class="date">
       <div class="checkIn">
         <h6>Check-in</h6>
-        <date-picker id="fromDate" v-model="fromDate" language="en" type="date" format="YYYY-MM-DD" :style="styleObject"></date-picker>
+        <date-picker
+          id="fromDate"
+          v-model="fromDate"
+          language="en"
+          type="date"
+          format="YYYY-MM-DD"
+          :style="styleObject"
+        ></date-picker>
       </div>
       <div class="checkOut">
         <h6>Check-out</h6>
-      <date-picker id="toDate" v-model="toDate" language="en" type="date" format="YYYY-MM-DD" :style="styleObject"></date-picker>
-      </div>      
+        <date-picker
+          id="toDate"
+          v-model="toDate"
+          language="en"
+          type="date"
+          format="YYYY-MM-DD"
+          :style="styleObject"
+        ></date-picker>
+      </div>
     </div>
     <div class="go-container">
-      <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Go!</button>
+      <button
+        @click="
+          searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate)
+        "
+      >
+        Go!
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import DatePicker from "vue3-datepicker";
+
+// Anger dagens datum
+var today = new Date();
+
+// Lägger på 7 dagar från dagens datum
+function addDays() {
+      const copy = new Date();
+      copy.setDate(today.getDate() + 7);
+      return copy;
+    }
+
 /*
 Datepicker är ett bibliotek för att lättast hantera datum
 */
 export default {
-name:'SearchBar',
+  name: "SearchBar",
   components: {
-    DatePicker
+    DatePicker,
   },
-  props: {
-    
-  },
+  props: {},
 
-  data(){
-    return{
-      // Skapar styleObject för att kunna kalla på datepickers attribut. 
+  data() {
+    return {
+      // Skapar styleObject för att kunna kalla på datepickers attribut.
       // Går inte att CSSa på dessa inputs med id eller class.
       styleObject: {
-        outline: 'none',
-        border: 'none',
-        height: '1.65em',
-        width: '10em',
-        fontFamily: 'inherit'
+        outline: "none",
+        border: "none",
+        height: "1.65em",
+        width: "10em",
+        fontFamily: "inherit",
       },
-      searchPhrase: '',
-      fromDate: '',
-      toDate: '',
-      today: ''
-    }
+      searchPhrase: "",
+      fromDate: today, // Lägger in dagens datum som standardvärde i kalendern
+      toDate: addDays(), // Lägger in 7 dagar framåt från dagens datum som standardvärde i kalendern
+    };
   },
 
-  methods:{
+  methods: {
+    searchFor(phrase) {
+      console.log(phrase);
+      this.$store.commit("setSearchPhrase", phrase);
 
-    searchFor(phrase){
-      console.log(phrase)
-      this.$store.commit('setSearchPhrase',phrase)
-
-      console.log(this.$store.getters.getSearchPhrase)
-      this.$store.dispatch("searchFor")
+      console.log(this.$store.getters.getSearchPhrase);
+      this.$store.dispatch("searchFor");
       this.$router.push("/");
       this.$parent.onSearch();
     },
-      /*
+    /*
       För att formatera datumet rätt
       */
-     sendFromDate(fromDate){
-       var d = new Date(fromDate),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
+    sendFromDate(fromDate) {
+      var d = new Date(fromDate),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
         year = d.getFullYear();
-        
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
 
-    var newDate = [year, month, day].join('-');
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
 
-      console.log(newDate)
-      this.$store.commit('setFromDate',newDate)
+      var newDate = [year, month, day].join("-");
+
+      console.log(newDate);
+      this.$store.commit("setFromDate", newDate);
     },
-      /*
+    /*
       För att formatera datumet rätt
       */
 
-    sendToDate(toDate){
+    sendToDate(toDate) {
       var d = new Date(toDate),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
         year = d.getFullYear();
-        
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
 
-    var newDate = [year, month, day].join('-');
-      console.log(newDate)
-      this.$store.commit('setToDate', newDate)
-    }
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      var newDate = [year, month, day].join("-");
+      console.log(newDate);
+      this.$store.commit("setToDate", newDate);
+    },
   },
 
-  mounted(){
-    console.log(this.today)
-  }
-}
+  mounted() {
+  },
+};
 </script>
 
 <style scoped>
@@ -115,7 +142,10 @@ name:'SearchBar',
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  background: linear-gradient(rgba(255,255,255,0.5), rgba(120,120,120,0.5) 100%);
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.5),
+    rgba(120, 120, 120, 0.5) 100%
+  );
   padding-bottom: 1em;
   margin: 0 auto;
   width: 40em;
@@ -159,5 +189,4 @@ h6 {
   color: rgb(72, 210, 228);
   background-color: white;
 }
-
 </style>
