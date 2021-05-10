@@ -1,33 +1,44 @@
 <template>
-
-
+<div class="info"></div>
   <div id="hotelCard">
     <div id="imageBlock">
       <img :src="imageUrl">
     </div>
-    <h2 id="hotelName">{{card.name}}</h2>
+    <div class="nameScore">
+      <h2 id="hotelName">{{card.name}}</h2>
+      <h3 id="hotelName">{{card.placeName}}</h3>
+      <span v-if="card.totalScore != 0" id="score">
+        <span v-for="(score, index) in card.totalScore" 
+        :key="index" id="rating">⭐</span>
+      </span><br>
+    </div>
     <div id="priceDiv">
       <h2 id="price">From: {{card.price}}:-</h2>
     </div>
+
     <div id="descriptionBlock">
-      <div id="bigger">
-        <span>Hotel Name: {{ card.name }}</span>
-        <br>
-        <span>Address: {{ card.address }}</span>
-      </div>
       <div id="distances">
-        <span v-if="card.totalScore != 0">Total score: {{ card.totalScore }}<br></span>
-        <span>Distance down town: {{ card.distanceDowntown }}<br></span>
-        <span>Distance to beach: {{ card.distanceBeach }}<br></span>
+        <h4>Distances</h4>
+        <p>Downtown: {{ card.distanceDowntown }} km</p>
+        <p>Beach: {{ card.distanceBeach }} km</p>
       </div>
-      <br>
-      <div v-if="card.comfortList != ''">
-        <span id="comfort">comforts:</span>
+      <div v-if="card.comfortList != ''" class="cList">
+        <h4>Comforts</h4>
         <ol id="comfyList">
           <li v-for="(comfort, index) in card.comfortList" :key="index">
-            <span>
+            <p>
               {{comfort}}
-            </span>
+            </p>
+          </li>
+        </ol>
+      </div>
+      <div v-if="card.attractionList != ''" class="aList">
+        <h4>Attractions</h4>
+        <ol id="attractiveList">
+          <li v-for="(attraction, index) in card.attractionList" :key="index">
+            <p>
+              {{attraction}}
+            </p>
           </li>
         </ol>
       </div>
@@ -37,16 +48,28 @@
 
 <script>
 export default {
+  /*
+  hämtar information från HotelList via props
+  */
   props: ["card", "imageUrl"],
 };
 </script>
 
 <style scoped>
+#rating{
+  margin: 0;
+}
+
 #hotelCard {
   display: flex;
+  position: relative;
   width: 25vw;
   height: 20vw;
   margin: 15px;
+}
+
+#listTitle{
+  font-weight: 600;
 }
 
 #comfyList{
@@ -54,33 +77,31 @@ export default {
   padding: 0;
 }
 
-#comfort{
-  font-weight: 600;
-}
-
-#distances{
-  margin: auto;
+#attractiveList{
+  list-style: none;
+  padding: 0;
 }
 
 #bigger{
   font-weight: 600;
   font-size: larger;
-  margin-top: 25px;
+  margin-top: 5px;
   margin-bottom: 5px;
 }
 
 #hotelName{
   text-shadow:.5px .5px 1px rgba(255, 255, 255, .5),.5px -.5px 1px rgba(255, 255, 255, .5),
                      -.5px .5px 1px rgba(255, 255, 255, .5),-.5px -.5px 1px rgba(255, 255, 255, .5);
-  color: rgba(0, 0, 0, .7);
+  color: rgba(0, 0, 0, 0.5);
   mix-blend-mode: difference;
+  margin-top: 10px;
   }
 
 #price{
   position: absolute;
   white-space: nowrap;
   z-index: 2;
-  bottom: 0;
+  bottom: 10px;
   right: 1vw;
   color: red;
   text-shadow:.5px .5px 1px rgba(255, 255, 255, .5),.5px -.5px 1px rgba(255, 255, 255, .5),
@@ -91,18 +112,14 @@ export default {
   position: relative;
 }
 
-span{
-  margin-left: 15px;
-  font-size: large;
-}
-
 #descriptionBlock{
   position: absolute;
   z-index: 3;
-  display: flexbox;
+  display: flex;
   flex-wrap: wrap;
   width: 25vw;
   height: 20vw;
+  justify-content: space-evenly;
 
   color: black;
   text-align: left;
@@ -110,7 +127,7 @@ span{
   background-color: white;
   opacity: 0%;
   transition: opacity .3s;
-  border-radius: 1vw;
+  border-radius: .8vw;
 }
 
 #descriptionBlock:hover{
@@ -124,7 +141,7 @@ span{
   width: 25vw;
   height: 20vw;
   overflow: hidden;
-  border-radius: 1vw;
+  border-radius: .8vw;
 }
 
 #hotelCard:hover img{
@@ -135,17 +152,23 @@ span{
   filter: opacity(0);
 }
 
+#hotelCard:hover h3{
+  filter: opacity(0);
+}
+
+#hotelCard:hover #score{
+  filter: opacity(0);
+}
+
+#distances {
+  justify-content: space-between;
+}
+
 img{
   width: 25vw;
   height: 20vw;
-  border-radius: 1vw;
+  border-radius: .8vw;
   transition: filter .3s;
-}
-
-p{
-  margin-left: 25px;
-  margin-top: 25px;
-  font-weight: 600;
 }
 
 h2{
@@ -156,5 +179,30 @@ h2{
   margin-top: 0;
   opacity: 100%;
   transition: filter .3s;
+}
+
+h3{
+  position: relative;
+  z-index: 2;
+  font-weight: 900;
+  margin: auto;
+  margin-top: 0;
+  opacity: 100%;
+  transition: filter .3s;
+}
+
+#score{
+  position: relative;
+  z-index: 2;
+  font-weight: 900;
+  margin: auto;
+  margin-top: 0;
+  opacity: 100%;
+  transition: filter .3s;
+}
+
+.nameScore{
+  margin: auto;
+  margin-top: 0;
 }
 </style>

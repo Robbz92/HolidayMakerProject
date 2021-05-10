@@ -10,9 +10,15 @@ import java.util.Optional;
 
 @Repository
 public interface CityRepo extends JpaRepository<City, Long> {
-    @Query(value = "SELECT * FROM cities WHERE cities.name LIKE %?%", nativeQuery = true)
+    /*
+    hämtar ut staden som matchar din sökfras (sök funktion)
+     */
+    @Query(value = "SELECT * FROM cities WHERE cities.name LIKE ?%", nativeQuery = true)
     City findByName(String name);
 
+    /*
+    hämtar ut städer på CountryID
+     */
     @Query(value = "Select * FROM cities WHERE country_id = ?", nativeQuery = true)
     List<City> getByCountryId (Long id);
 }

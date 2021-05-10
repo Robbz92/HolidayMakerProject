@@ -17,10 +17,16 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
+    /*
+    skickar informationen vidare till MyUserDetailService
+     */
     public User register (User user){
 
         return detailService.registerUser(user);
     }
+    /*
+    kollar i repot på email vem som är inloggad
+     */
     public User whoAmI(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 

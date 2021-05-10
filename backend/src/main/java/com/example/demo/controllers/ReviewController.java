@@ -16,7 +16,9 @@ public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
-
+    /*
+    hämtar reviews baserat på HotelID
+     */
     @GetMapping("/reviews/{id}")
     public List<Map> getReviews(@PathVariable long id){return reviewService.getReviewsByHotelId(id);}
 }

@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 import Hotel from '../views/Hotel.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import Rooms from '../views/Rooms.vue'
+
 
 const routes = [
   {
@@ -26,11 +26,7 @@ const routes = [
     name: 'Register',
     component: Register
   },
-  {
-    path: '/rooms',
-    name: 'Rooms',
-    component: Rooms
-  },
+
 ]
 
 const router = createRouter({

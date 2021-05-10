@@ -14,14 +14,14 @@ public class RoomController {
 
     @Autowired
     private RoomService roomService;
-
+    /*
+    tar emot HotelID + fromDate + toDate
+    och letar efter lediga rum
+     */
     @RequestMapping("/getRoomOnDate/{hotelID}/{dateOne}/{dateTwo}")
     private List<Map> getRooms(@PathVariable String dateOne, @PathVariable String dateTwo, @PathVariable long hotelID){
         return roomService.getFreeRooms(dateOne, dateTwo, hotelID);
     }
 
-    @GetMapping("/getRooms")
-    public List<Room> getAllRooms(){
-        return roomService.getAll();
-    }
 }
+

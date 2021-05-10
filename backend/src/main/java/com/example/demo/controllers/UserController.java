@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    /*
+    tar emot registrerings uppgifter
+     */
     @PostMapping("/rest/register")
     public User register(@RequestBody User user){
         return userService.register(user);
     }
-
+    /*
+    kollar vem som är inloggad
+     */
     @GetMapping("auth/whoami")
     public User whoAmI(){return userService.whoAmI();}
 

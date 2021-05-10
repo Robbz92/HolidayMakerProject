@@ -9,7 +9,10 @@ import java.util.Map;
 
 @Repository
 public interface ReviewRepo extends JpaRepository<Review, Long> {
+    /*
+    hämtar ut reviews baserat på HotelID
 
+     */
     @Query(value="SELECT first_name, last_name, text, score FROM users INNER JOIN reviews ON users.id = reviews.user_id WHERE hotel_id = ?1",nativeQuery = true)
     List<Map> getReviews(long id);
 }

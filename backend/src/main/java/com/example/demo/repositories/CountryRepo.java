@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CountryRepo extends JpaRepository<Country, Long> {
-    @Query(value = "SELECT * FROM countries WHERE countries.name LIKE %?%", nativeQuery = true)
+    /*
+    hämtar ut alla länder som börjar på din sökfras(sök funktion)
+     */
+    @Query(value = "SELECT * FROM countries WHERE countries.name LIKE ?%", nativeQuery = true)
     Country findByName(String name);
 }
