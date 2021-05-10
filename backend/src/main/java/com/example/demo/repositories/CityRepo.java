@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface CityRepo extends JpaRepository<City, Long> {
-    @Query(value = "SELECT * FROM cities WHERE cities.name LIKE %?%", nativeQuery = true)
+    @Query(value = "SELECT * FROM cities WHERE cities.name LIKE ?%", nativeQuery = true)
     City findByName(String name);
 
     @Query(value = "Select * FROM cities WHERE country_id = ?", nativeQuery = true)

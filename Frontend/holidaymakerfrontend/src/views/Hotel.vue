@@ -93,49 +93,57 @@ export default {
 </script>
 
 <style scoped>
-
-#picture {
+#justInfo > img{
   width: 50%;
 }
 
-#roomPic{
-  width: 30%;
+#liRoom > img{
+  height: 35vh;
+  width: auto;
 }
+
 #liRoom{
   list-style-type: none;
-  border: 1px solid rgb(187, 184, 184);
-  width: 95%;
-  background-color:white;
+  width: 90%;
+  margin: auto;
+  background-color:rgba(255, 255, 255, .2);
   margin-bottom: 20px;
   padding: 4px;
   border-radius: 5px;
 }
+
 #holder{
   display: flex;
   justify-content: center;
 }
+
 .reviews{
   margin-top: 35px;
   width: 65%;
-  border: 1px solid rgb(187, 184, 184);
+  background-color:rgba(255, 255, 255, .2);
   padding: 10 px;
   border-radius: 5px;
 }
+
 #justOne{
   list-style-type: none;
-  border: 1px solid rgb(187, 184, 184);
   width: 95%;
-  background-color:white;
+  background-color:rgba(255, 255, 255, .3);
   margin-bottom: 20px;
   padding: 4px;
   border-radius: 5px;
 }
 
 .hotel {
+  top: 0;
   width: 70%;
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.15);
   margin: 0 auto;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 ul {

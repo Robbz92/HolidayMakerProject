@@ -4,10 +4,18 @@
     <div id="imageBlock">
       <img :src="imageUrl">
     </div>
-    <h2 id="hotelName">{{card.name}}</h2>
+    <div class="nameScore">
+      <h2 id="hotelName">{{card.name}}</h2>
+      <h3 id="hotelName">{{card.placeName}}</h3>
+      <span v-if="card.totalScore != 0" id="score">
+        <span v-for="(score, index) in card.totalScore" 
+        :key="index" id="rating">⭐</span>
+      </span><br>
+    </div>
     <div id="priceDiv">
       <h2 id="price">From: {{card.price}}:-</h2>
     </div>
+
     <div id="descriptionBlock">
       <div id="bigger">
         <span>Hotel Name: {{ card.name }}</span>
@@ -15,17 +23,26 @@
         <span>Address: {{ card.address }}</span>
       </div>
       <div id="distances">
-        <span v-if="card.totalScore != 0">Total score: {{ card.totalScore }}<br></span>
         <span>Distance down town: {{ card.distanceDowntown }}<br></span>
         <span>Distance to beach: {{ card.distanceBeach }}<br></span>
       </div>
       <br>
-      <div v-if="card.comfortList != ''">
-        <span id="comfort">comforts:</span>
+      <div v-if="card.comfortList != ''" class="cList">
+        <span id="listTitle">comforts:</span>
         <ol id="comfyList">
           <li v-for="(comfort, index) in card.comfortList" :key="index">
             <span>
               {{comfort}}
+            </span>
+          </li>
+        </ol>
+      </div>
+      <div v-if="card.attractionList != ''" class="aList">
+        <span id="listTitle">attractions:</span>
+        <ol id="attractiveList">
+          <li v-for="(attraction, index) in card.attractionList" :key="index">
+            <span>
+              {{attraction}}
             </span>
           </li>
         </ol>
@@ -41,6 +58,10 @@ export default {
 </script>
 
 <style scoped>
+#rating{
+  margin: 0;
+}
+
 #hotelCard {
   display: flex;
   position: relative;
@@ -49,23 +70,34 @@ export default {
   margin: 15px;
 }
 
+#listTitle{
+  font-weight: 600;
+}
+
+.cList{
+  float: left;
+  margin-left: 1em;
+}
+
+.aList{
+  float: left;
+  margin-left: 1em;
+}
+
 #comfyList{
   list-style: none;
   padding: 0;
 }
 
-#comfort{
-  font-weight: 600;
-}
-
-#distances{
-  margin: auto;
+#attractiveList{
+  list-style: none;
+  padding: 0;
 }
 
 #bigger{
   font-weight: 600;
   font-size: larger;
-  margin-top: 25px;
+  margin-top: 5px;
   margin-bottom: 5px;
 }
 
@@ -93,7 +125,7 @@ export default {
 
 span{
   margin-left: 15px;
-  font-size: large;
+  font-size: medium;
 }
 
 #descriptionBlock{
@@ -135,6 +167,14 @@ span{
   filter: opacity(0);
 }
 
+#hotelCard:hover h3{
+  filter: opacity(0);
+}
+
+#hotelCard:hover #score{
+  filter: opacity(0);
+}
+
 img{
   width: 25vw;
   height: 20vw;
@@ -156,5 +196,30 @@ h2{
   margin-top: 0;
   opacity: 100%;
   transition: filter .3s;
+}
+
+h3{
+  position: relative;
+  z-index: 2;
+  font-weight: 900;
+  margin: auto;
+  margin-top: 0;
+  opacity: 100%;
+  transition: filter .3s;
+}
+
+#score{
+  position: relative;
+  z-index: 2;
+  font-weight: 900;
+  margin: auto;
+  margin-top: 0;
+  opacity: 100%;
+  transition: filter .3s;
+}
+
+.nameScore{
+  margin: auto;
+  margin-top: 0;
 }
 </style>

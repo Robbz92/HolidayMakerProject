@@ -19,9 +19,11 @@ public class CountryController {
     @Autowired
     private CountryService countryService;
 
+    //depricated
     @GetMapping("/getCountry")
     public List<Country> getAll(){ return countryService.getAll(); }
 
+    //Depricated
     @GetMapping("/getCountry/{id}")
     public Optional<Country> getById(@PathVariable Long id){ return countryService.getById(id); }
 

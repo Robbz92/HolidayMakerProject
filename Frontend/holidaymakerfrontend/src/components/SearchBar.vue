@@ -28,7 +28,6 @@ name:'SearchBar',
   },
 
   data(){
-
     return{
       searchPhrase: '',
       fromDate: '',
@@ -88,6 +87,7 @@ name:'SearchBar',
   }
 }
 </script>
+
 <style scoped>
 .bar {
   display: flex;

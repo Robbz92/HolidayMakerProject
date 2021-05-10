@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <hotelList/>
+    <hotelList :searchResultText="searchResultText"/>
     <div id="search">
       <searchBar/>
       <filterOptions v-if="gotClicked" />
@@ -23,7 +23,8 @@ export default {
 
     data(){
       return{
-        hasClicked: false
+        hasClicked: false,
+        searchResultText: "Loading.."
       }
     },
 
@@ -36,11 +37,14 @@ export default {
     methods:{
       onSearch(){
         if(!this.hasClicked){
+          this.searchResultText = "Loading.."
           var e = document.getElementById('search')
           e.style.bottom = "90%";
           this.$store.commit("setHasSearched", true)
           console.log("set to true")
-          document.getElementById("forAnimationOnly").style.top = "5vh"
+          document.getElementById("forAnimationOnly").style.top = "7.5vh"
+
+        setTimeout(() => this.searchResultText = "Cannot find any hotels matching searchphrase", 1000)
         }
       },
     },
@@ -67,5 +71,6 @@ export default {
   .home{
     margin: none;
     overflow: hidden;
+    width: 100vw;
   }
 </style>
