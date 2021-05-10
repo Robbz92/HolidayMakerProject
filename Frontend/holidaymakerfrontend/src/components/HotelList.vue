@@ -168,6 +168,7 @@ export default {
 
 #hotelList {
   margin-top: 100px;
+  margin-bottom: 10%;
 }
 
 .lists{
