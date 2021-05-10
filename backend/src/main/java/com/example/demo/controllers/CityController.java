@@ -18,12 +18,14 @@ public class CityController {
     @Autowired
     private CityService cityService;
 
+    //depricated
     @GetMapping("/getCity")
     public List<City> getAll(){ return cityService.getAll(); }
 
     @GetMapping("/getCityForCountry/{id}")
     public List<City> getByCountry(@PathVariable Long id){ return cityService.getByCountry(id); }
 
+    //depricated
     @GetMapping("/getCity/{id}")
     public Optional<City> getById(@PathVariable Long id){ return cityService.getById(id); }
 

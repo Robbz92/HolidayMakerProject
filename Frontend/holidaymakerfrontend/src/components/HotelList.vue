@@ -18,7 +18,7 @@
           :key="index"
           @click="onClick(city.id)"
         >
-          <Card :card="city" :imageUrl="city.hotelImg" />
+          <Card :card="city" :imageUrl="city.hotelImg"/>
         </li>
       </ol>
 
@@ -33,7 +33,7 @@
         </li>
       </ol>
       <h3 v-if="hotelList == '' && cityList == '' && countryList == ''">
-        No hotels matching searchphrase
+        {{searchResultText}}
       </h3>
     </div>
   </div>
@@ -43,6 +43,10 @@
 import Card from "./HotelCard.vue";
 
 export default {
+  props:[
+      "searchResultText"
+  ],
+
   components: {
     Card,
   },
@@ -129,14 +133,14 @@ export default {
       this.$router.push("/hotel");
     },
     animateLists(){
-      document.getElementById("forAnimationOnly").style.top = "5vh"
+        document.getElementById("forAnimationOnly").style.top = "7.5vh"
     }
   },
 
     mounted(){
       var x = this.$store.getters.getHasSearched
       if(x == true){
-        document.getElementById("forAnimationOnly").style.top = "5vh"
+        document.getElementById("forAnimationOnly").style.top = "7.5vh"
       }
     }
 };

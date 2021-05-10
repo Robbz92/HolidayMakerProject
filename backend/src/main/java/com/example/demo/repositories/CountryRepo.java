@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CountryRepo extends JpaRepository<Country, Long> {
-    @Query(value = "SELECT * FROM countries WHERE countries.name LIKE %?%", nativeQuery = true)
+    @Query(value = "SELECT * FROM countries WHERE countries.name LIKE ?%", nativeQuery = true)
     Country findByName(String name);
 }

@@ -33,7 +33,6 @@ name:'SearchBar',
   },
 
   data(){
-
     return{
       // Skapar styleObject för att kunna kalla på datepickers attribut. 
       // Går inte att CSSa på dessa inputs med id eller class.
@@ -102,6 +101,7 @@ name:'SearchBar',
   }
 }
 </script>
+
 <style scoped>
 .bar {
   display: flex;

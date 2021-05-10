@@ -194,6 +194,7 @@ h4{
 }
 
 .hotel {
+  top: 0;
   width: 70%;
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.15);
@@ -203,6 +204,10 @@ h4{
   position: fixed;
   left: 15%;
   top: 0;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 ul {

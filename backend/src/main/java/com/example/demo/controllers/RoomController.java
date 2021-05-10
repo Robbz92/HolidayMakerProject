@@ -20,6 +20,7 @@ public class RoomController {
         return roomService.getFreeRooms(dateOne, dateTwo, hotelID);
     }
 
+    //depricated
     @GetMapping("/getRooms")
     public List<Room> getAllRooms(){
         return roomService.getAll();

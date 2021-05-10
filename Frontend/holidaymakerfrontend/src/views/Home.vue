@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <hotelList />
+    <hotelList :searchResultText="searchResultText"/>
     <div id="search">
       <searchBar />
       <br>
@@ -22,15 +22,11 @@ export default {
     filterOptions,
   },
 
-  data() {
-    return {
-      hasClicked: false,
-    };
-  },
-
-  computed: {
-    gotClicked() {
-      return this.$store.getters.getHasSearched;
+    data(){
+      return{
+        hasClicked: false,
+        searchResultText: "Loading.."
+      }
     },
   },
 
@@ -46,11 +42,27 @@ export default {
     },
   },
 
-  mounted() {
-    this.hasClicked = this.$store.getters.getHasSearched;
-    if (this.hasClicked == true) {
-      var e = document.getElementById("search");
-      e.style.bottom = "82%";
+    methods:{
+      onSearch(){
+        if(!this.hasClicked){
+          this.searchResultText = "Loading.."
+          var e = document.getElementById('search')
+          e.style.bottom = "90%";
+          this.$store.commit("setHasSearched", true)
+          console.log("set to true")
+          document.getElementById("forAnimationOnly").style.top = "7.5vh"
+
+        setTimeout(() => this.searchResultText = "Cannot find any hotels matching searchphrase", 1000)
+        }
+      },
+    },
+
+    mounted(){
+      this.hasClicked = this.$store.getters.getHasSearched
+      if(this.hasClicked == true){
+          var e = document.getElementById('search')
+          e.style.bottom = "90%";
+      }
     }
   },
 };
