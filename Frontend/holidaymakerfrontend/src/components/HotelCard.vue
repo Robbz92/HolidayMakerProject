@@ -9,24 +9,18 @@
       <h2 id="price">From: {{card.price}}:-</h2>
     </div>
     <div id="descriptionBlock">
-      <div id="bigger">
-        <span>Hotel Name: {{ card.name }}</span>
-        <br>
-        <span>Address: {{ card.address }}</span>
-      </div>
       <div id="distances">
-        <span v-if="card.totalScore != 0">Total score: {{ card.totalScore }}<br></span>
-        <span>Distance down town: {{ card.distanceDowntown }}<br></span>
-        <span>Distance to beach: {{ card.distanceBeach }}<br></span>
+        <h3>Distances:</h3>
+        <p>Distance down town: {{ card.distanceDowntown }}</p>
+        <p>Distance to beach: {{ card.distanceBeach }}</p>
       </div>
-      <br>
       <div v-if="card.comfortList != ''">
-        <span id="comfort">comforts:</span>
+        <h3>Comforts:</h3>
         <ol id="comfyList">
           <li v-for="(comfort, index) in card.comfortList" :key="index">
-            <span>
+            <p>
               {{comfort}}
-            </span>
+            </p>
           </li>
         </ol>
       </div>
@@ -52,10 +46,6 @@ export default {
 #comfyList{
   list-style: none;
   padding: 0;
-}
-
-#comfort{
-  font-weight: 600;
 }
 
 #distances{
@@ -89,11 +79,6 @@ export default {
 
 #priceDiv{
   position: relative;
-}
-
-span{
-  margin-left: 15px;
-  font-size: large;
 }
 
 #descriptionBlock{

@@ -1,7 +1,7 @@
 <template>
   <div id="bigList">
     <div class="lists" id="forAnimationOnly">
-      <h3 v-if="hotelList != ''">Hotels</h3>
+      <h3 v-if="hotelList != ''"></h3>
       <ol id="hotelList">
         <li
           v-for="(hotel, index) in setHotels"
@@ -11,7 +11,7 @@
           <Card :card="hotel" :imageUrl="hotel.hotelImg" />
         </li>
       </ol>
-      <h3 v-if="cityList != ''">Cities</h3>
+      <h3 v-if="cityList != ''"></h3>
       <ol id="cityList">
         <li
           v-for="(city, index) in setCities"
@@ -22,7 +22,7 @@
         </li>
       </ol>
 
-      <h3 v-if="countryList != ''">Countries</h3>
+      <h3 v-if="countryList != ''"></h3>
       <ol id="countryList">
         <li
           v-for="(country, index) in setCountries"
@@ -143,16 +143,21 @@ export default {
 </script>
 
 <style scoped>
+
+#hotelList {
+  margin-top: 100px;
+}
+
 .lists{
   position: fixed;
   top: 100vh;
   left: 8.75vw;
-  max-height: 88vh;
+  max-height: 100vh;
   overflow: auto;
   overflow-x: hidden;
   width: 82.5vw;
   margin: auto;
-  margin-top: 3vh;
+  margin-top: 5vh;
   padding: 0;
   transition: top .5s;
 }
