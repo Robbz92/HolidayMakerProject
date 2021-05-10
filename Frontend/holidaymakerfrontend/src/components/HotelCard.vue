@@ -18,12 +18,12 @@
 
     <div id="descriptionBlock">
       <div id="distances">
-        <h3>Distances:</h3>
-        <p>Distance down town: {{ card.distanceDowntown }}</p>
-        <p>Distance to beach: {{ card.distanceBeach }}</p>
+        <h4>Distances</h4>
+        <p>Downtown: {{ card.distanceDowntown }} km</p>
+        <p>Beach: {{ card.distanceBeach }} km</p>
       </div>
       <div v-if="card.comfortList != ''" class="cList">
-        <span id="listTitle">comforts:</span>
+        <h4>Comforts</h4>
         <ol id="comfyList">
           <li v-for="(comfort, index) in card.comfortList" :key="index">
             <p>
@@ -33,12 +33,12 @@
         </ol>
       </div>
       <div v-if="card.attractionList != ''" class="aList">
-        <span id="listTitle">attractions:</span>
+        <h4>Attractions</h4>
         <ol id="attractiveList">
           <li v-for="(attraction, index) in card.attractionList" :key="index">
-            <span>
+            <p>
               {{attraction}}
-            </span>
+            </p>
           </li>
         </ol>
       </div>
@@ -69,16 +69,6 @@ export default {
   font-weight: 600;
 }
 
-.cList{
-  float: left;
-  margin-left: 1em;
-}
-
-.aList{
-  float: left;
-  margin-left: 1em;
-}
-
 #comfyList{
   list-style: none;
   padding: 0;
@@ -99,15 +89,16 @@ export default {
 #hotelName{
   text-shadow:.5px .5px 1px rgba(255, 255, 255, .5),.5px -.5px 1px rgba(255, 255, 255, .5),
                      -.5px .5px 1px rgba(255, 255, 255, .5),-.5px -.5px 1px rgba(255, 255, 255, .5);
-  color: rgba(0, 0, 0, .7);
+  color: rgba(0, 0, 0, 0.5);
   mix-blend-mode: difference;
+  margin-top: 10px;
   }
 
 #price{
   position: absolute;
   white-space: nowrap;
   z-index: 2;
-  bottom: 0;
+  bottom: 10px;
   right: 1vw;
   color: red;
   text-shadow:.5px .5px 1px rgba(255, 255, 255, .5),.5px -.5px 1px rgba(255, 255, 255, .5),
@@ -121,10 +112,11 @@ export default {
 #descriptionBlock{
   position: absolute;
   z-index: 3;
-  display: flexbox;
+  display: flex;
   flex-wrap: wrap;
   width: 25vw;
   height: 20vw;
+  justify-content: space-evenly;
 
   color: black;
   text-align: left;
@@ -165,17 +157,15 @@ export default {
   filter: opacity(0);
 }
 
+#distances {
+  justify-content: space-between;
+}
+
 img{
   width: 25vw;
   height: 20vw;
   border-radius: .8vw;
   transition: filter .3s;
-}
-
-p{
-  margin-left: 25px;
-  margin-top: 25px;
-  font-weight: 600;
 }
 
 h2{

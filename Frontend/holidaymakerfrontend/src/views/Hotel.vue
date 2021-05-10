@@ -7,10 +7,10 @@
             <img id="picture" :src="info.hotel_img" />
             <div class="text">
               <h3>{{ info.name }}</h3>
-              <p>Downtown distance: {{ info.distance_downtown }} km</p>
               <p>Address: {{ info.address }}</p>
+              <p>Downtown distance: {{ info.distance_downtown }} km</p>
               <p>Beach distance: {{ info.distance_beach }} km</p>
-              <p>Score: {{ info.total_score }}/5</p>
+              <p>Review score: {{ info.total_score }}/5</p>
               <ul v-for="(temperature, index) in getTemperature" :key="index">
                 <li id="justTemp">
                   <p>Temperature: {{ temperature.temperature }} C</p>

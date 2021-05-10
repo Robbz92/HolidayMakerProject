@@ -3,7 +3,6 @@
     <hotelList :searchResultText="searchResultText"/>
     <div id="search">
       <searchBar />
-      <br>
       <filterOptions v-if="gotClicked" />
     </div>
   </div>
@@ -28,26 +27,19 @@ export default {
         searchResultText: "Loading.."
       }
     },
-  },
 
-  methods: {
-    onSearch() {
-      if (!this.hasClicked) {
-        var e = document.getElementById("search");
-        e.style.bottom = "82%";
-        this.$store.commit("setHasSearched", true);
-        console.log("set to true");
-        document.getElementById("forAnimationOnly").style.top = "5vh";
+    computed:{
+      gotClicked(){
+        return this.$store.getters.getHasSearched
       }
     },
-  },
 
     methods:{
       onSearch(){
         if(!this.hasClicked){
           this.searchResultText = "Loading.."
           var e = document.getElementById('search')
-          e.style.bottom = "90%";
+          e.style.bottom = "83%";
           this.$store.commit("setHasSearched", true)
           console.log("set to true")
           document.getElementById("forAnimationOnly").style.top = "7.5vh"
@@ -61,10 +53,10 @@ export default {
       this.hasClicked = this.$store.getters.getHasSearched
       if(this.hasClicked == true){
           var e = document.getElementById('search')
-          e.style.bottom = "90%";
+          e.style.bottom = "83%";
       }
     }
-  },
+  
 };
 </script>
 
