@@ -23,7 +23,7 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
     /*
    hämtar hotel på en hotelfras(sök funktion)
      */
-    @Query(value = "SELECT * FROM hotels WHERE hotels.name LIKE ?%", nativeQuery = true)
+    @Query(value = "SELECT * FROM hotels WHERE hotels.name LIKE %?%", nativeQuery = true)
     List<Hotel> findByName(String name);
 
     /*

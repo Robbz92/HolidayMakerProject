@@ -64,14 +64,7 @@ public class HotelService {
         return hotelRepo.comfortsPerHotel(id);
     }
 
-    /*
-    hämtar pris som matchar
-    HotelID och sorterar
-    minsta pris först
-     */
-    private int getPrice(Long id){
-        return hotelRepo.cheapestPrice(id);
-    }
+
     /*
     Hämtar ut allting ifrån Hotels tabellen
     baserat på HotelID vi skickar in
@@ -106,7 +99,11 @@ public class HotelService {
     }
 
 
-    //Martins speciella listor
+    /*
+   hämtar pris som matchar
+   HotelID och sorterar
+   minsta pris först
+    */
     private int getPrice(Long id){
         return hotelRepo.cheapestPrice(id);
     }
