@@ -1,5 +1,7 @@
 package com.example.demo.repositories;
 
+import com.example.demo.entities.City;
+import com.example.demo.entities.Country;
 import com.example.demo.entities.Hotel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -68,9 +70,19 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
             ".comforts_id WHERE hc_list.hotel_id = ?", nativeQuery = true)
     List<String> comfortsPerHotel (Long id);
 
+    @Query(value = "SELECT name FROM attractions INNER JOIN ca_list ON attractions.id = ca_list" +
+            ".attractions_id WHERE ca_list.city_id = ?", nativeQuery = true)
+    List<String> attractionsPerHotel (Long id);
+
     /*
     Hämtar ut minsta pris på rum baserat på HotelID
      */
     @Query(value = "SELECT MIN(price) FROM rooms WHERE rooms.hotel_id = ?", nativeQuery = true)
     int cheapestPrice (Long id);
+
+    @Query(value = "SELECT cities.name as City, countries.name as Country FROM cities INNER JOIN " +
+            "countries on countries.id = cities.country_id " +
+            "INNER JOIN hotels on hotels.city_id = cities.id WHERE hotels.id = ?", nativeQuery =
+            true)
+    String placeName (Long id);
 }

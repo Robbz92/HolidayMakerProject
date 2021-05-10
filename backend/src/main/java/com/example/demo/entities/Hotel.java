@@ -23,6 +23,10 @@ public class Hotel {
     @Transient
     private List<String> comfortList;
     @Transient
+    private List<String> attractionList;
+    @Transient
+    private String placeName;
+    @Transient
     private int price;
 
     public Hotel() {
@@ -40,7 +44,7 @@ public class Hotel {
 
     public Hotel(long id, long cityId, String name, String address, long totalScore,
                  long distanceDowntown, long distanceBeach, String hotelImg,
-                 List<String> comfortList, int price) {
+                 List<String> comfortList, List<String> attractionList,int price, String placeName) {
         this.id = id;
         this.cityId = cityId;
         this.name = name;
@@ -50,7 +54,9 @@ public class Hotel {
         this.distanceBeach = distanceBeach;
         this.hotelImg = hotelImg;
         this.comfortList = comfortList;
+        this.attractionList = attractionList;
         this.price = price;
+        this.placeName = placeName;
     }
 
     public long getId() {
@@ -125,12 +131,28 @@ public class Hotel {
         this.comfortList = comfortList;
     }
 
+    public List<String> getAttractionList() {
+        return attractionList;
+    }
+
+    public void setAttractionList(List<String> attractionList) {
+        this.attractionList = attractionList;
+    }
+
     public int getPrice() {
         return price;
     }
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
     }
 
     @Override
@@ -145,6 +167,8 @@ public class Hotel {
                 ", distanceBeach=" + distanceBeach +
                 ", hotelImg='" + hotelImg + '\'' +
                 ", comfortList=" + comfortList +
+                ", attractionList=" + attractionList +
+                ", placeName='" + placeName + '\'' +
                 ", price=" + price +
                 '}';
     }

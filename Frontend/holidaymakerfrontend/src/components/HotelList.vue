@@ -1,7 +1,7 @@
 <template>
   <div id="bigList">
     <div class="lists" id="forAnimationOnly">
-      <h3 v-if="hotelList != ''">Hotels</h3>
+      <h3 v-if="hotelList != ''"></h3>
       <ol id="hotelList">
         <li
           v-for="(hotel, index) in setHotels"
@@ -11,18 +11,18 @@
           <Card :card="hotel" :imageUrl="hotel.hotelImg" />
         </li>
       </ol>
-      <h3 v-if="cityList != ''">Cities</h3>
+      <h3 v-if="cityList != ''"></h3>
       <ol id="cityList">
         <li
           v-for="(city, index) in setCities"
           :key="index"
           @click="onClick(city.id)"
         >
-          <Card :card="city" :imageUrl="city.hotelImg" />
+          <Card :card="city" :imageUrl="city.hotelImg"/>
         </li>
       </ol>
 
-      <h3 v-if="countryList != ''">Countries</h3>
+      <h3 v-if="countryList != ''"></h3>
       <ol id="countryList">
         <li
           v-for="(country, index) in setCountries"
@@ -33,7 +33,7 @@
         </li>
       </ol>
       <h3 v-if="hotelList == '' && cityList == '' && countryList == ''">
-        No hotels matching searchphrase
+        {{searchResultText}}
       </h3>
     </div>
   </div>
@@ -50,6 +50,10 @@ Som vi sen skriver ut på hemsidan på rätt ställen
 import Card from "./HotelCard.vue";
 
 export default {
+  props:[
+      "searchResultText"
+  ],
+
   components: {
     Card,
   },
@@ -143,8 +147,8 @@ export default {
       /*
       Animations funktion
       */
-     animateLists(){
-       document.getElementById("forAnimationOnly").style.top = "5vh"
+    animateLists(){
+        document.getElementById("forAnimationOnly").style.top = "7.5vh"
     }
   },
 
@@ -154,23 +158,28 @@ export default {
     mounted(){
       var x = this.$store.getters.getHasSearched
       if(x == true){
-        document.getElementById("forAnimationOnly").style.top = "5vh"
+        document.getElementById("forAnimationOnly").style.top = "7.5vh"
       }
     }
 };
 </script>
 
 <style scoped>
+
+#hotelList {
+  margin-top: 100px;
+}
+
 .lists{
   position: fixed;
   top: 100vh;
   left: 8.75vw;
-  max-height: 88vh;
+  max-height: 100vh;
   overflow: auto;
   overflow-x: hidden;
   width: 82.5vw;
   margin: auto;
-  margin-top: 3vh;
+  margin-top: 5vh;
   padding: 0;
   transition: top .5s;
 }
@@ -186,4 +195,5 @@ ol {
   width: 85vw;
   margin: auto;
 }
+
 </style>

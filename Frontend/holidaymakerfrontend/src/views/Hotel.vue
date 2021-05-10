@@ -7,10 +7,10 @@
             <img id="picture" :src="info.hotel_img" />
             <div class="text">
               <h3>{{ info.name }}</h3>
-              <p>Downtown distance: {{ info.distance_downtown }} km</p>
               <p>Address: {{ info.address }}</p>
+              <p>Downtown distance: {{ info.distance_downtown }} km</p>
               <p>Beach distance: {{ info.distance_beach }} km</p>
-              <p>Score: {{ info.total_score }}/5</p>
+              <p>Review score: {{ info.total_score }}/5</p>
               <ul v-for="(temperature, index) in getTemperature" :key="index">
                 <li id="justTemp">
                   <p>Temperature: {{ temperature.temperature }} C</p>
@@ -49,11 +49,22 @@
             <img id="roomPic" :src="room.room_img" />
           </div>
           <div class="roomText">
-            <h5>Room type:</h5>
-            <p>{{ room.type }}</p>
-            <p>Size: {{ room.size }}</p>
-            <p>Description: {{ room.description }}</p>
-            <p>Price: {{ room.price }} kr</p>
+            <div class="type">
+              <h4>Room type</h4>
+              <p>{{ room.type }}</p>
+            </div>
+            <div class="size">
+              <h4>Size</h4>
+              <p>{{ room.size }}</p>
+            </div>
+            <div class="desc">
+              <h4>Description</h4>
+              <p>{{ room.description }}</p>
+            </div>
+            <div class="price">
+              <h4>Price</h4>
+              <p>{{ room.price }} kr</p>
+            </div>
           </div>
         </li>
       </ul>
@@ -62,10 +73,12 @@
       <div class="reviews">
         <h2>Reviews</h2>
         <ul v-for="(review, index) in getReviews" :key="index">
-          <li id="justOne">
-            <p>{{ review.first_name }} {{ review.last_name }}</p>
-            <p>{{ review.score }}/5</p>
-            <p>{{ review.text }}</p>
+          <li id="review">
+            <div class="user">
+              <h4>{{ review.first_name }} {{ review.last_name }}</h4>
+            </div>
+            <p>"{{ review.text }}"</p>
+            <h5>Score: {{ review.score }}/5</h5>
           </li>
         </ul>
       </div>
@@ -92,7 +105,6 @@ export default {
       return this.$store.getters.getComforts;
     },
     getRoomList() {
-      console.log(this.$store.getters.getRoomList);
       return this.$store.getters.getRoomList;
     },
   },
@@ -123,6 +135,12 @@ export default {
   margin-bottom: 2em;
 }
 
+#allRooms p {
+  margin: 0;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
 #liRoom {
   display: flex;
   justify-self: center;
@@ -145,7 +163,9 @@ export default {
 }
 
 .roomText {
+  display: block;
   text-align: left;
+  margin-left: 20px;
 }
 
 #holder {
@@ -157,6 +177,10 @@ h3 {
   margin: 0;
 }
 
+h4{
+  margin: 0;
+}
+
 .text,
 .attractions,
 .comforts {
@@ -165,28 +189,12 @@ h3 {
   margin-right: 6em;
 }
 
-.reviews {
-  margin-top: 35px;
-  width: 65%;
-  border: 1px solid rgb(187, 184, 184);
-  padding: 10 px;
-  border-radius: 5px;
-}
-#justOne {
-  list-style-type: none;
-  border: 1px solid rgb(187, 184, 184);
-  width: 95%;
-  background-color: white;
-  margin-bottom: 20px;
-  padding: 4px;
-  border-radius: 5px;
-}
-
 #justInfo {
   display: flex;
 }
 
 .hotel {
+  top: 0;
   width: 70%;
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.15);
@@ -198,6 +206,10 @@ h3 {
   top: 0;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 ul {
   list-style-type: none;
   margin: 0px;
@@ -206,6 +218,33 @@ ul {
 
 .attComf {
   display: flex;
+}
+
+.reviews {
+  list-style-type: none;
+  border: 1px solid rgb(187, 184, 184);
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 75%;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 5em;
+}
+
+.reviews h2 {
+  margin-bottom: 2em;
+}
+
+#review {
+  display: block;
+  justify-self: center;
+  margin-top: 0;
+  margin: 1em;
+  border-bottom: 1px solid rgb(187, 184, 184);
+}
+
+#review p {
+  font-style: italic;
 }
 
 ::-webkit-scrollbar {

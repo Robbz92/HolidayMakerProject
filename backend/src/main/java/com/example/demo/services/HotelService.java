@@ -1,10 +1,12 @@
 package com.example.demo.services;
 
+import com.example.demo.entities.City;
 import com.example.demo.entities.Hotel;
 import com.example.demo.repositories.HotelRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 //Kommenterad och Klar :D
@@ -26,8 +28,10 @@ public class HotelService {
         if(hotelRepo.findByName(phrase) != null){
             hotelList.addAll(hotelRepo.findByName(phrase));
             for(Hotel hotel : hotelList){
-                hotel.setComfortList(getComforts(hotel.getId()));
+                hotel.setComfortList(getComfortsForCard(hotel.getId()));
+                hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));
                 hotel.setPrice(getPrice(hotel.getId()));
+                hotel.setPlaceName(getPlaceName(hotel.getId()));
             }
         }
         return hotelList;
@@ -41,8 +45,13 @@ public class HotelService {
     public List<Hotel> getByCity(Long id) {
         List<Hotel> hotelList = hotelRepo.getByCityId(id);
         for(Hotel hotel : hotelList){
-            hotel.setComfortList(getComforts(hotel.getId()));
+            for(Map map : attractionById(hotel.getId())){
+
+            }
+            hotel.setComfortList(getComfortsForCard(hotel.getId()));
+            hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));
             hotel.setPrice(getPrice(hotel.getId()));
+            hotel.setPlaceName(getPlaceName(hotel.getId()));
         }
         return hotelList;
     }
@@ -94,5 +103,23 @@ public class HotelService {
     public List<Map> comfortsById(Long id) {
         List<Map> allComfortsById = hotelRepo.hotelsComforts(id);
         return allComfortsById;
+    }
+
+
+    //Martins speciella listor
+    private int getPrice(Long id){
+        return hotelRepo.cheapestPrice(id);
+    }
+    private List<String> getComfortsForCard(Long id){
+        return hotelRepo.comfortsPerHotel(id);
+    }
+    private List<String> getAttractionsForCard(Long id){
+        return hotelRepo.attractionsPerHotel(id);
+    }
+    private String getPlaceName(Long id){
+        String placeName = hotelRepo.placeName(id);
+        String[] newName = placeName.split(",");
+        placeName = newName[0] + ", " + newName[1];
+        return placeName;
     }
 }

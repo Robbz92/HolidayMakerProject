@@ -1,17 +1,22 @@
 <template>
   <div class="bar">
-    <input type="text" placeholder="Sök..." v-model="searchPhrase" id="searchBar">
+    <div class="search-container">
+      <h6>Search hotel, city or country</h6>
+      <input type="text" placeholder="..." v-model="searchPhrase" id="searchBar">
+    </div>
     <div class="date">
       <div class="checkIn">
         <h6>Check-in</h6>
-        <date-picker id="fromDate" v-model="fromDate" language="en" type="date" format="YYYY-MM-DD"></date-picker>
+        <date-picker id="fromDate" v-model="fromDate" language="en" type="date" format="YYYY-MM-DD" :style="styleObject"></date-picker>
       </div>
       <div class="checkOut">
         <h6>Check-out</h6>
-      <date-picker id="toDate" v-model="toDate" language="en" type="date" format="YYYY-MM-DD"></date-picker>
+      <date-picker id="toDate" v-model="toDate" language="en" type="date" format="YYYY-MM-DD" :style="styleObject"></date-picker>
       </div>      
     </div>
-      <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Search</button>
+    <div class="go-container">
+      <button @click="searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate) ">Go!</button>
+    </div>
   </div>
 </template>
 
@@ -30,8 +35,16 @@ name:'SearchBar',
   },
 
   data(){
-
     return{
+      // Skapar styleObject för att kunna kalla på datepickers attribut. 
+      // Går inte att CSSa på dessa inputs med id eller class.
+      styleObject: {
+        outline: 'none',
+        border: 'none',
+        height: '1.65em',
+        width: '10em',
+        fontFamily: 'inherit'
+      },
       searchPhrase: '',
       fromDate: '',
       toDate: '',
@@ -95,23 +108,56 @@ name:'SearchBar',
   }
 }
 </script>
+
 <style scoped>
 .bar {
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  background: linear-gradient(rgba(255,255,255,0.5), rgba(120,120,120,0.5) 100%)
+  background: linear-gradient(rgba(255,255,255,0.5), rgba(120,120,120,0.5) 100%);
+  padding-bottom: 1em;
+  margin: 0 auto;
+  width: 40em;
+}
+
+input {
+  outline: none;
+  border: none;
+  height: 1.5em;
+}
+
+.search-container {
+  margin-right: 1em;
 }
 
 .date {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-right: 2em;
 }
 
-.date h6 {
-  padding: 0px;
-  margin: 0px;
+h6 {
+  margin-bottom: 1em;
 }
+
+.go-container button {
+  border: none;
+  background-color: rgb(72, 210, 228);
+  color: white;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1.5em;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  outline: none;
+}
+
+.go-container button:hover {
+  color: rgb(72, 210, 228);
+  background-color: white;
+}
+
 </style>
