@@ -43,6 +43,7 @@
     </div>
     <div id="allRooms">
       <h2>Rooms</h2>
+      <h3 v-if="getRoomList.length==0">No rooms were found according to the search.</h3>
       <ul v-for="(room, index) in getRoomList" :key="index">
         <li id="liRoom">
           <div class="roomPicture">
