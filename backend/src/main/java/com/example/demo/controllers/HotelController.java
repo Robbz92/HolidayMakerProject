@@ -17,6 +17,10 @@ public class HotelController {
     @Autowired
     private HotelService hotelService;
 
+    //Hämtar ALLA hotel
+    @GetMapping("/getAllHotels")
+    public List<Hotel> getAll(){ return hotelService.getAll(); }
+
     //Hämtar hotel per stad på HotelID
     @GetMapping("/getHotelForCity/{id}")
     public List<Hotel> getByCountry(@PathVariable Long id){ return hotelService.getByCity(id); }

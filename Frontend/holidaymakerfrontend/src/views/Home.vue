@@ -1,30 +1,34 @@
 <template>
   <div class="home">
-    <hotelList :searchResultText="searchResultText"/>
+    <hotelList :searchResultText="searchResultText" :filters="filters"/>
     <div id="search">
       <searchBar />
-      <filterOptions v-if="gotClicked" />
+      <sortingOptions v-if="gotClicked" />
+      <filterOptions/>
     </div>
   </div>
 </template>
 
 <script>
-import searchBar from "../components/SearchBar.vue";
-import filterOptions from "../components/FilterOptions.vue";
 import hotelList from "../components/HotelList.vue";
+import searchBar from "../components/SearchBar.vue";
+import sortingOptions from "../components/SortingOptions.vue";
+import filterOptions from "../components/FilterOptions.vue";
 
 export default {
   name: "Home",
   components: {
     hotelList,
     searchBar,
-    filterOptions,
+    sortingOptions,
+    filterOptions
   },
 
     data(){
       return{
         hasClicked: false,
-        searchResultText: "Loading.."
+        searchResultText: "Loading..",
+        filters: []
       }
     },
 
@@ -43,21 +47,26 @@ export default {
         if(!this.hasClicked){
           this.searchResultText = "Loading.."
           var e = document.getElementById('search')
-          e.style.bottom = "83%";
+          e.style.top = "3%";
           this.$store.commit("setHasSearched", true)
           console.log("set to true")
           document.getElementById("forAnimationOnly").style.top = "7.5vh"
 
-        setTimeout(() => this.searchResultText = "Cannot find any hotels matching searchphrase", 1000)
+        setTimeout(() => this.searchResultText = "Cannot find any hotels matching searchphrase", 1500)
         }
       },
+
+      onFilter(filter){
+        console.log(filter)
+        this.filters = filter
+      }
     },
 
     mounted(){
       this.hasClicked = this.$store.getters.getHasSearched
       if(this.hasClicked == true){
           var e = document.getElementById('search')
-          e.style.bottom = "83%";
+          e.style.top = "3%";
       }
     }
   
@@ -67,7 +76,7 @@ export default {
 <style scoped>
 #search {
   position: absolute;
-  bottom: 50%;
+  top: 35%;
   left: 30%;
   width: 40%;
   transition: bottom 0.5s;

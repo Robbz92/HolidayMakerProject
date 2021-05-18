@@ -46,10 +46,10 @@ public class HotelService {
         List<Hotel> hotelList = hotelRepo.getByCityId(id);
         for(Hotel hotel : hotelList){
             for(Map map : attractionById(hotel.getId())){
-            hotel.setComfortList(getComfortsForCard(hotel.getId()));
-            hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));
-            hotel.setPrice(getPrice(hotel.getId()));
-            hotel.setPlaceName(getPlaceName(hotel.getId()));
+                hotel.setComfortList(getComfortsForCard(hotel.getId()));
+                hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));
+                hotel.setPrice(getPrice(hotel.getId()));
+                hotel.setPlaceName(getPlaceName(hotel.getId()));
             }
         }
         return hotelList;
@@ -123,6 +123,19 @@ public class HotelService {
         if(hotelRepo.countryTemperature(temp-2,temp+2) != null){
             hotelList.addAll(hotelRepo.countryTemperature(temp-2,temp+2));
             for(Hotel hotel : hotelList){
+                hotel.setComfortList(getComfortsForCard(hotel.getId()));
+                hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));
+                hotel.setPrice(getPrice(hotel.getId()));
+                hotel.setPlaceName(getPlaceName(hotel.getId()));
+            }
+        }
+        return hotelList;
+    }
+
+    public List<Hotel> getAll() {
+        List<Hotel> hotelList = hotelRepo.findAll();
+        for(Hotel hotel : hotelList){
+            for(Map map : attractionById(hotel.getId())){
                 hotel.setComfortList(getComfortsForCard(hotel.getId()));
                 hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));
                 hotel.setPrice(getPrice(hotel.getId()));

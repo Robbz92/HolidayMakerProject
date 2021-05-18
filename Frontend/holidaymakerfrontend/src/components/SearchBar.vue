@@ -44,6 +44,7 @@
       >
         Go!
       </button>
+      <!--<button @click="fetchAll">fetchAll</button>-->
     </div>
   </div>
   <div class="temperature">
@@ -121,7 +122,20 @@ export default {
     searchFor(phrase) {
       console.log(phrase);
       this.$store.commit("setSearchPhrase", phrase);
-      this.$store.dispatch("searchFor");
+
+      console.log(this.$store.getters.getSearchPhrase);
+      if(this.searchPhrase != ''){
+        this.$store.dispatch("searchFor");
+      }
+      else{
+        this.$store.dispatch("fetchAllHotels");
+      }
+      this.$router.push("/");
+      this.$parent.onSearch();
+    },
+
+    fetchAll(){
+      this.$store.dispatch("fetchAllHotels");
       this.$router.push("/");
       this.$parent.onSearch();
     },

@@ -102,6 +102,14 @@ export default createStore({
         })
     },
 
+    async fetchAllHotels() {
+      await axios.get("http://localhost:3000/rest/getAllHotels")
+      .then(response => {
+        console.log(response.data)
+        this.commit("setHotelList", response.data)
+      })
+    },
+
     async fetchHotelByTemperature() {
       await axios.get("http://localhost:3000/rest/tempSearch/" + this.state.searchedTemperature)
       .then(response => {
@@ -110,7 +118,6 @@ export default createStore({
       })
     },
 
-    async fetchCountries() {
       await axios.get("http://localhost:3000/rest/getCountry")
         .then(response => {
           console.log(response.data)
@@ -193,32 +200,37 @@ export default createStore({
     getRoomList(state) {
       return state.roomList
     },
-    getComforts(state) {
+    getComforts(state){
       return state.comforts
     },
-    getAttractions(state) {
+    getAttractions(state){
       return state.attractions
     },
-    getTemperature(state) {
+    getTemperature(state){
       return state.temperature
     },
-    getInformation(state) {
+    getInformation(state){
       return state.information
     },
-    getCountries(state) {
+    getCountries(state){
       return state.countryList
     },
 
-    getReviews(state) {
+    getReviews(state){
       return state.reviewList
     },
-
-    getCities(state) {
+    
+    getCities(state){
       return state.cityList
     },
 
     getHotels(state) {
       return state.hotelList
+    },
+
+      getSearchPhrase(state) {
+        return state.searchPhrase
+      },
     },
 
     getSearchPhrase(state) {
