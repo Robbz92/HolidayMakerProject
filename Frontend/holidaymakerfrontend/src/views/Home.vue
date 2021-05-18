@@ -4,7 +4,6 @@
     <div id="search">
       <searchBar />
       <sortingOptions v-if="gotClicked" />
-      <filterOptions/>
     </div>
   </div>
 </template>
@@ -13,7 +12,6 @@
 import hotelList from "../components/HotelList.vue";
 import searchBar from "../components/SearchBar.vue";
 import sortingOptions from "../components/SortingOptions.vue";
-import filterOptions from "../components/FilterOptions.vue";
 
 export default {
   name: "Home",
@@ -21,7 +19,6 @@ export default {
     hotelList,
     searchBar,
     sortingOptions,
-    filterOptions
   },
 
     data(){
@@ -47,6 +44,7 @@ export default {
         if(!this.hasClicked){
           this.searchResultText = "Loading.."
           var e = document.getElementById('search')
+          document.getElementById("headline").style.display="none";
           e.style.top = "3%";
           this.$store.commit("setHasSearched", true)
           console.log("set to true")
@@ -76,7 +74,7 @@ export default {
 <style scoped>
 #search {
   position: absolute;
-  top: 35%;
+  top: 25%;
   left: 30%;
   width: 40%;
   transition: bottom 0.5s;

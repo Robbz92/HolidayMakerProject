@@ -1,51 +1,60 @@
 <template>
-  <div class="bar">
-    <div class="search-container">
-      <h6>Search hotel, city or country</h6>
-      <input
-        type="text"
-        placeholder="..."
-        v-model="searchPhrase"
-        id="searchBar"
-      />
-    </div>
-    <div class="date">
-      <div class="checkIn">
-        <h6>Check-in</h6>
-        <date-picker
-          id="fromDate"
-          v-model="fromDate"
-          language="en"
-          type="date"
-          format="YYYY-MM-DD"
-          :style="styleObject"
-        ></date-picker>
+  <div class="headline" id="headline">
+    <h1>
+      Search by country, city, hotel<br />OR<br />
+      by attractions, comforts and temperature!
+    </h1>
+  </div>
+  <div class="bar-container">
+    <div class="bar">
+      <div class="search-container">
+        <h6>Search hotel, city or country</h6>
+        <input
+          type="text"
+          placeholder="..."
+          v-model="searchPhrase"
+          id="searchBar"
+        />
       </div>
-      <div class="checkOut">
-        <h6>Check-out</h6>
-        <date-picker
-          id="toDate"
-          v-model="toDate"
-          language="en"
-          type="date"
-          format="YYYY-MM-DD"
-          :style="styleObject"
-        ></date-picker>
+      <div class="date">
+        <div class="checkIn">
+          <h6>Check-in</h6>
+          <date-picker
+            id="fromDate"
+            v-model="fromDate"
+            language="en"
+            type="date"
+            format="YYYY-MM-DD"
+            :style="styleObject"
+          ></date-picker>
+        </div>
+        <div class="checkOut">
+          <h6>Check-out</h6>
+          <date-picker
+            id="toDate"
+            v-model="toDate"
+            language="en"
+            type="date"
+            format="YYYY-MM-DD"
+            :style="styleObject"
+          ></date-picker>
+        </div>
+      </div>
+      <div class="go-container">
+        <button
+          @click="
+            searchFor(searchPhrase),
+              sendFromDate(fromDate),
+              sendToDate(toDate),
+              calculateDateDiff()
+          "
+        >
+          Go!
+        </button>
+        <!--<button @click="fetchAll">fetchAll</button>-->
       </div>
     </div>
-    <div class="go-container">
-      <button
-        @click="
-          searchFor(searchPhrase),
-            sendFromDate(fromDate),
-            sendToDate(toDate),
-            calculateDateDiff()
-        "
-      >
-        Go!
-      </button>
-      <!--<button @click="fetchAll">fetchAll</button>-->
-    </div>
+    <filterOptions />
   </div>
   <div class="temperature">
     <p>{{ temp }}</p>
@@ -76,6 +85,7 @@
 import DatePicker from "vue3-datepicker";
 import moment from "moment";
 import slider from "vue3-slider";
+import filterOptions from "../components/FilterOptions.vue";
 
 // Anger dagens datum
 var today = new Date();
@@ -95,6 +105,7 @@ export default {
   components: {
     DatePicker,
     "vue3-slider": slider,
+    filterOptions,
   },
   props: {},
 
@@ -124,17 +135,16 @@ export default {
       this.$store.commit("setSearchPhrase", phrase);
 
       console.log(this.$store.getters.getSearchPhrase);
-      if(this.searchPhrase != ''){
+      if (this.searchPhrase != "") {
         this.$store.dispatch("searchFor");
-      }
-      else{
+      } else {
         this.$store.dispatch("fetchAllHotels");
       }
       this.$router.push("/");
       this.$parent.onSearch();
     },
 
-    fetchAll(){
+    fetchAll() {
       this.$store.dispatch("fetchAllHotels");
       this.$router.push("/");
       this.$parent.onSearch();
@@ -189,27 +199,31 @@ export default {
       this.$store.commit("setNumberOfDays", this.numberOfDays);
     },
 
+    onFilter(filter) {
+      this.$parent.onFilter(filter);
+    },
+
     changeSliderColor() {
       let color = "";
       if (this.temp <= 10) {
         color = "rgb(3,173,252)";
-        this.sliderColor=color;
+        this.sliderColor = color;
       }
       if (this.temp > 10 && this.temp <= 15) {
         color = "rgb(3,252,190)";
-        this.sliderColor=color;
+        this.sliderColor = color;
       }
       if (this.temp > 15 && this.temp <= 20) {
         color = "rgb(252,219,3)";
-        this.sliderColor=color;
+        this.sliderColor = color;
       }
-      if (this.temp > 20 && this.temp <= 25){
+      if (this.temp > 20 && this.temp <= 25) {
         color = "rgb(252, 148, 3)";
-        this.sliderColor=color;
+        this.sliderColor = color;
       }
-      if (this.temp > 25){
-        color = "rgb(252, 69, 3)"
-        this.sliderColor=color;
+      if (this.temp > 25) {
+        color = "rgb(252, 69, 3)";
+        this.sliderColor = color;
       }
     },
   },
@@ -217,15 +231,17 @@ export default {
 </script>
 
 <style scoped>
+
+.bar-container {
+  background: linear-gradient(rgba(255, 255, 255, 0.5),rgba(120, 120, 120, 0.5) 100%);
+  border-radius: 15px;
+}
+
 .bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.5),
-    rgba(120, 120, 120, 0.5) 100%
-  );
+   
   padding-bottom: 1em;
   margin: 0 auto;
   width: 40em;
