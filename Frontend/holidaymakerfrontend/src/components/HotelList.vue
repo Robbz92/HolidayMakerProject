@@ -87,27 +87,25 @@ export default {
         if(this.filters.length > 0){
           this.filters.forEach(element => {
             let x = newHotelList.find(y => y.name == hotel.name)
-
             if(this.filterComfortsAndAttractions(hotel) != undefined){
               if(!x){
                 console.log(element)
                 newHotelList.push(this.filterComfortsAndAttractions(hotel))
               }
             }
-
             return hotel
           });
         }else
         return hotel
       });
-      if(this.filters.length > 0)
+      if(this.filters.length > 0){
         return newHotelList
-      else{
+      }else{
         console.log(filteredHotels)
         newHotelList = hotels
         return newHotelList
       }
-    }
+    },
   },
 
   /*

@@ -3,22 +3,22 @@
     <hotelList :searchResultText="searchResultText" :filters="filters"/>
     <div id="search">
       <searchBar />
-      <sortingOptions v-if="gotClicked" />
+      <filterOptions v-if="gotClicked" />
     </div>
   </div>
 </template>
 
 <script>
-import hotelList from "../components/HotelList.vue";
 import searchBar from "../components/SearchBar.vue";
-import sortingOptions from "../components/SortingOptions.vue";
+import filterOptions from "../components/FilterOptions.vue";
+import hotelList from "../components/HotelList.vue";
 
 export default {
   name: "Home",
   components: {
     hotelList,
     searchBar,
-    sortingOptions,
+    filterOptions,
   },
 
     data(){
@@ -44,20 +44,20 @@ export default {
         if(!this.hasClicked){
           this.searchResultText = "Loading.."
           var e = document.getElementById('search')
-          document.getElementById("headline").style.display="none";
           e.style.top = "3%";
           this.$store.commit("setHasSearched", true)
           console.log("set to true")
-          document.getElementById("forAnimationOnly").style.top = "7.5vh"
+          document.getElementById("forAnimationOnly").style.top = "7.5vh";
+          document.getElementById("headline").style.display="none";
 
-        setTimeout(() => this.searchResultText = "Cannot find any hotels matching searchphrase", 1500)
+        setTimeout(() => this.searchResultText = "Cannot find any hotels matching searchphrase", 1000)
         }
       },
 
       onFilter(filter){
         console.log(filter)
         this.filters = filter
-      }
+      }    
     },
 
     mounted(){
@@ -65,6 +65,7 @@ export default {
       if(this.hasClicked == true){
           var e = document.getElementById('search')
           e.style.top = "3%";
+          document.getElementById("headline").style.display="none";
       }
     }
   
@@ -75,13 +76,13 @@ export default {
 #search {
   position: absolute;
   top: 25%;
-  left: 30%;
-  width: 40%;
-  transition: bottom 0.5s;
+  transition: top 0.5s;
 }
 
 .home {
-  margin: none;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
   overflow: hidden;
 }
 </style>

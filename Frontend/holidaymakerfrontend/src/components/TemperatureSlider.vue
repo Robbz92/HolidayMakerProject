@@ -8,7 +8,6 @@
         :color="sliderColor"
         track-color="#FEFEFE"
         :max="30"
-        :min="1"
         :height="10"
         />
     </div>
