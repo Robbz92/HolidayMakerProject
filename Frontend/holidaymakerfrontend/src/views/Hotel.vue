@@ -63,7 +63,7 @@
             </div>
             <div class="price">
               <h4>Price</h4>
-              <p>{{ room.price }} kr</p>
+              <p>Total price: {{calculatePrice(room.price)}}:- for {{getNumberOfDays}} nights.<br><br> Price per night: {{ room.price }}:-</p>
             </div>
           </div>
         </li>
@@ -88,6 +88,7 @@
 
 <script>
 export default {
+
   computed: {
     getReviews() {
       return this.$store.getters.getReviews;
@@ -107,7 +108,17 @@ export default {
     getRoomList() {
       return this.$store.getters.getRoomList;
     },
+    getNumberOfDays() {
+      return this.$store.getters.getNumberOfDays;
+    },        
   },
+
+  methods:{
+    calculatePrice(price) {
+      let calculatedPrice = price*this.getNumberOfDays;
+      return calculatedPrice;
+    },   
+  }
 };
 </script>
 
@@ -152,7 +163,7 @@ export default {
 .roomPicture {
   margin: 0;
   padding: 0;
-  width: 400px;
+  width: 450px;
   height: auto;
   overflow: hidden;
 }
@@ -163,7 +174,8 @@ export default {
 }
 
 .roomText {
-  display: block;
+  display: flex;
+  flex-direction: column;
   text-align: left;
   margin-left: 20px;
 }

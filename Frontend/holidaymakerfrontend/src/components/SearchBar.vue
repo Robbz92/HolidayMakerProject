@@ -36,35 +36,64 @@
     <div class="go-container">
       <button
         @click="
-          searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate)
+          searchFor(searchPhrase),
+            sendFromDate(fromDate),
+            sendToDate(toDate),
+            calculateDateDiff()
         "
       >
         Go!
       </button>
     </div>
   </div>
+  <div class="temperature">
+    <p>{{ temp }}</p>
+    <vue3-slider
+      v-model="temp"
+      id="slider"
+      :update="changeSliderColor()"
+      :color="sliderColor"
+      track-color="#FEFEFE"
+      :max="30"
+      :height="10"
+    />
+    <br />
+    <button
+      @click="
+        tempSearch(temp),
+          sendFromDate(fromDate),
+          sendToDate(toDate),
+          calculateDateDiff()
+      "
+    >
+      HOT AND COLD
+    </button>
+  </div>
 </template>
 
 <script>
 import DatePicker from "vue3-datepicker";
+import moment from "moment";
+import slider from "vue3-slider";
 
 // Anger dagens datum
 var today = new Date();
 
 // Lägger på 7 dagar från dagens datum
 function addDays() {
-      const copy = new Date();
-      copy.setDate(today.getDate() + 7);
-      return copy;
-    }
+  const copy = new Date();
+  copy.setDate(today.getDate() + 7);
+  return copy;
+}
 
 /*
-Datepicker är ett bibliotek för att lättast hantera datum
+Datepicker är ett bibliotek för att lättare hantera datum
 */
 export default {
   name: "SearchBar",
   components: {
     DatePicker,
+    "vue3-slider": slider,
   },
   props: {},
 
@@ -79,9 +108,12 @@ export default {
         width: "10em",
         fontFamily: "inherit",
       },
+      sliderColor: this.changeSliderColor(),
       searchPhrase: "",
       fromDate: today, // Lägger in dagens datum som standardvärde i kalendern
       toDate: addDays(), // Lägger in 7 dagar framåt från dagens datum som standardvärde i kalendern
+      numberOfDays: 0,
+      temp: 0,
     };
   },
 
@@ -89,12 +121,19 @@ export default {
     searchFor(phrase) {
       console.log(phrase);
       this.$store.commit("setSearchPhrase", phrase);
-
-      console.log(this.$store.getters.getSearchPhrase);
       this.$store.dispatch("searchFor");
       this.$router.push("/");
       this.$parent.onSearch();
     },
+
+    tempSearch(temp) {
+      console.log(temp);
+      this.$store.commit("setSearchedTemperature", temp);
+      this.$store.dispatch("fetchHotelByTemperature");
+      this.$router.push("/");
+      this.$parent.onSearch();
+    },
+
     /*
       För att formatera datumet rätt
       */
@@ -108,8 +147,6 @@ export default {
       if (day.length < 2) day = "0" + day;
 
       var newDate = [year, month, day].join("-");
-
-      console.log(newDate);
       this.$store.commit("setFromDate", newDate);
     },
     /*
@@ -126,12 +163,41 @@ export default {
       if (day.length < 2) day = "0" + day;
 
       var newDate = [year, month, day].join("-");
-      console.log(newDate);
       this.$store.commit("setToDate", newDate);
     },
-  },
 
-  mounted() {
+    calculateDateDiff() {
+      let start = moment(this.fromDate);
+      let end = moment(this.toDate);
+      let duration = moment.duration(end.diff(start));
+      let days = duration.asDays();
+      this.numberOfDays = Math.round(days);
+      this.$store.commit("setNumberOfDays", this.numberOfDays);
+    },
+
+    changeSliderColor() {
+      let color = "";
+      if (this.temp <= 10) {
+        color = "rgb(3,173,252)";
+        this.sliderColor=color;
+      }
+      if (this.temp > 10 && this.temp <= 15) {
+        color = "rgb(3,252,190)";
+        this.sliderColor=color;
+      }
+      if (this.temp > 15 && this.temp <= 20) {
+        color = "rgb(252,219,3)";
+        this.sliderColor=color;
+      }
+      if (this.temp > 20 && this.temp <= 25){
+        color = "rgb(252, 148, 3)";
+        this.sliderColor=color;
+      }
+      if (this.temp > 25){
+        color = "rgb(252, 69, 3)"
+        this.sliderColor=color;
+      }
+    },
   },
 };
 </script>

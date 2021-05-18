@@ -40,4 +40,8 @@ public class HotelController {
     //sökfunktion på inputfras antingen hotel/country/city
     @GetMapping("hotelSearch/{phrase}")
     public List<Hotel> getByName(@PathVariable String phrase){ return hotelService.getByPhrase(phrase); }
+
+    @GetMapping("tempSearch/{temp}")
+    public List<Hotel> getByTemp(@PathVariable int temp){return hotelService.getByTemp(temp);}
+
 }

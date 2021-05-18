@@ -70,6 +70,7 @@ export default {
     getHotels() {
       return this.$store.getter.getHotels;
     },
+
     setCountries() {
       var countries = this.$store.getters.getCountries;
       this.updateCountryList();
@@ -86,7 +87,7 @@ export default {
       var hotels = this.$store.getters.getHotels;
       this.updateHotelList();
       return hotels;
-    }
+    },
   },
 
   /*
