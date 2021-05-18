@@ -93,7 +93,7 @@
     <div class="go-container">
       <button
         @click="
-          searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate), sendSize(room, adults, children)
+          searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate), sendSize(room, adults, children), calculateDateDiff()
         "
       >
         Go!
@@ -272,7 +272,6 @@ export default {
         this.sliderColor = color;
       }
     },
-  },
 };
 </script>
 
