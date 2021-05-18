@@ -18,17 +18,21 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
+    price: [],
     fromDate: '',
     toDate: '',
     chosenHotel: '',
     roomList: [],
-    hasSearched: false
+    hasSearched: false,
+    size:'',
   },
   mutations: {
     setHasSearched(state, payload) {
       state.hasSearched = payload
     },
-
+    setSize(state, payload) {
+      state.size = payload
+    },
     setChosenHotel(state, payload) {
       state.chosenHotel = payload
     },
@@ -73,7 +77,9 @@ export default createStore({
     setLoggedInUser(state, user){
       state.loggedInUser=user;
     },
-
+    setRooms(state, payload){
+      state.price=payload;
+    },
 
     setFromDate(state, payload) {
       state.fromDate = payload
@@ -86,7 +92,7 @@ export default createStore({
   
   actions: {
     async fetchHotel() {
-      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" +  this.state.fromDate+ "/" + this.state.toDate)
+      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" +  this.state.fromDate+ "/" + this.state.toDate + "/" + this.state.size)
         .then(response => {
           console.log(response.data)
           this.commit("setRoomList", response.data)
@@ -136,7 +142,7 @@ export default createStore({
           this.commit("setHotelList", response.data)
         })
       },
-      
+
       async fetchInformation (store, hotelId){
         await axios.get("http://localhost:3000/rest/hotelInfo/" + hotelId)
         .then(response => {

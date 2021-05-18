@@ -32,11 +32,60 @@
           :style="styleObject"
         ></date-picker>
       </div>
+      <div class="groupAdults">
+        <h6>People</h6>
+      <ul>
+        <li  @click="showAll()">
+         <h6>Adults: {{adults}} -
+            Children: {{children}}
+         </h6>
+        </li>
+        <div v-if="show">
+        <li>
+          Adults: 
+        <select id="person" v-model="adults">
+          <option v-for="(person, index) in cuantity" :key="index">
+              {{person}}
+          </option>
+        </select>
+        </li>
+        
+         <li>
+          Children: 
+        <select id="person" v-model="children">
+          
+          <option v-for="(children, index) in cuantity" :key="index">
+              {{children}}
+          </option>
+          
+        </select>
+          </li>
+        <ul id="children" v-for="child in Number(children)" :key="child" >
+          <li>
+            Age of child: {{child}}
+            <select id="person" v-model="age"> 
+              <option v-for="(age, index) in cuantity" :key="index">
+              {{age}}
+              </option>
+            </select>
+          </li>
+        </ul>
+      </div>
+      </ul>  
+      </div>
+      <div class="rooms">
+        <h6>Rooms</h6>
+        <select id="room" v-model="room">
+          <option v-for="(room, index) in cuantity" :key="index">
+              {{room}}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="go-container">
       <button
         @click="
-          searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate)
+          searchFor(searchPhrase), sendFromDate(fromDate), sendToDate(toDate), sendSize(room, adults, children)
         "
       >
         Go!
@@ -70,6 +119,13 @@ export default {
 
   data() {
     return {
+      room: 1,
+      adults:1,
+      children:0,
+      age:0,
+      show:false,
+      cuantity: [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14, 15, 16],
+      
       // Skapar styleObject för att kunna kalla på datepickers attribut.
       // Går inte att CSSa på dessa inputs med id eller class.
       styleObject: {
@@ -116,19 +172,31 @@ export default {
       För att formatera datumet rätt
       */
 
-    sendToDate(toDate) {
-      var d = new Date(toDate),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
+    sendToDate(toDate){
+    var d = new Date(toDate),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
         year = d.getFullYear();
+        
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
 
-      if (month.length < 2) month = "0" + month;
-      if (day.length < 2) day = "0" + day;
-
-      var newDate = [year, month, day].join("-");
-      console.log(newDate);
-      this.$store.commit("setToDate", newDate);
+    var newDate = [year, month, day].join('-');
+      console.log(newDate)
+      this.$store.commit('setToDate', newDate)
     },
+    sendSize(room, adults, children){
+      var person= (Number(adults)+Number(children));
+      console.log(person);
+      var size = person/room;
+      console.log(size);
+      this.$store.commit("setSize", size)
+    },
+    showAll(){
+      this.show=!this.show
+    }
   },
 
   mounted() {
@@ -148,13 +216,33 @@ export default {
   );
   padding-bottom: 1em;
   margin: 0 auto;
-  width: 40em;
+  width: 50em;
+}
+ul, li {
+
+  outline: none;
+  border: none;
+  height: 1.5em;
+  background-color: white;
+  list-style-type: none;
+ margin-right: 1em;
+ margin-left: 1em;
+}
+#children{
+  margin-bottom: 1.2em;
+  width:100%;
+  background-color:white;
+  display:flex;
+  justify-content: space-evenly;
+
 }
 
 input {
   outline: none;
   border: none;
   height: 1.5em;
+ 
+
 }
 
 .search-container {

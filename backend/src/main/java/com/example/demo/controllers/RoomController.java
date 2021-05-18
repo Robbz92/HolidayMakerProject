@@ -18,9 +18,9 @@ public class RoomController {
     tar emot HotelID + fromDate + toDate
     och letar efter lediga rum
      */
-    @RequestMapping("/getRoomOnDate/{hotelID}/{dateOne}/{dateTwo}")
-    private List<Map> getRooms(@PathVariable String dateOne, @PathVariable String dateTwo, @PathVariable long hotelID){
-        return roomService.getFreeRooms(dateOne, dateTwo, hotelID);
+    @RequestMapping("/getRoomOnDate/{hotelID}/{dateOne}/{dateTwo}/{size}")
+    private List<Map> getRooms(@PathVariable String dateOne, @PathVariable String dateTwo, @PathVariable long hotelID, @PathVariable double size){
+        return roomService.getFreeRooms(dateOne, dateTwo, hotelID, size);
     }
 
 }
