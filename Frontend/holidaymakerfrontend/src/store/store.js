@@ -24,9 +24,14 @@ export default createStore({
     chosenHotel: '',
     roomList: [],
     hasSearched: false,
-    searchedTemperature: ''
+    searchedTemperature: '',
+    filterAmmount: 0
   },
   mutations: {
+    setFilterAmmount(state, payload) {
+      state.filterAmmount = payload
+    },
+
     setHasSearched(state, payload) {
       state.hasSearched = payload
     },
@@ -194,6 +199,10 @@ export default createStore({
   },
 
   getters: {
+    getFilterAmmount(state) {
+      return state.filterAmmount
+    },
+
     getHasSearched(state) {
       return state.hasSearched
     },
@@ -236,5 +245,9 @@ export default createStore({
     getNumberOfDays(state) {
       return state.numberOfDays
     },
+
+    getTempSearch(state) {
+      return state.searchedTemperature
+    }
   },
 })

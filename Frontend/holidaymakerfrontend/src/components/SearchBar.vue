@@ -56,35 +56,11 @@
     </div>
     <filterOptions />
   </div>
-  <div class="temperature">
-    <p>{{ temp }}</p>
-    <vue3-slider
-      v-model="temp"
-      id="slider"
-      :update="changeSliderColor()"
-      :color="sliderColor"
-      track-color="#FEFEFE"
-      :max="30"
-      :height="10"
-    />
-    <br />
-    <button
-      @click="
-        tempSearch(temp),
-          sendFromDate(fromDate),
-          sendToDate(toDate),
-          calculateDateDiff()
-      "
-    >
-      HOT AND COLD
-    </button>
-  </div>
 </template>
 
 <script>
 import DatePicker from "vue3-datepicker";
 import moment from "moment";
-import slider from "vue3-slider";
 import filterOptions from "../components/FilterOptions.vue";
 
 // Anger dagens datum
@@ -104,7 +80,6 @@ export default {
   name: "SearchBar",
   components: {
     DatePicker,
-    "vue3-slider": slider,
     filterOptions,
   },
   props: {},
@@ -137,11 +112,17 @@ export default {
       console.log(this.$store.getters.getSearchPhrase);
       if (this.searchPhrase != "") {
         this.$store.dispatch("searchFor");
-      } else {
+        this.$router.push("/");
+        this.$parent.onSearch();
+      } else if(this.$store.getters.getTempSearch != 0){
+        this.tempSearch(this.$store.getters.getTempSearch)
+        this.$router.push("/");
+      } else if(this.$store.getters.getFilterAmmount >= 3){
         this.$store.dispatch("fetchAllHotels");
-      }
-      this.$router.push("/");
-      this.$parent.onSearch();
+        this.$router.push("/");
+        this.$parent.onSearch();
+      } else
+      alert("You need to search by phrase, temperature or at least 3 filters")
     },
 
     fetchAll() {
@@ -152,7 +133,6 @@ export default {
 
     tempSearch(temp) {
       console.log(temp);
-      this.$store.commit("setSearchedTemperature", temp);
       this.$store.dispatch("fetchHotelByTemperature");
       this.$router.push("/");
       this.$parent.onSearch();

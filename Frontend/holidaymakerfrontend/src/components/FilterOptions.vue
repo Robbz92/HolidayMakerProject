@@ -1,14 +1,15 @@
 <template>
   <div class="checkbox-select">
     <div class="trigger" :class="{isActive: activeTrigger}"
-    @click="showDropdown">
+    @click="showFilter">
       <span class="title">
-        Filters: {{checkedFilters.length}}
+        Filters:
       </span>
     </div>
     <div v-for="(filter, index) in ChosenFilters" :key="index"></div>
     <div id="dropdown" class="dropdown">
       <label @click="showComforts">Things to do</label><br>
+
       <ul id="filters-wrapp">
         <li v-for="(filter, index) in filters" :key="index">
           <div id="com-wrapp">
@@ -17,14 +18,24 @@
             :value="filter" v-if="index != 0 && index != 12">
             <label :for="index">{{filter.filter}}</label>
           </div>
-        </li>
+        </li>      
       </ul>
+    <label @click="showTemp">Temperature</label><br>
+      <div id="temp" class="temp">
+        <TempSlider/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import TempSlider from "./TemperatureSlider.vue"
+
 export default {
+    components:{
+      TempSlider
+    },
+
     data(){
         return{
             filters: [
@@ -80,14 +91,31 @@ export default {
       },
 
       ChosenFilters(){
+        this.$store.commit("setFilterAmmount", this.checkedFilters.length);
         this.$parent.onFilter(this.checkedFilters)
         return this.checkedFilters
       }
     },
 
     methods:{
-      showDropdown(){
+      showFilter(){
         var e = document.getElementById("dropdown");
+
+        if(this.dropdown == false){
+          this.dropdown = true;
+          this.activeTrigger = true;
+          e.style.display = "inherit";
+          e.style.opacity = 1;
+        }else{
+          this.dropdown = false;
+          this.activeTrigger = false;
+          e.style.display = "none";
+          e.style.opacity = 0;
+        }
+      },
+
+      showTemp(){
+        var e = document.getElementById("temp");
 
         if(this.dropdown == false){
           this.dropdown = true;
@@ -110,18 +138,6 @@ export default {
           e.style.display = "inherit";
         }else{
           this.comforts = false;
-          e.style.display = "none";
-        }
-      },
-
-      showAttractions(){
-        var e = document.getElementById("attractions-wrapp")
-
-        if(this.attractions == false){
-          this.attractions = true;
-          e.style.display = "inherit";
-        }else{
-          this.attractions = false;
           e.style.display = "none";
         }
       },
@@ -151,6 +167,10 @@ export default {
 
   .info{
     background: rgba(255, 255, 255, .50);
+  }
+
+  .temp{
+    display: none;
   }
 
   #dropdown{
