@@ -65,6 +65,9 @@
               <h4>Price</h4>
               <p>{{ room.price }} kr</p>
             </div>
+            <div class="booking">
+              <button @click="bookRoom(room)">Book</button>
+            </div>
           </div>
         </li>
       </ul>
@@ -89,6 +92,13 @@
 <script>
 export default {
   computed: {
+    loggedInUser() {
+      return this.$store.state.loggedInUser;
+    },
+
+    isLoggedIn() {
+      return this.loggedInUser != null;
+    },
     getReviews() {
       return this.$store.getters.getReviews;
     },
@@ -106,6 +116,18 @@ export default {
     },
     getRoomList() {
       return this.$store.getters.getRoomList;
+    },
+  },
+  methods: {
+    bookRoom(room){
+       if (this.loggedInUser == null) {
+        alert("Du måste logga in eller skapa ett konto innan du ska boka.");
+       // this.$router.push("/")
+      } 
+      else{
+        this.$store.commit("setBookings", room)
+        this.$router.push("/bookings/");
+      }
     },
   },
 };
@@ -250,4 +272,6 @@ ul {
 ::-webkit-scrollbar {
   display: none;
 }
+
+
 </style>

@@ -20,5 +20,4 @@ public class RoomService {
     public List<Map> getFreeRooms(String dateOne, String dateTwo, long hotelID) {
         return roomRepo.findFreeRoomsOnDate(hotelID,dateOne, dateTwo);
     }
-
 }
