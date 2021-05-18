@@ -1,11 +1,11 @@
 <template>
   <div id="nav">
     <router-link to="/" id="logo"><img src="./assets/logo.png" /></router-link>
-    <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
     <div class="buttons">
       <router-link to="/login" id="text" v-if="!isLoggedIn">Login</router-link>
+    <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
       <button class="sameBtns" v-if="isLoggedIn" @click="logout">Log out</button>
-      <router-link to="/register" id="text">Register</router-link>
+      <router-link to="/register" v-if ="!isLoggedIn" id="text">Register</router-link>
     </div>
   </div>
 
@@ -73,6 +73,10 @@ export default {
 
 .buttons {
   margin: 1em;
+  display: flex;
+}
+.buttons h4{
+  margin-right: 1em;
 }
 
 .buttons a {

@@ -17,6 +17,10 @@ public class HotelController {
     @Autowired
     private HotelService hotelService;
 
+    //Hämtar ALLA hotel
+    @GetMapping("/getAllHotels")
+    public List<Hotel> getAll(){ return hotelService.getAll(); }
+
     //Hämtar hotel per stad på HotelID
     @GetMapping("/getHotelForCity/{id}")
     public List<Hotel> getByCountry(@PathVariable Long id){ return hotelService.getByCity(id); }
@@ -40,4 +44,8 @@ public class HotelController {
     //sökfunktion på inputfras antingen hotel/country/city
     @GetMapping("hotelSearch/{phrase}")
     public List<Hotel> getByName(@PathVariable String phrase){ return hotelService.getByPhrase(phrase); }
+
+    @GetMapping("tempSearch/{temp}")
+    public List<Hotel> getByTemp(@PathVariable int temp){return hotelService.getByTemp(temp);}
+
 }

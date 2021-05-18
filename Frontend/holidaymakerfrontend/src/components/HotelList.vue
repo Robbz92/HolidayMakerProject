@@ -1,6 +1,8 @@
 <template>
   <div id="bigList">
     <div class="lists" id="forAnimationOnly">
+      <div>
+      </div>
       <h3 v-if="hotelList != ''"></h3>
       <ol id="hotelList">
         <li
@@ -50,9 +52,10 @@ Som vi sen skriver ut på hemsidan på rätt ställen
 import Card from "./HotelCard.vue";
 
 export default {
-  props:[
-      "searchResultText"
-  ],
+  props:{
+      searchResultText: String,
+      filters: []
+  },
 
   components: {
     Card,
@@ -67,25 +70,43 @@ export default {
   },
 
   computed: {
-    getHotels() {
-      return this.$store.getter.getHotels;
-    },
     setCountries() {
       var countries = this.$store.getters.getCountries;
-      this.updateCountryList();
       return countries;
     },
 
     setCities() {
       var cities = this.$store.getters.getCities;
-      this.updateCityList();
       return cities;
     },
 
     setHotels() {
       var hotels = this.$store.getters.getHotels;
-      this.updateHotelList();
-      return hotels;
+      var newHotelList = [];
+      let filteredHotels = hotels.filter((hotel) => {
+        if(this.filters.length > 0){
+          this.filters.forEach(element => {
+            let x = newHotelList.find(y => y.name == hotel.name)
+
+            if(this.filterComfortsAndAttractions(hotel) != undefined){
+              if(!x){
+                console.log(element)
+                newHotelList.push(this.filterComfortsAndAttractions(hotel))
+              }
+            }
+
+            return hotel
+          });
+        }else
+        return hotel
+      });
+      if(this.filters.length > 0)
+        return newHotelList
+      else{
+        console.log(filteredHotels)
+        newHotelList = hotels
+        return newHotelList
+      }
     }
   },
 
@@ -95,6 +116,20 @@ export default {
   */
 
   methods: {
+    filterComfortsAndAttractions(hotel){
+      let willShow = true;
+      this.filters.forEach(element => {
+        if(!hotel.comfortList.includes(element.filter) && element.type == "comfort" ||
+        !hotel.attractionList.includes(element.filter) && element.type == "attraction"){
+          willShow = false
+        }
+      });
+
+      if(willShow){
+        return hotel
+      }
+    },
+
     onClick(id) {
       this.viewHotel(id);
       this.allReviews(id);

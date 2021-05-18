@@ -13,7 +13,8 @@
       </span><br>
     </div>
     <div id="priceDiv">
-      <h2 id="price">From: {{card.price}}:-</h2>
+      <h2 id="price">From: {{calculatePrice}}:-</h2>
+      <p id="price">{{card.price}}:- per night</p>
     </div>
 
     <div id="descriptionBlock">
@@ -52,6 +53,22 @@ export default {
   hämtar information från HotelList via props
   */
   props: ["card", "imageUrl"],
+
+  computed: {
+    getPrice(){
+      return this.card.price;
+    },
+
+    getNumberOfDays(){
+      return this.$store.getters.getNumberOfDays;
+    },
+
+    calculatePrice() {
+      let calculatedPrice = this.getPrice*this.getNumberOfDays;
+      return calculatedPrice;
+    },
+
+  },
 };
 </script>
 
@@ -108,6 +125,11 @@ export default {
                      -.5px .5px 1px rgba(255, 255, 255, .5),-.5px -.5px 1px rgba(255, 255, 255, .5);
 }
 
+#priceDiv p{
+  bottom: 25px;
+  transition: filter .3s;
+}
+
 #priceDiv{
   position: relative;
 }
@@ -153,6 +175,10 @@ export default {
 }
 
 #hotelCard:hover h3{
+  filter: opacity(0);
+}
+
+#hotelCard:hover #priceDiv p{
   filter: opacity(0);
 }
 

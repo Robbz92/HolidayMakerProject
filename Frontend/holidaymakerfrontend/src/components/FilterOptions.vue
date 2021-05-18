@@ -1,70 +1,182 @@
 <template>
-  <div class="filters">
-    <button @click="distanchBeach()">Distance beach</button>
-    <button @click="distanceCentrum()">Distance centrum</button>
-    <button class="ScaleUP" @click="sortArrayUp()">Lowest price</button>
-    <button class="ScaleDown" @click="sortArrayDown()">Highest price</button>
+  <div class="checkbox-select">
+    <div class="trigger" :class="{isActive: activeTrigger}"
+    @click="showFilter">
+      <span class="title">
+        Filters:
+      </span>
+    </div>
+    <div v-for="(filter, index) in ChosenFilters" :key="index"></div>
+    <div id="dropdown" class="dropdown">
+      <label @click="showComforts">Things to do</label><br>
+
+      <ul id="filters-wrapp">
+        <li v-for="(filter, index) in filters" :key="index">
+          <div id="com-wrapp">
+            <input type="checkbox" :id="index"
+            class="conditions-check" v-model="checkedFilters"
+            :value="filter" v-if="index != 0 && index != 12">
+            <label :for="index">{{filter.filter}}</label>
+          </div>
+        </li>      
+      </ul>
+    <label @click="showTemp">Temperature</label><br>
+      <div id="temp" class="temp">
+        <TempSlider/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import TempSlider from "./TemperatureSlider.vue"
+
 export default {
+    components:{
+      TempSlider
+    },
+
+    data(){
+        return{
+            filters: [
+                "Things to do at the hotel",
+                {filter: "Pool", type:"comfort"},
+                {filter: "Entertainment", type:"comfort"},
+                {filter: "Childrens club", type:"comfort"},
+                {filter: "Restaurant", type:"comfort"},
+                {filter: "Free WiFi", type:"comfort"},
+                {filter: "Parking", type:"comfort"},
+                {filter: "Free Parking", type:"comfort"},
+                {filter: "Bar", type:"comfort"},
+                {filter: "Gym", type:"comfort"},
+                {filter: "Spa", type:"comfort"},
+                {filter: "Pets allowed", type:"comfort"},
+                "Things to do in the city",
+                {filter: "Carnival", type:"attraction"},
+                {filter: "Museum", type:"attraction"},
+                {filter: "Brewery", type:"attraction"},
+                {filter: "Amusement Park", type:"attraction"},
+                {filter: "Vodka Distillery", type:"attraction"},
+                {filter: "Sand Dunes", type:"attraction"},
+                {filter: "Ski Resort", type:"attraction"},
+                {filter: "Samuraj training camp", type:"attraction"},
+                {filter: "Malmskillnadsgatan", type:"attraction"},
+                {filter: "Kallbadhuset", type:"attraction"},
+                {filter: "Coffe shops", type:"attraction"},
+                {filter: "Elephant riding", type:"attraction"},
+                {filter: "Bat eating festival", type:"attraction"},
+                {filter: "Great Wall", type:"attraction"},
+                {filter: "Brun ost", type:"attraction"},
+                {filter: "Eiffel Tower", type:"attraction"},
+                {filter: "Baguette Museum", type:"attraction"},
+                {filter: "Frog farm", type:"attraction"},
+                {filter: "Big tower", type:"attraction"},
+                {filter: "Nude beach", type:"attraction"},
+                {filter: "Beach", type:"attraction"},
+                {filter: "Cigar factory", type:"attraction"},
+                {filter: "Vulcanos", type:"attraction"},
+                {filter: "Casinos", type:"attraction"}
+            ],
+            checkedFilters: [],
+            activeTrigger: false,
+            dropdown: false,
+            comforts: false,
+            attractions: false,
+        }
+    },
+
+    computed:{
+      getFilters(){
+        return this.filters
+      },
+
+      ChosenFilters(){
+        this.$store.commit("setFilterAmmount", this.checkedFilters.length);
+        this.$parent.onFilter(this.checkedFilters)
+        return this.checkedFilters
+      }
+    },
+
     methods:{
-      /*
-      Kollar om "a" är större/mindre än "b"
-      om "a" är större/mindre än "b" så byta indexplats på elmentet
-      om inte gå vidare
-      (gäller för alla sorteringsalgoritmer)
-      Filteroption är kopplad till Home View
-      */
-    sortArrayUp() {
-      let hotels = this.$store.getters.getHotels;
-      return hotels.sort((a, b) => (a.price > b.price ? 1 : -1));
-    },
-    sortArrayDown() {
-      let hotels = this.$store.getters.getHotels;
-      return hotels.sort((a, b) => (a.price > b.price ? -1 : 1));
-    },
-    distanchBeach() {
-      let hotels = this.$store.getters.getHotels;
-      return hotels.sort((a, b) =>
-        a.distanceBeach > b.distanceBeach ? 1 : -1
-      );
-    },
-    distanceCentrum() {
-      let hotels = this.$store.getters.getHotels;
-      return hotels.sort((a, b) =>
-        a.distanceDowntown > b.distanceDowntown ? 1 : -1
-      );
-    },
-  },
-};
+      showFilter(){
+        var e = document.getElementById("dropdown");
+
+        if(this.dropdown == false){
+          this.dropdown = true;
+          this.activeTrigger = true;
+          e.style.display = "inherit";
+          e.style.opacity = 1;
+        }else{
+          this.dropdown = false;
+          this.activeTrigger = false;
+          e.style.display = "none";
+          e.style.opacity = 0;
+        }
+      },
+
+      showTemp(){
+        var e = document.getElementById("temp");
+
+        if(this.dropdown == false){
+          this.dropdown = true;
+          this.activeTrigger = true;
+          e.style.display = "inherit";
+          e.style.opacity = 1;
+        }else{
+          this.dropdown = false;
+          this.activeTrigger = false;
+          e.style.display = "none";
+          e.style.opacity = 0;
+        }
+      },
+
+      showComforts(){
+        var e = document.getElementById("filters-wrapp")
+
+        if(this.comforts == false){
+          this.comforts = true;
+          e.style.display = "inherit";
+        }else{
+          this.comforts = false;
+          e.style.display = "none";
+        }
+      },
+
+      testFunktion(filter){
+        this.$parent.onFilter(filter)
+      }
+    }
+}
 </script>
 
 <style scoped>
+  .checkbox-select{
+    max-height: 45vh;
+    overflow-x: auto;
+  }
 
-.filters {
-  margin-top: 20px
-}
+  .trigger{
+    background: rgba(255, 255, 255, .50);
+  }
 
-.filters button {
-  border: none;
-  background-color: rgb(72, 210, 228);
-  color: white;
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 1em;
-  padding: 10px;
-  margin-right: 1em;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: 0.2s ease;
-  outline: none;
-}
+  #filters-wrapp{
+    list-style: none;
+    text-align: left;
+    display: none;
+  }
 
-.filters button:hover {
-  background-color: white;
-  color: rgb(72, 210, 228);
-}
+  .info{
+    background: rgba(255, 255, 255, .50);
+  }
 
+  .temp{
+    display: none;
+  }
+
+  #dropdown{
+    display: none;
+    opacity: 0;
+    transition: display .3s, opacity .3s;
+    background: rgba(255, 255, 255, .50);
+  }
 </style>
