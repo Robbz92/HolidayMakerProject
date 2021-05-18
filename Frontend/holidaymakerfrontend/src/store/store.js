@@ -25,11 +25,16 @@ export default createStore({
     chosenHotel: '',
     roomList: [],
     hasSearched: false,
+    choosenRoom: "", // väljer ett rum under bokningen
+    bookings: [],
     size:'',
     searchedTemperature: '',
     filterAmmount: 0
   },
   mutations: {
+    setBookings(state, payload){
+      state.bookings = payload;
+    },
     setFilterAmmount(state, payload) {
       state.filterAmmount = payload
     },
@@ -106,6 +111,14 @@ export default createStore({
   },
 
   actions: {
+    async fetchLatestBookingID() {
+      await axios.get("http://localhost:3000/rest/getLatestBookings/")
+        .then(response => {
+          console.log(response.data)
+          this.commit("setBookings", response.data)
+        })
+    },
+
     async fetchHotel() {
       await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" +  this.state.fromDate+ "/" + this.state.toDate + "/" + this.state.size)
         .then(response => {
@@ -206,6 +219,9 @@ export default createStore({
   },
 
   getters: {
+    getBookings(state){
+      return state.bookings;
+    },
     getFilterAmmount(state) {
       return state.filterAmmount
     },

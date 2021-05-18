@@ -22,6 +22,5 @@ public class RoomController {
     private List<Map> getRooms(@PathVariable String dateOne, @PathVariable String dateTwo, @PathVariable long hotelID, @PathVariable double size){
         return roomService.getFreeRooms(dateOne, dateTwo, hotelID, size);
     }
-
 }
 

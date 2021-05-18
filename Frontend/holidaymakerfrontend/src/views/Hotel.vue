@@ -66,6 +66,9 @@
               <h4>Price</h4>
               <p>Total price: {{calculatePrice(room.price)}}:- for {{getNumberOfDays}} nights.<br><br> Price per night: {{ room.price }}:-</p>
             </div>
+            <div class="booking">
+              <button @click="bookRoom(room)">Book</button>
+            </div>
           </div>
         </li>
       </ul>
@@ -91,6 +94,13 @@
 export default {
 
   computed: {
+    loggedInUser() {
+      return this.$store.state.loggedInUser;
+    },
+
+    isLoggedIn() {
+      return this.loggedInUser != null;
+    },
     getReviews() {
       return this.$store.getters.getReviews;
     },
@@ -113,8 +123,18 @@ export default {
       return this.$store.getters.getNumberOfDays;
     },        
   },
+  methods: {
+    bookRoom(room){
+       if (this.loggedInUser == null) {
+        alert("Du måste logga in eller skapa ett konto innan du ska boka.");
+       // this.$router.push("/")
+      } 
+      else{
+        this.$store.commit("setBookings", room)
+        this.$router.push("/bookings/");
+      }
+    },
 
-  methods:{
     calculatePrice(price) {
       let calculatedPrice = price*this.getNumberOfDays;
       return calculatedPrice;
@@ -263,4 +283,6 @@ ul {
 ::-webkit-scrollbar {
   display: none;
 }
+
+
 </style>
