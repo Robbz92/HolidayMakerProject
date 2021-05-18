@@ -147,7 +147,6 @@ export default {
         width: "10em",
         fontFamily: "inherit",
       },
-      sliderColor: this.changeSliderColor(),
       searchPhrase: "",
       fromDate: today, // Lägger in dagens datum som standardvärde i kalendern
       toDate: addDays(), // Lägger in 7 dagar framåt från dagens datum som standardvärde i kalendern
@@ -233,8 +232,9 @@ export default {
     },
     showAll(){
       this.show=!this.show
-    }
-  },
+    },
+  
+
 
     calculateDateDiff() {
       let start = moment(this.fromDate);
@@ -272,6 +272,7 @@ export default {
         this.sliderColor = color;
       }
     },
+  },
 };
 </script>
 
