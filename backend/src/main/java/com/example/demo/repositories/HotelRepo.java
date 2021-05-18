@@ -85,4 +85,7 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
             "INNER JOIN hotels on hotels.city_id = cities.id WHERE hotels.id = ?", nativeQuery =
             true)
     String placeName (Long id);
+
+    @Query(value = "SELECT * FROM hotels", nativeQuery = true)
+    List<Hotel> findAll();
 }

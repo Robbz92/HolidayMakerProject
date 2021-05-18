@@ -41,6 +41,7 @@
       >
         Go!
       </button>
+      <!--<button @click="fetchAll">fetchAll</button>-->
     </div>
   </div>
 </template>
@@ -91,7 +92,18 @@ export default {
       this.$store.commit("setSearchPhrase", phrase);
 
       console.log(this.$store.getters.getSearchPhrase);
-      this.$store.dispatch("searchFor");
+      if(this.searchPhrase != ''){
+        this.$store.dispatch("searchFor");
+      }
+      else{
+        this.$store.dispatch("fetchAllHotels");
+      }
+      this.$router.push("/");
+      this.$parent.onSearch();
+    },
+
+    fetchAll(){
+      this.$store.dispatch("fetchAllHotels");
       this.$router.push("/");
       this.$parent.onSearch();
     },
