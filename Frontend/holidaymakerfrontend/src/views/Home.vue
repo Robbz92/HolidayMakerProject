@@ -3,14 +3,14 @@
     <hotelList :searchResultText="searchResultText" :filters="filters"/>
     <div id="search">
       <searchBar />
-      <filterOptions v-if="gotClicked" />
+      <sortOptions v-if="gotClicked"/>
     </div>
   </div>
 </template>
 
 <script>
 import searchBar from "../components/SearchBar.vue";
-import filterOptions from "../components/FilterOptions.vue";
+import sortOptions from "../components/SortingOptions.vue"
 import hotelList from "../components/HotelList.vue";
 
 export default {
@@ -18,7 +18,7 @@ export default {
   components: {
     hotelList,
     searchBar,
-    filterOptions,
+    sortOptions
   },
 
     data(){

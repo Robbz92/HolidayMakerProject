@@ -151,12 +151,13 @@ export default {
 
 <style scoped>
   .checkbox-select{
-    max-height: 45vh;
+    max-height: 40vh;
     overflow-x: auto;
   }
 
   .trigger{
-    background: rgba(255, 255, 255, .50);
+    background: rgba(255, 255, 255, .3);
+    backdrop-filter: blur(5px);
   }
 
   #filters-wrapp{
@@ -166,17 +167,20 @@ export default {
   }
 
   .info{
-    background: rgba(255, 255, 255, .50);
+    background: rgba(255, 255, 255, .3);
+    backdrop-filter: blur(5px);
   }
 
   .temp{
     display: none;
+    backdrop-filter: blur(5px);
   }
 
   #dropdown{
     display: none;
     opacity: 0;
     transition: display .3s, opacity .3s;
-    background: rgba(255, 255, 255, .50);
+    background: rgba(255, 255, 255, .3);
+    backdrop-filter: blur(5px);
   }
 </style>
