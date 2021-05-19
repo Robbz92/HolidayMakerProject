@@ -213,7 +213,7 @@ export default {
   overflow-x: hidden;
   width: 82.5vw;
   margin: auto;
-  margin-top: 5vh;
+  margin-top: 12vh;
   padding: 0;
   transition: top .5s;
 }

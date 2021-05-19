@@ -32,8 +32,6 @@ const routes = [
     name: 'Bookings',
     component: Bookings
   },
-
-
 ]
 
 const router = createRouter({
