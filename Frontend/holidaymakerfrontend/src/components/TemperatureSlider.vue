@@ -1,6 +1,6 @@
 <template>
     <div>
-    <p>{{ temp }}</p>
+    <p>{{ temp }}°</p>
         <vue3-slider
         v-model="temp"
         id="slider"
