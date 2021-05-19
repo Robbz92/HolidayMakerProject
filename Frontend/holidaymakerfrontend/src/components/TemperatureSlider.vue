@@ -2,13 +2,13 @@
     <div>
     <p>{{ temp }}°</p>
         <vue3-slider
-        v-model="temp"
-        id="slider"
-        :update="changeSliderColor()"
-        :color="sliderColor"
-        track-color="#FEFEFE"
-        :max="30"
-        :height="10"
+          v-model="temp"
+          id="slider"
+          :update="changeSliderColor()"
+          :color="sliderColor"
+          track-color="#FEFEFE"
+          :max="30"
+          :height="10"
         />
     </div>
 </template>
