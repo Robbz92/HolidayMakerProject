@@ -2,13 +2,13 @@
   <div class="checkbox-select">
     <div class="trigger" :class="{isActive: activeTrigger}"
     @click="showFilter">
-      <span class="title">
-        Filters:
-      </span>
+      <button class="title">
+        Filter
+      </button>
     </div>
     <div v-for="(filter, index) in ChosenFilters" :key="index"></div>
     <div id="dropdown" class="dropdown">
-      <label @click="showComforts">Things to do</label><br>
+      <label @click="showComforts">Things to do <br></label>
 
       <ul id="filters-wrapp">
         <li v-for="(filter, index) in filters" :key="index">
@@ -17,6 +17,7 @@
             class="conditions-check" v-model="checkedFilters"
             :value="filter" v-if="index != 0 && index != 12">
             <label :for="index">{{filter.filter}}</label>
+            <label v-if="index == 0 || index == 12" id="wideLabel">{{filter}}</label>
           </div>
         </li>      
       </ul>
@@ -155,9 +156,14 @@ export default {
     overflow-x: auto;
   }
 
-  .trigger{
-    background: rgba(255, 255, 255, .3);
-    backdrop-filter: blur(5px);
+  .title{
+    font-size: small;
+    padding: 5px;
+  }
+
+  #wideLabel{
+    line-height: 25px;
+    font-style: italic;
   }
 
   #filters-wrapp{
