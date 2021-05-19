@@ -1,0 +1,7 @@
+npm install @vue-stripe/vue-stripe
+
+Stripe test cards
+
+Success: 4242 4242 4242 4242
+Require Auth: 4000 0025 0000 3155
+Declined: 4000 0000 0000 9995

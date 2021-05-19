@@ -1,14 +1,10 @@
 <template>
   <div class="checkbox-select">
-    <div
-      class="trigger"
-      :class="{ isActive: activeTrigger }"
-      @click="showFilter"
-    >
-      <button class="title">Filter</button>
+    <div class="trigger">
+      <button class="title" @click="showFilter">Filter</button>
     </div>
     <div v-for="(filter, index) in ChosenFilters" :key="index"></div>
-    <div id="dropdown" class="dropdown">
+    <div id="dropdown" class="dropdown" :class="{ isActive: activeTrigger }">
       <div class="filter-headline">
         <div class="ttd-container">
           <label @click="showComforts" class="ttd">Things to do</label>
@@ -19,7 +15,7 @@
       </div>
       <div class="filtersAndTemp">
         <div class="things-container">
-          <ul id="filters-wrapp">
+          <ul class="filters-wrapp" :class="{ filterActive: comfortTrigger }">
             <li v-for="(filter, index) in filters" :key="index">
               <div id="com-wrapp">
                 <input
@@ -39,7 +35,7 @@
           </ul>
         </div>
         <div class="temp-container">
-          <div id="temp" class="temp">
+          <div id="temp" class="temp" :class="{ tempActive: tempTrigger }">
             <TempSlider />
           </div>
         </div>
@@ -99,9 +95,11 @@ export default {
       ],
       checkedFilters: [],
       activeTrigger: false,
+      comfortTrigger: false,
+      tempTrigger: false,
       dropdown: false,
       comforts: false,
-      attractions: false,
+      temperature: false,
     };
   },
 
@@ -119,46 +117,32 @@ export default {
 
   methods: {
     showFilter() {
-      var e = document.getElementById("dropdown");
-
       if (this.dropdown == false) {
         this.dropdown = true;
         this.activeTrigger = true;
-        e.style.display = "flex";
-        e.style.opacity = 1;
       } else {
         this.dropdown = false;
         this.activeTrigger = false;
-        e.style.display = "none";
-        e.style.opacity = 0;
       }
     },
 
     showTemp() {
-      var e = document.getElementById("temp");
-
-      if (this.dropdown == false) {
-        this.dropdown = true;
-        this.activeTrigger = true;
-        e.style.display = "inherit";
-        e.style.opacity = 1;
+      if (this.temperature == false) {
+        this.temperature = true;
+        this.tempTrigger = true;
       } else {
-        this.dropdown = false;
-        this.activeTrigger = false;
-        e.style.display = "none";
-        e.style.opacity = 0;
+        this.temperature = false;
+        this.tempTrigger = false;
       }
     },
 
     showComforts() {
-      var e = document.getElementById("filters-wrapp");
-
       if (this.comforts == false) {
         this.comforts = true;
-        e.style.display = "inherit";
+        this.comfortTrigger = true;
       } else {
         this.comforts = false;
-        e.style.display = "none";
+        this.comfortTrigger = false;
       }
     },
 
@@ -182,26 +166,59 @@ export default {
   font-style: italic;
 }
 
-#filters-wrapp {
+.filters-wrapp {
   list-style: none;
   text-align: left;
-  display: none;
+  display: inherit;
+  visibility: hidden;
   padding: 0;
+  transition: visibility .1s ease-in-out, filter .1s ease-in-out, max-height .1s;
+  max-height: 0;
+  visibility: hidden;
+  filter: opacity(0);
 }
 
-#dropdown {
-  display: none;
-  opacity: 0;
-  transition: display 0.3s, opacity 0.3s;
+.filterActive{
+  visibility: inherit;
+  filter: opacity(1);
+  height: auto;
+  max-height: 100%;
+}
+
+.temp{
+  display: inherit;
+  visibility: hidden;
+  filter: opacity(0);
+  max-height: 0;
+  transition: visibility .1s ease-in-out, filter .1s ease-in-out, max-height .1s;
+}
+
+.tempActive{
+  visibility: inherit;
+  filter: opacity(1);
+  max-height: 100%;
+}
+
+.dropdown {
+  display: flex;
+  visibility: hidden;
   background: linear-gradient(rgba(120, 120, 120, 0.5), rgba(255, 255, 255, 0.5) 100%);
   max-height: 40vh;
-  min-height: 20px;
+  min-height: 0;
   overflow-y: auto;
   width: 400px;
   margin-top: 10px;
   justify-content: space-evenly;
   padding-top: 5px;
   padding-bottom: 5px;
+  filter: opacity(0);
+  
+  transition: visibility .1s ease-in-out, filter .1s ease-in-out;
+}
+
+.isActive{
+  visibility: inherit;
+  filter: opacity(1);
 }
 
 .filter-headline {
@@ -221,10 +238,12 @@ export default {
 
 .things-container {
   margin-right: 40px;
+  height: auto;
 }
 
 .temp-container {
   min-width: 150px;
+  height: auto;
 }
 
 .filtersAndTemp {

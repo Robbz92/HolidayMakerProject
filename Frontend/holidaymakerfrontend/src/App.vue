@@ -10,10 +10,28 @@
   </div>
 
   <router-view />
+  <Stripe :totalPrice="bookingPrice"/>
+  <button @click="clickPopup(true)">Popup</button>
+  <Review v-if="showPopup" :item="bookingPrice"/>
 </template>
 
 <script>
+import Stripe from "./components/StripeCheckout.vue"
+import Review from "./components/Popup.vue"
+
 export default {
+  components:{
+    Stripe,
+    Review
+  },
+
+  data(){
+    return{
+      bookingPrice: 7553,
+      showPopup: false
+    }
+  },
+
   computed: {
     loggedInUser() {
       return this.$store.state.loggedInUser;
@@ -28,6 +46,10 @@ export default {
     logout funktion
     */
   methods: {
+    clickPopup(value){
+      this.showPopup = value
+    },
+
     async logout() {
       fetch("/logout", { mode: "no-cors" });
 

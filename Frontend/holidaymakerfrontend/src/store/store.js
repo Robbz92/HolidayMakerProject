@@ -222,6 +222,7 @@ export default createStore({
     getBookings(state){
       return state.bookings;
     },
+
     getFilterAmmount(state) {
       return state.filterAmmount
     },
@@ -233,18 +234,23 @@ export default createStore({
     getRoomList(state) {
       return state.roomList
     },
+    
     getComforts(state) {
       return state.comforts
     },
+
     getAttractions(state) {
       return state.attractions
     },
+
     getTemperature(state) {
       return state.temperature
     },
+
     getInformation(state) {
       return state.information
     },
+
     getCountries(state) {
       return state.countryList
     },
