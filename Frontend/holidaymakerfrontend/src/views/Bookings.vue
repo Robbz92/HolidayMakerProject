@@ -1,7 +1,6 @@
 <template>
   <div class="board">
     <p>Choose board</p>
-
     <select name="boardDropDown" id="board">
       <option value="1">All inclusive</option>
       <option value="2">Half pension</option>
@@ -11,15 +10,18 @@
   </div>
   <div class="room">
     <p>Choose room type</p>
-    <select name="roomtype" id="roomtype">
+    <select name="roomtype" id="roomtype" @change="calculatePrice()" v-model="roomItem">
       <option
-        v-bind:value="roomItem.id"
         v-for="(roomItem, index) in getRoomList"
         :key="index"
+        :value="roomItem"
       >
         {{ roomItem.type }} {{ roomItem.price }} kr
       </option>
     </select>
+    <div class="totalCost">
+      <p>total cost: {{totalPrice}} kr</p>
+    </div>
   </div>
 
   <div class="extraBed">
@@ -38,6 +40,10 @@ export default {
   data() {
     return {
       accept: false,
+      totalPrice:0,
+      roomItem:"",
+      boardResult:0,
+      extraBed:0,
     };
   },
   computed: {
@@ -75,17 +81,51 @@ export default {
   },
 
   methods:{
+      getNumberOfDays(){
+        return this.$store.getters.getNumberOfDays;
+      },
+  
+      calculatePrice() {
+        let calculatedPrice = this.roomItem.price*this.$store.getters.getNumberOfDays;
+        this.totalPrice = calculatedPrice;
+        console.log(calculatedPrice)
+      },
     async makeBooking(){
       //userId, hotelId, fromDate, toDate, totalCost
       // skapar bookings, //fungerar om vi är inloggade.
       //TODO: fixa catch error om inte inloggad.
+     // console.log("value: " + price.target.value)
+      var boardChoice = document.getElementById("board");
+      this.boardResult = parseInt(boardChoice.options[boardChoice.selectedIndex].value);
+  
+      if(this.boardResult==1){
+        this.totalPrice *= 1.2;
+        console.log("boardresult 1")
+      }
+      if(this.boardResult==2){
+        this.totalPrice *= 1.15;
+        console.log("boardresult 2")
+      }
+      if(this.boardResult==3){
+        this.totalPrice *= 1.1
+        console.log("boardresult 3")
+      }
+       this.extraBed = null;
+      if (this.accept == true) {//bockad checkbox
+        this.extraBed = 1;
+        this.totalPrice *= 1.05;
+        console.log(this.totalPrice)
+      } else { //avbockad checkboc
+        this.extraBed = 0;
+      }
+      console.log(this.totalPrice)
 
       let bookingcredentials = {
         userId: this.getLoggedInUserID,
         hotelId: this.$store.state.bookings.hotel_id,
         fromDate: this.getFromDate,
         toDate: this.getToDate,
-        totalCost: 0,
+        totalCost: this.totalPrice,
       };
 
       console.log(bookingcredentials);
@@ -96,48 +136,23 @@ export default {
       });
 
       this.bookRoom()
-      console.log("måste va här kanske tydligen")
     },
-    async bookRoom() {
-      // hämtar board id
-      var boardChoice = document.getElementById("board");
-      var boardResult = boardChoice.options[boardChoice.selectedIndex].value;
-      // console.log(boardResult);
-
-      // logik för extrabed
-      var extraBed = null;
-      if (this.accept == true) {
-        //bockad checkbox
-        extraBed = 1;
-      } else {
-        //avbockad checkboc
-        extraBed = 0;
-      }
-      //console.log(extraBed);
-
+    async bookRoom() {    
       //roomID
-      var roomtype = document.getElementById("roomtype");
-      var roomID = roomtype.options[roomtype.selectedIndex].value;
-      //console.log(roomID);
+      var roomID = this.roomItem.id;
 
       //bookingID
       this.$store.dispatch("fetchLatestBookingID");
       var bookingID = this.$store.state.bookings.hotel_id;
-      //console.log(bookingID)
 
-      // toDate
-      // console.log(this.getToDate)
-
-      // fromDate
-      // console.log(this.getFromDate)
       let bookingIDObject = {
         id: bookingID,
       };
 
       let BookRoomCredentials = {
         roomsId: roomID,
-        board: boardResult,
-        extraBedAmount: extraBed,
+        board: this.boardResult,
+        extraBedAmount: this.extraBed,
         fromDate: this.getFromDate,
         toDate: this.getToDate,
         bookings: bookingIDObject,
