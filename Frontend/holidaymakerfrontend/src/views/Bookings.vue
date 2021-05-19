@@ -74,8 +74,8 @@ export default {
     },
   },
 
-  methods: {
-    async makeBooking() {
+  methods:{
+    async makeBooking(){
       //userId, hotelId, fromDate, toDate, totalCost
       // skapar bookings, //fungerar om vi är inloggade.
       //TODO: fixa catch error om inte inloggad.
@@ -92,10 +92,11 @@ export default {
       await fetch("http://localhost:3000/rest/makeBooking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingcredentials),
+        body: JSON.stringify(bookingcredentials)
       });
 
-      this.bookRoom();
+      this.bookRoom()
+      console.log("måste va här kanske tydligen")
     },
     async bookRoom() {
       // hämtar board id

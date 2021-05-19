@@ -20,7 +20,7 @@ public class BookingController {
     @PostMapping("/makeBooking")
     public void makeBooking(@RequestBody Bookings bookingsObj){bookingService.makeBooking(bookingsObj);}
 
-    // hämtart alla bokningar från bookings + bookedRooms i en lista.
+    // hämtar alla bokningar från bookings + bookedRooms i en lista.
     @GetMapping("/getLatestBookings")
     public int getLatestBookings(){return bookingService.getLatestBookings();}
 }
