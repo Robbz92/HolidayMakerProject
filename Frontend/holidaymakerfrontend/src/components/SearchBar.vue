@@ -163,7 +163,7 @@ export default {
       this.$store.commit("setSearchPhrase", phrase);
 
       console.log(this.$store.getters.getSearchPhrase);
-      if (this.searchPhrase != "") {
+      if (this.searchPhrase.length > 0) {
         this.$store.dispatch("searchFor");
         this.$router.push("/");
         this.$parent.onSearch();
@@ -291,6 +291,7 @@ export default {
     rgba(120, 120, 120, 0.5) 100%
   );
   border-radius: 15px;
+  backdrop-filter: blur(5px);
 }
 
 .bar {
@@ -395,7 +396,7 @@ li {
   font-size: 1.5em;
   padding: 15px;
   margin-top: 20px;
-  border-radius: 100px;
+  border-radius: 5% 45% 30% 45%;
   cursor: pointer;
   transition: 0.2s ease;
   outline: none;
