@@ -12,17 +12,17 @@
   <router-view />
   <Stripe :totalPrice="bookingPrice"/>
   <button @click="clickPopup(true)">Popup</button>
-  <Review v-if="showPopup" :item="bookingPrice"/>
+  <Popup v-if="showPopup" :item="bookingPrice"/>
 </template>
 
 <script>
 import Stripe from "./components/StripeCheckout.vue"
-import Review from "./components/Popup.vue"
+import Popup from "./components/Popup.vue"
 
 export default {
   components:{
     Stripe,
-    Review
+    Popup
   },
 
   data(){
