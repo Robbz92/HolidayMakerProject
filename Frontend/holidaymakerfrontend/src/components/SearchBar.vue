@@ -354,8 +354,8 @@ h6 {
 #ppl-list {
   display: block;
   position: absolute;
-  top: 72%;
-  right: 21%;
+  top: 62%;
+  right: 20.5%;
   background-color: white;
   border-radius: 0 0 5px 5px;
 }
@@ -398,6 +398,7 @@ li {
   height: 22px;
   border: none;
   margin-bottom: 1em;
+  outline: none;
 }
 
 .go-container button {

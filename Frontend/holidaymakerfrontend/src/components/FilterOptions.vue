@@ -174,6 +174,7 @@ export default {
 .title {
   font-size: small;
   padding: 5px;
+  width: 50px;
 }
 
 #wideLabel {
