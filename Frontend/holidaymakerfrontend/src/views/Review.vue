@@ -35,7 +35,7 @@ export default {
 name: "Review",
 data(){
   return{
-    score: '',
+    score: 1,
     text: '',
     hotel_id: '',
     booking:'',

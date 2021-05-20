@@ -70,7 +70,7 @@
           <div id="children">
             <li v-for="child in Number(children)" :key="child">
               Age of child: {{ child }}
-              <select id="childAge" v-model="age">
+              <select id="childAge">
                 <option v-for="(age, index) in cuantity" :key="index">
                   {{ age }}
                 </option>
@@ -326,6 +326,7 @@ h6 {
 .groupAdults {
   display: flex;
   margin-right: 1em;
+  z-index: 2;
 }
 
 .label {
