@@ -1,7 +1,9 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.Review;
+import com.example.demo.entities.User;
 import com.example.demo.repositories.ReviewRepo;
+import com.example.demo.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +16,16 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepo reviewRepo;
+
+    @Autowired
+    private UserService userService;
     /*
     tar emot HotelID
     och matchar reviews
     returnerar lista med reviews
      */
     public List<Map> getReviewsByHotelId(long id) {
-        List<Map> reviewsList = new ArrayList<>();
-
-        reviewsList = reviewRepo.getReviews(id);
-
-
-        return  reviewsList;
+        return reviewRepo.getReviews(id);
     }
+
 }
