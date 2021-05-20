@@ -44,6 +44,8 @@ export default {
       roomItem:"",
       boardResult:0,
       extraBed:0,
+      bookingID: 0,
+      
     };
   },
   computed: {
@@ -98,23 +100,20 @@ export default {
       var boardChoice = document.getElementById("board");
       this.boardResult = parseInt(boardChoice.options[boardChoice.selectedIndex].value);
   
+  //Bytas i framtiden*
       if(this.boardResult==1){
         this.totalPrice *= 1.2;
-        console.log("boardresult 1")
       }
       if(this.boardResult==2){
         this.totalPrice *= 1.15;
-        console.log("boardresult 2")
       }
       if(this.boardResult==3){
         this.totalPrice *= 1.1
-        console.log("boardresult 3")
       }
        this.extraBed = null;
       if (this.accept == true) {//bockad checkbox
         this.extraBed = 1;
         this.totalPrice *= 1.05;
-        console.log(this.totalPrice)
       } else { //avbockad checkboc
         this.extraBed = 0;
       }
@@ -122,7 +121,7 @@ export default {
 
       let bookingcredentials = {
         userId: this.getLoggedInUserID,
-        hotelId: this.$store.state.bookings.hotel_id,
+        hotelId: this.$store.state.chosenRoom.hotel_id,
         fromDate: this.getFromDate,
         toDate: this.getToDate,
         totalCost: this.totalPrice,
@@ -135,18 +134,17 @@ export default {
         body: JSON.stringify(bookingcredentials)
       });
 
+      await this.$store.dispatch("fetchLatestBookingID");
+      
       this.bookRoom()
     },
-    async bookRoom() {    
-      //roomID
-      var roomID = this.roomItem.id;
 
-      //bookingID
-      this.$store.dispatch("fetchLatestBookingID");
-      var bookingID = this.$store.state.bookings.hotel_id;
+    async bookRoom() {    
+      var roomID = this.roomItem.id;
+      this.bookingID = this.$store.getters.getBookingId
 
       let bookingIDObject = {
-        id: bookingID,
+        id: this.bookingID,
       };
 
       let BookRoomCredentials = {

@@ -153,7 +153,9 @@ export default {
     },
     viewHotel(id) {
       this.$store.commit("setChosenHotel", id);
-      this.$store.dispatch("searchFor");
+      if(this.$store.state.searchPhrase != ""){
+        this.$store.dispatch("searchFor");
+      }
       this.$store.dispatch("fetchHotel");
       this.$router.push("/hotel");
     },
