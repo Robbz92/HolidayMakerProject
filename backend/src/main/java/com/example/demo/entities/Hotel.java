@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,6 +29,9 @@ public class Hotel {
     private String placeName;
     @Transient
     private int price;
+
+    @OneToMany(mappedBy = "hotel_id")
+    private List<Review> review;
 
     public Hotel() {
     }
@@ -154,6 +158,12 @@ public class Hotel {
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
+
+    @JsonIgnore
+    public List<Review> getReview() {return review;}
+
+    @JsonProperty
+    public void setReview(List<Review> review) {this.review = review;}
 
     @Override
     public String toString() {

@@ -60,16 +60,18 @@
           
         </select>
           </li>
+          
         <ul id="children" v-for="child in Number(children)" :key="child" >
           <li>
             Age of child: {{child}}
-            <select id="person" v-model="age"> 
+             <select id="person"> 
               <option v-for="(age, index) in cuantity" :key="index">
               {{age}}
               </option>
-            </select>
+              </select>
           </li>
         </ul>
+         
       </div>
       </ul>  
       </div>

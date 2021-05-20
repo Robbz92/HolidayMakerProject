@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Hotel from '../views/Hotel.vue'
 import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-
+import Register from '../views/Register.vue' 
+import MyBookings from '../components/MyBookings.vue'
+import Review from '../views/Review.vue'
 
 const routes = [
   {
@@ -14,7 +15,7 @@ const routes = [
   {
     path: '/hotel',
     name: 'Hotel',
-    component: Hotel
+    component: Hotel,
   },
   {
     path: '/login',
@@ -25,6 +26,16 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/myBookings',
+    name: 'MyBookings',
+    component: MyBookings,
+  },
+  {
+    path: '/review',
+    name: 'Review',
+    component: Review,
   },
 
 ]

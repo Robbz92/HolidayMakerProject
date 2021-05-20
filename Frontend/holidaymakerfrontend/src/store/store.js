@@ -25,8 +25,16 @@ export default createStore({
     roomList: [],
     hasSearched: false,
     size:'',
+    myBookings:[],
+    clickedBooking: '',
   },
   mutations: {
+    setClickedBooking(state, payload){
+      state.clickedBooking= payload
+    },
+    setMyBookings(state, payload){
+      state.myBookings =payload
+    },
     setHasSearched(state, payload) {
       state.hasSearched = payload
     },
@@ -91,6 +99,21 @@ export default createStore({
   },
   
   actions: {
+    async fetchClickedBooking(store, bookingId) {
+      await axios.get("http://localhost:3000/api/rest/bookingById/" + bookingId)
+        .then(response => {
+          console.log(response.data)
+          this.commit("setClickedBooking", response.data)
+        })
+    },
+    async fetchMyBookings() {
+      await axios.get("http://localhost:3000/api/rest/allMyBooknings")
+        .then(response => {
+          console.log(response.data)
+          this.commit("setMyBookings", response.data)
+        })
+    },
+
     async fetchHotel() {
       await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" +  this.state.fromDate+ "/" + this.state.toDate + "/" + this.state.size)
         .then(response => {
@@ -175,6 +198,12 @@ export default createStore({
   },
 
   getters: {
+    getClickedBooking(state){
+      return state.clickedBooking
+    },
+    getMyBookings(state) {
+      return state.myBookings
+    }, 
     getHasSearched(state) {
       return state.hasSearched
     }, 
