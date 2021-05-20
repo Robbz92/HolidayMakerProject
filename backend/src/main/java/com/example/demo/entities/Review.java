@@ -1,5 +1,8 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +15,13 @@ public class Review {
     private String text;
     private int score;
     private long user_id;
+
+    @Column(name = "hotel_id")
     private long hotel_id;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_id", insertable = false, updatable = false) //, insertable = false, updatable = false
+    private Hotel hotel;
 
     public Review() {}
 
@@ -23,10 +32,11 @@ public class Review {
         this.hotel_id = hotel_id;
     }
 
+    @JsonIgnore
     public long getId() {
         return id;
     }
-
+    @JsonProperty
     public void setId(long id) {
         this.id = id;
     }
@@ -55,10 +65,12 @@ public class Review {
         this.user_id = user_id;
     }
 
+    @JsonIgnore
     public long getHotel_id() {
         return hotel_id;
     }
 
+    @JsonProperty
     public void setHotel_id(long hotel_id) {
         this.hotel_id = hotel_id;
     }
