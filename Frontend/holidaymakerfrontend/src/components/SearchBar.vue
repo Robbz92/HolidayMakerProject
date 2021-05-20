@@ -101,7 +101,7 @@
         Go!
       </button>
     </div>
-    <filterOptions />
+    <filterOptions id="filterOptions" />
   </div>
 </template>
 
@@ -292,13 +292,14 @@ export default {
   );
   border-radius: 15px;
   backdrop-filter: blur(5px);
+  height: 120px;
 }
 
 .bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 1em;
+  padding-bottom: 2em;
   margin: 0 auto;
 }
 
@@ -306,6 +307,7 @@ input {
   outline: none;
   border: none;
   height: 1.5em;
+  margin-left: 1em;
 }
 
 .search-container {
@@ -352,8 +354,8 @@ h6 {
 #ppl-list {
   display: block;
   position: absolute;
-  top: 89%;
-  right: 19.5%;
+  top: 62%;
+  right: 20.5%;
   background-color: white;
   border-radius: 0 0 5px 5px;
 }
@@ -387,6 +389,18 @@ li {
   outline: none;
 }
 
+.rooms {
+  margin-right: 2em;
+}
+
+#room {
+  width: 50px;
+  height: 22px;
+  border: none;
+  margin-bottom: 1em;
+  outline: none;
+}
+
 .go-container button {
   border: none;
   background-color: rgb(72, 210, 228);
@@ -396,6 +410,7 @@ li {
   font-size: 1.5em;
   padding: 15px;
   margin-top: 20px;
+  margin-right: 20px;
   border-radius: 5% 45% 30% 45%;
   cursor: pointer;
   transition: 0.2s ease;
@@ -406,4 +421,10 @@ li {
   color: rgb(72, 210, 228);
   background-color: white;
 }
+
+#filterOptions {
+  position: absolute;
+  top: 70%;
+}
+
 </style>

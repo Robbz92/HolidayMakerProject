@@ -130,7 +130,7 @@ export default {
        // this.$router.push("/")
       } 
       else{
-        this.$store.commit("setBookings", room)
+        this.$store.commit("setChosenRoom", room)
         this.$router.push("/bookings/");
       }
     },

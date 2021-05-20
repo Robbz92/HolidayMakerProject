@@ -2,6 +2,7 @@
   <div id="nav">
     <router-link to="/" id="logo"><img src="./assets/logo.png" /></router-link>
     <div class="buttons">
+      <router-link  to="/myBookings" v-if="isLoggedIn">My Bookings</router-link>
       <router-link to="/login" id="text" v-if="!isLoggedIn">Login</router-link>
     <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
       <button class="sameBtns" v-if="isLoggedIn" @click="logout">Log out</button>
@@ -10,10 +11,28 @@
   </div>
 
   <router-view />
+  <Stripe :totalPrice="bookingPrice"/>
+  <button @click="clickPopup(true)">Popup</button>
+  <Popup v-if="showPopup" :item="bookingPrice"/>
 </template>
 
 <script>
+import Stripe from "./components/StripeCheckout.vue"
+import Popup from "./components/Popup.vue"
+
 export default {
+  components:{
+    Stripe,
+    Popup
+  },
+
+  data(){
+    return{
+      bookingPrice: 7553,
+      showPopup: false,
+    }
+  },
+
   computed: {
     loggedInUser() {
       return this.$store.state.loggedInUser;
@@ -28,6 +47,10 @@ export default {
     logout funktion
     */
   methods: {
+    clickPopup(value){
+      this.showPopup = value
+    },
+
     async logout() {
       fetch("/logout", { mode: "no-cors" });
 
@@ -44,7 +67,9 @@ export default {
     } catch {
       console.log("Not logged in");
     }
+   
   },
+  
 };
 </script>
 

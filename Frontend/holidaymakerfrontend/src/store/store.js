@@ -18,27 +18,37 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
-    price: [],
     fromDate: '',
     toDate: '',
     numberOfDays: '',
     chosenHotel: '',
     roomList: [],
     hasSearched: false,
-    choosenRoom: "", // väljer ett rum under bokningen
-    bookings: [],
+    chosenRoom: "", // väljer ett rum under bokningen
+    bookingId: 0,
     size:'',
+    myBookings:[],
+    clickedBooking: '',
     searchedTemperature: '',
     filterAmmount: 0
   },
   mutations: {
-    setBookings(state, payload){
-      state.bookings = payload;
+    setBookingId(state, payload){
+      state.bookingId = payload;
+    },
+    setChosenRoom(state, payload){
+      state.chosenRoom = payload;
     },
     setFilterAmmount(state, payload) {
       state.filterAmmount = payload
     },
 
+    setClickedBooking(state, payload){
+      state.clickedBooking= payload
+    },
+    setMyBookings(state, payload){
+      state.myBookings =payload
+    },
     setHasSearched(state, payload) {
       state.hasSearched = payload
     },
@@ -89,9 +99,6 @@ export default createStore({
     setLoggedInUser(state, user) {
       state.loggedInUser = user;
     },
-    setRooms(state, payload){
-      state.price=payload;
-    },
 
     setFromDate(state, payload) {
       state.fromDate = payload
@@ -115,7 +122,22 @@ export default createStore({
       await axios.get("http://localhost:3000/rest/getLatestBookings/")
         .then(response => {
           console.log(response.data)
-          this.commit("setBookings", response.data)
+          this.commit("setBookingId", response.data)
+        })
+    },
+
+    async fetchClickedBooking(store, bookingId) {
+      await axios.get("http://localhost:3000/api/rest/bookingById/" + bookingId)
+        .then(response => {
+          console.log(response.data)
+          this.commit("setClickedBooking", response.data)
+        })
+    },
+    async fetchMyBookings() {
+      await axios.get("http://localhost:3000/api/rest/allMyBooknings")
+        .then(response => {
+          console.log(response.data)
+          this.commit("setMyBookings", response.data)
         })
     },
 
@@ -219,13 +241,23 @@ export default createStore({
   },
 
   getters: {
-    getBookings(state){
-      return state.bookings;
+    getChosenRoom(state){
+      return state.chosenRoom;
     },
+    getBookingId(state){
+      return state.bookingId;
+    },
+
     getFilterAmmount(state) {
       return state.filterAmmount
     },
 
+    getClickedBooking(state){
+      return state.clickedBooking
+    },
+    getMyBookings(state) {
+      return state.myBookings
+    }, 
     getHasSearched(state) {
       return state.hasSearched
     },
@@ -233,18 +265,23 @@ export default createStore({
     getRoomList(state) {
       return state.roomList
     },
+    
     getComforts(state) {
       return state.comforts
     },
+
     getAttractions(state) {
       return state.attractions
     },
+
     getTemperature(state) {
       return state.temperature
     },
+
     getInformation(state) {
       return state.information
     },
+
     getCountries(state) {
       return state.countryList
     },

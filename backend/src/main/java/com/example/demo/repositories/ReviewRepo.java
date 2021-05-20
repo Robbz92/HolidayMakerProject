@@ -1,6 +1,8 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entities.Review;
+import com.example.demo.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,6 +11,7 @@ import java.util.Map;
 
 @Repository
 public interface ReviewRepo extends JpaRepository<Review, Long> {
+
     /*
     hämtar ut reviews baserat på HotelID
 
