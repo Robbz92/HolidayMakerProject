@@ -18,22 +18,24 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
-    price: [],
     fromDate: '',
     toDate: '',
     numberOfDays: '',
     chosenHotel: '',
     roomList: [],
     hasSearched: false,
-    choosenRoom: "", // väljer ett rum under bokningen
-    bookings: [],
+    chosenRoom: "", // väljer ett rum under bokningen
+    bookingId: 0,
     size:'',
     searchedTemperature: '',
     filterAmmount: 0
   },
   mutations: {
-    setBookings(state, payload){
-      state.bookings = payload;
+    setBookingId(state, payload){
+      state.bookingId = payload;
+    },
+    setChosenRoom(state, payload){
+      state.chosenRoom = payload;
     },
     setFilterAmmount(state, payload) {
       state.filterAmmount = payload
@@ -89,9 +91,6 @@ export default createStore({
     setLoggedInUser(state, user) {
       state.loggedInUser = user;
     },
-    setRooms(state, payload){
-      state.price=payload;
-    },
 
     setFromDate(state, payload) {
       state.fromDate = payload
@@ -115,7 +114,7 @@ export default createStore({
       await axios.get("http://localhost:3000/rest/getLatestBookings/")
         .then(response => {
           console.log(response.data)
-          this.commit("setBookings", response.data)
+          this.commit("setBookingId", response.data)
         })
     },
 
@@ -219,8 +218,11 @@ export default createStore({
   },
 
   getters: {
-    getBookings(state){
-      return state.bookings;
+    getChosenRoom(state){
+      return state.chosenRoom;
+    },
+    getBookingId(state){
+      return state.bookingId;
     },
 
     getFilterAmmount(state) {
