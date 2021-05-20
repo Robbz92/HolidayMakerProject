@@ -12,6 +12,19 @@ export default {
 
     methods:{
         hide(){
+            /*
+            Parent needs  the clickPopup function
+            clickPopup(value){
+            this.showPopup = value
+            },
+            
+            AND 
+            
+            showPopup: false,
+
+            in data
+            */
+            
             this.$parent.clickPopup(false)
         }
     }

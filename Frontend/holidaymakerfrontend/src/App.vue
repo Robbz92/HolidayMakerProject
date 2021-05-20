@@ -28,7 +28,7 @@ export default {
   data(){
     return{
       bookingPrice: 7553,
-      showPopup: false
+      showPopup: false,
     }
   },
 
