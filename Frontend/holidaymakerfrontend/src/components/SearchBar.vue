@@ -326,7 +326,6 @@ h6 {
 .groupAdults {
   display: flex;
   margin-right: 1em;
-  z-index: 2;
 }
 
 .label {

@@ -67,7 +67,7 @@
               <p>Total price: {{calculatePrice(room.price)}}:- for {{getNumberOfDays}} nights.<br><br> Price per night: {{ room.price }}:-</p>
             </div>
             <div class="booking">
-              <button @click="bookRoom(room)">Book</button>
+              <button @click="addRoom(room)">Book</button>
             </div>
           </div>
         </li>
@@ -88,11 +88,21 @@
       </div>
     </div>
   </div>
+  <ShoppingList :roomCard="roomList" />
 </template>
 
 <script>
+import ShoppingList from '../components/ShoppingList.vue'
 export default {
+  data(){
+    return{
+      roomList: []
+    };
+  },
 
+  components: {
+    ShoppingList,
+  },
   computed: {
     loggedInUser() {
       return this.$store.state.loggedInUser;
@@ -124,6 +134,10 @@ export default {
     },        
   },
   methods: {
+    addRoom(room){
+      this.roomList.push(room);
+      console.log(room)
+    },
     bookRoom(room){
        if (this.loggedInUser == null) {
         alert("Du måste logga in eller skapa ett konto innan du ska boka.");
