@@ -137,11 +137,6 @@ export default {
     addRoom(room){
       this.roomList.push(room);
       document.getElementsByClassName("room" + room.id)[0].style.display = "none";
-      
-      // var clickElement = element.target.parentElement.parentElement.parentElement.parentElement;
-      // clickElement.style.visibility = "hidden";
-      // console.log(clickElement);
-
     },
 
     showRoom(room){

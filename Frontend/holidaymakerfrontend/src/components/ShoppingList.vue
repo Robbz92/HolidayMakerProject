@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    // skapas för att kunna mutera roomList senare , ta bort saker från listan
+    // skapas för att kunna mutera roomList senare
   data() {
     return {
         roomList: this.roomCard,
