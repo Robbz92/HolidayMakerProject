@@ -31,9 +31,12 @@ export default {
   },
 
   methods: {
-      deleteBooking() {
-          alert("Not yet finished!")
-      }
+      deleteBooking(id) {
+          if(confirm("Are you sure you want to delete the booking?")){
+              this.$store.dispatch("fetchDeleteBooking", id);
+              this.$router.push("/myBookings");
+          }
+      },
   }
 };
 </script>
