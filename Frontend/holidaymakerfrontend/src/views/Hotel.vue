@@ -45,7 +45,7 @@
       <h2>Rooms</h2>
       <h3 v-if="getRoomList.length==0">No rooms were found according to the search.</h3>
       <ul v-for="(room, index) in getRoomList" :key="index">
-        <li id="liRoom">
+        <li id="liRoom" :class="room.id">
           <div class="roomPicture">
             <img id="roomPic" :src="room.room_img" />
           </div>
@@ -67,7 +67,7 @@
               <p>Total price: {{calculatePrice(room.price)}}:- for {{getNumberOfDays}} nights.<br><br> Price per night: {{ room.price }}:-</p>
             </div>
             <div class="booking">
-              <button @click="addRoom(room)">Book</button>
+              <button @click="addRoom(room, $event)">Book</button>
             </div>
           </div>
         </li>
@@ -134,14 +134,18 @@ export default {
     },        
   },
   methods: {
-    addRoom(room){
+    addRoom(room, element){
       this.roomList.push(room);
-      console.log(room)
+      //document.querySelector(room.id).style.visibility = "hidden";
+      //console.log(document.querySelector(room.id));
+      var clickElement = element.target.parentElement.parentElement.parentElement.parentElement;
+      clickElement.style.visibility = "hidden";
+      console.log(clickElement);
+
     },
     bookRoom(room){
        if (this.loggedInUser == null) {
         alert("Du måste logga in eller skapa ett konto innan du ska boka.");
-       // this.$router.push("/")
       } 
       else{
         this.$store.commit("setChosenRoom", room)
@@ -165,7 +169,6 @@ export default {
   padding: 0px;
   width: 30%;
 }
-
 #allRooms {
   list-style-type: none;
   border: 1px solid rgb(187, 184, 184);
