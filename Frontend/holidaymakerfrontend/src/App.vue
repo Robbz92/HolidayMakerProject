@@ -63,6 +63,7 @@ export default {
     let user = await fetch("/api/auth/whoami");
     try {
       user = await user.json();
+      console.log(user);
       this.$store.commit("setLoggedInUser", user);
     } catch {
       console.log("Not logged in");
