@@ -45,7 +45,7 @@
       <h2>Rooms</h2>
       <h3 v-if="getRoomList.length==0">No rooms were found according to the search.</h3>
       <ul v-for="(room, index) in getRoomList" :key="index">
-        <li id="liRoom" :class="room.id">
+        <li id="liRoom" :class="'room' + room.id">
           <div class="roomPicture">
             <img id="roomPic" :src="room.room_img" />
           </div>
@@ -67,7 +67,7 @@
               <p>Total price: {{calculatePrice(room.price)}}:- for {{getNumberOfDays}} nights.<br><br> Price per night: {{ room.price }}:-</p>
             </div>
             <div class="booking">
-              <button @click="addRoom(room, $event)">Book</button>
+              <button @click="addRoom(room)">Book</button>
             </div>
           </div>
         </li>
@@ -134,15 +134,21 @@ export default {
     },        
   },
   methods: {
-    addRoom(room, element){
+    addRoom(room){
       this.roomList.push(room);
-      //document.querySelector(room.id).style.visibility = "hidden";
-      //console.log(document.querySelector(room.id));
-      var clickElement = element.target.parentElement.parentElement.parentElement.parentElement;
-      clickElement.style.visibility = "hidden";
-      console.log(clickElement);
+      document.getElementsByClassName("room" + room.id)[0].style.display = "none";
+      
+      // var clickElement = element.target.parentElement.parentElement.parentElement.parentElement;
+      // clickElement.style.visibility = "hidden";
+      // console.log(clickElement);
 
     },
+
+    showRoom(room){
+      console.log(room)
+      document.getElementsByClassName("room" + room)[0].style.display = "flex";
+    },
+
     bookRoom(room){
        if (this.loggedInUser == null) {
         alert("Du måste logga in eller skapa ett konto innan du ska boka.");

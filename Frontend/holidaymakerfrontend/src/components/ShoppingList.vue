@@ -1,9 +1,9 @@
 <template>
   <div class="shoppingList">
     <ul>
-      <li v-for="(roomItem, index) in updateRoomList" :key="index">
+      <li class="test" v-for="(roomItem, index) in updateRoomList" :key="index">
         {{ roomItem.type }} {{ roomItem.price }}
-        <button class="removeRoom" @click="removeRoom(index)">x</button>
+        <button @click="removeRoom(index, roomItem.id)">x</button>
       </li>
     </ul>
   </div>
@@ -26,8 +26,9 @@ export default {
     },
   },
   methods: {
-    removeRoom(roomItemID) {
-      this.roomList.splice(roomItemID, 1);
+    removeRoom(index, roomItemID) {
+      this.roomList.splice(index, 1);
+      this.$parent.showRoom(roomItemID)
     },
   },
 };
