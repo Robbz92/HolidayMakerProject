@@ -19,4 +19,10 @@ public class BookingService {
     public int getLatestBookings() {
         return bookingRepo.findLatestID();
     }
+
+    public String deleteBooking(long id) {
+        bookingRepo.deleteById(id);
+
+        return "Booking has been removed";
+    }
 }

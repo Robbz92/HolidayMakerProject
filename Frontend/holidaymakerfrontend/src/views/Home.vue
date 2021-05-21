@@ -12,7 +12,6 @@
 import searchBar from "../components/SearchBar.vue";
 import sortOptions from "../components/SortingOptions.vue"
 import hotelList from "../components/HotelList.vue";
-import sortingOptions from "../components/SortingOptions.vue";
 
 export default {
   name: "Home",

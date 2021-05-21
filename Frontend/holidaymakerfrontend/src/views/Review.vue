@@ -26,7 +26,7 @@
         </form>
         <button id="adding" @click="addReview(theBook.hotel_id)">Add Review</button> 
       </li>  
-    </ul> 
+    </ul>
    </div> 
 </template>
 

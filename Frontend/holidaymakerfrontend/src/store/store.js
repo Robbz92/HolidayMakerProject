@@ -30,8 +30,9 @@ export default createStore({
     size:'',
     myBookings:[],
     clickedBooking: '',
+    deleteBooking: '',
     searchedTemperature: '',
-    filterAmmount: 0
+    filterAmmount: 0,
   },
   mutations: {
     setBookings(state, payload){
@@ -115,6 +116,10 @@ export default createStore({
 
     setSearchedTemperature(state, payload) {
       state.searchedTemperature = payload
+    },
+
+    setDeleteBooking(state, payload) {
+      state.deleteBooking = payload
     }
   },
 
@@ -239,6 +244,14 @@ export default createStore({
         })
     },
 
+  async fetchDeleteBooking(store, bookingId) {
+    await axios.get("http://localhost:3000/rest/deleteBooking/" + bookingId)
+    .then(response => {
+      console.log(response.data)
+      this.commit("setDeleteBooking", response.data)
+    })
+  }
+
   },
 
   getters: {
@@ -300,6 +313,10 @@ export default createStore({
 
     getTempSearch(state) {
       return state.searchedTemperature
-    }
+    },
+
+    getDeleteBooking(state) {
+      return state.deleteBooking
+    },
   },
 })
