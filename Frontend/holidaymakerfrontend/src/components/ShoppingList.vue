@@ -6,6 +6,7 @@
         <button @click="removeRoom(index, roomItem.id)">x</button>
       </li>
     </ul>
+    <button @click="bookRoom(roomList)" v-if="roomList != ''">KLICKA MIG?</button>
   </div>
 </template>
 
@@ -24,11 +25,26 @@ export default {
     updateRoomList() {
       return this.roomList;
     },
+    
+    loggedInUser() {
+      return this.$store.state.loggedInUser;
+    },
   },
   methods: {
     removeRoom(index, roomItemID) {
       this.roomList.splice(index, 1);
       this.$parent.showRoom(roomItemID)
+    },
+
+    bookRoom(room){
+       if (this.loggedInUser == null) {
+        alert("Du måste logga in eller skapa ett konto innan du ska boka.");
+      } 
+      else{
+        this.$store.commit("setChosenRoom", room[0])
+        this.$store.commit('setRoomsToBook', room)
+        this.$router.push("/bookings/");
+      }
     },
   },
 };

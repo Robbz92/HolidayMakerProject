@@ -1,33 +1,37 @@
 <template>
-  <div class="board">
-    <p>Choose board</p>
-    <select name="boardDropDown" id="board">
-      <option value="1">All inclusive</option>
-      <option value="2">Half pension</option>
-      <option value="3">Full pension</option>
-      <option value="4">DIY</option>
-    </select>
-  </div>
-  <div class="room">
-    <p>Choose room type</p>
-    <select name="roomtype" id="roomtype" @change="calculatePrice()" v-model="roomItem">
-      <option
-        v-for="(roomItem, index) in getRoomList"
-        :key="index"
-        :value="roomItem"
-      >
-        {{ roomItem.type }} {{ roomItem.price }} kr
-      </option>
-    </select>
-    <div class="totalCost">
-      <p>total cost: {{totalPrice}} kr</p>
+  <div class="perRoom" v-for="(room, index) in getRoomsToBook" :key="index">
+    <label id="roomName">Room: {{index + 1}}</label>
+    <div class="board">
+      <p>Choose board</p>
+      <select name="boardDropDown" id="board">
+        <option value="1">All inclusive</option>
+        <option value="2">Half pension</option>
+        <option value="3">Full pension</option>
+        <option value="4">DIY</option>
+      </select>
     </div>
-  </div>
+    <div class="room" id="room">
+      <p>Choose room type</p>
+      <select name="roomtype" id="roomtype" class="selector" @change="calculatePrice()" v-model="roomItem">
+        <option
+          v-for="(roomItem, index) in getRoomList"
+          :key="index"
+          :value="roomItem"
+          :v-model="options.push(roomItem.id)"
+        >
+          {{ roomItem.type }} {{ roomItem.price }} kr
+        </option>
+      </select>
+      <div class="totalCost">
+        <p>total cost: {{totalPrice}} kr</p>
+      </div>
+    </div>
 
-  <div class="extraBed">
-    <p>Do you want an extra bed?</p>
-    <label for="accept">Yes</label>
-    <input v-model="accept" type="checkbox" id="extraBed" name="horns" />
+    <div class="extraBed">
+      <p>Do you want an extra bed?</p>
+      <label for="accept">Yes</label>
+      <input v-model="accept" type="checkbox" id="extraBed" name="horns" />
+    </div>
   </div>
 
   <div>
@@ -45,7 +49,7 @@ export default {
       boardResult:0,
       extraBed:0,
       bookingID: 0,
-      
+      options: []
     };
   },
   computed: {
@@ -80,9 +84,14 @@ export default {
     getRoomList() {
       return this.$store.getters.getRoomList;
     },
+
+    getRoomsToBook(){
+      return this.$store.getters.getRoomsToBook;
+    },
   },
 
   methods:{
+
       getNumberOfDays(){
         return this.$store.getters.getNumberOfDays;
       },
@@ -163,9 +172,51 @@ export default {
         body: JSON.stringify(BookRoomCredentials),
       });
     },
+
+    findIndex(id, index){
+      return id == index
+    },
+
+    async setSelectors(){
+      var option = await document.getElementsByName("roomtype")
+      
+      console.log(option)
+      option.forEach((element, index) => {
+
+        console.log(element)
+        console.log(index)
+
+        for(var i = 0; i < this.getRoomsToBook.length; i++){
+          for(var j = 0; j < option.item(0).length; j++){
+            if(this.getRoomsToBook[i]){
+              if(this.getRoomsToBook[i].id == this.options[j]){
+                console.log(j)
+                if(index == i)
+                  element.selectedIndex = j
+              }
+            }
+          }
+        }
+      }) //Foreach end
+    }
   },
+
+  mounted(){
+    this.$nextTick().then(this.setSelectors)
+  }
 };
 </script>
 
 <style>
+.perRoom{
+  background-color: rgba(255, 255, 255, .3);
+  margin: 10px auto;
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#roomName{
+  margin: 0 0;
+}
 </style>

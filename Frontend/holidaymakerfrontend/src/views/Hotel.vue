@@ -104,13 +104,6 @@ export default {
     ShoppingList,
   },
   computed: {
-    loggedInUser() {
-      return this.$store.state.loggedInUser;
-    },
-
-    isLoggedIn() {
-      return this.loggedInUser != null;
-    },
     getReviews() {
       return this.$store.getters.getReviews;
     },
@@ -142,16 +135,6 @@ export default {
     showRoom(room){
       console.log(room)
       document.getElementsByClassName("room" + room)[0].style.display = "flex";
-    },
-
-    bookRoom(room){
-       if (this.loggedInUser == null) {
-        alert("Du måste logga in eller skapa ett konto innan du ska boka.");
-      } 
-      else{
-        this.$store.commit("setChosenRoom", room)
-        this.$router.push("/bookings/");
-      }
     },
 
     calculatePrice(price) {
