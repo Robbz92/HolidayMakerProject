@@ -12,7 +12,7 @@
     </div>
     <div class="room" id="room">
       <p>Choose room type</p>
-      <select name="roomtype" id="roomtype" class="selector" v-model="roomItem" @change="calculatePrice()">
+      <select name="roomtype" id="roomtype" class="selector" @change="calculatePrice()" v-model="chosenRoom">
         <option
           v-for="(roomItem, index) in getRoomList"
           :key="index"
@@ -42,21 +42,21 @@ export default {
         return{
             roomPrice: 0,
             newPrice: 0,
-            roomItem: 0,
             extraBed: false,
-            board: 0
+            board: 1,
+            chosenRoom: this.room,
         }
     },
 
     computed:{
         getRoomList() {
         return this.$store.getters.getRoomList;
-        },
+        }
     },
 
     methods:{
         calculatePrice(){
-            let boardMultiplier = 1
+            let boardMultiplier = 1.2
     //Checks what board is chosen per room
             switch(this.board){
             case "1":
@@ -78,53 +78,21 @@ export default {
                 bedMultiplier = 1.05
 
             let numberOfDays = this.$store.getters.getNumberOfDays
-
-
-            let calculatedPrice = Math.round(this.roomItem.price * boardMultiplier * bedMultiplier * numberOfDays);
             
-            console.log(calculatedPrice)
+
+            let calculatedPrice = Math.round(this.chosenRoom.price * boardMultiplier * bedMultiplier * numberOfDays);
+            
+            //console.log(calculatedPrice)
             this.newPrice = calculatedPrice
         },
 
         getNumberOfDays(){
             return this.$store.getters.getNumberOfDays;
         },
+    },
 
-        /*
-      calculatePrice(index) {
-        let calculatedPrice = 0
-        let boardMultiplier = 1
-        calculatedPrice = parseInt(this.getRoomsToBook[index].price*this.$store.getters.getNumberOfDays);
-        
-        var e = document.getElementById("board" + index)
-        console.log(e.value)
-
-
-//Checks what board is chosen per room
-        switch(e.value){
-          case "1":
-            boardMultiplier = 1.2
-            break;
-          case "2":
-            boardMultiplier = 1.15
-            break;
-          case "3":
-            boardMultiplier = 1.1
-            break;
-          case "4":
-            boardMultiplier = 1
-            break;
-        }
-
-        console.log(boardMultiplier)
-        var extraCalculatedPrice = calculatedPrice * boardMultiplier;
-        console.log(extraCalculatedPrice * boardMultiplier)
-
-        this.newPrice[index] = Math.ceil(calculatedPrice * boardMultiplier)
-
-        return this.newPrice[index]
-      },
-      */
+    mounted(){
+        this.calculatePrice()
     }
 }
 </script>
