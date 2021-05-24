@@ -243,6 +243,7 @@ export default {
       let days = duration.asDays();
       this.numberOfDays = Math.round(days);
       this.$store.commit("setNumberOfDays", this.numberOfDays);
+      console.log(this.numberOfDays)
     },
 
     onFilter(filter) {

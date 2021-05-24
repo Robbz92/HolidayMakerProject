@@ -317,6 +317,10 @@ export default createStore({
 
     getTempSearch(state) {
       return state.searchedTemperature
+    },
+
+    getChosenHotel(state) {
+      return state.chosenHotel
     }
   },
 })

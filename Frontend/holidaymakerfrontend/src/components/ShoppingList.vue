@@ -1,8 +1,8 @@
 <template>
-  <div class="shoppingList">
-    <ul>
+  <div class="shoppingList" v-if="roomList != ''">
+    <ul class="theLiost">
       <li class="test" v-for="(roomItem, index) in updateRoomList" :key="index">
-        {{ roomItem.type }} {{ roomItem.price }}
+        {{getHotel}} - {{ roomItem.type }} {{ roomItem.price }}
         <button @click="removeRoom(index, roomItem.id)">x</button>
       </li>
     </ul>
@@ -24,6 +24,10 @@ export default {
   computed: {
     updateRoomList() {
       return this.roomList;
+    },
+
+    getHotel(){
+      return this.$store.getters.getInformation[0].name;
     },
     
     loggedInUser() {
@@ -54,8 +58,22 @@ export default {
 .shoppingList {
   position: absolute;
   right: 0;
-  width: 10%;
-  height: 10%;
-  background-color: white;
+  width: 15%;
+  min-height: 10%;
+  text-align: right;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, .3);
+}
+
+.theLiost{
+  padding-left: 0;
+}
+
+.test{
+  list-style: none;
+  margin-left: 0;
+  text-align: right;
+  min-width: 100%;
 }
 </style>
