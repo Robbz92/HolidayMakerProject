@@ -1,6 +1,8 @@
 <template>
   <div class="main-container">
     <Book/>
+    
+   
   </div>
   <div class="date">
     <div class="checkIn">
@@ -32,10 +34,15 @@
 import DatePicker from "vue3-datepicker";
 import Book from "../components/MyBooking.vue";
 
+
+
+
 export default {
   components: {
     Book,
     DatePicker,
+   
+    
   },
 
   data() {

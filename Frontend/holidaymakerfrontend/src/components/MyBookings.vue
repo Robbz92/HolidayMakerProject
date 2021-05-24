@@ -9,15 +9,10 @@
           </div>
           <h4>{{ bookings.name }}</h4>
           <p>Date: {{ bookings.from_date }} - {{ bookings.to_date }}</p>
-          <p>Board: {{ bookings.board }}</p>
-          <p>Extrabed: {{ bookings.extra_bed_amount }}</p>
-          <p>Room: {{ bookings.type }}</p>
-          <h4>Price: {{ bookings.total_cost }} kr</h4>
-          <div class="roomPicture">
-            <img id="roomPic" :src="bookings.room_img" />
-          </div>
+          <p>Booked rooms: {{ bookings.BookedRooms}}</p>
+          <h4>Total price: {{ bookings.total_cost }} kr</h4>
           <button @click="sendBookingId(bookings.id)">Review</button>
-          <button @click="editBooking(bookings.id)">Edit Booking</button>
+          <button @click="editBooking(bookings.id), getBookedRooms(bookings.id)">Edit Booking</button>
         </li>
       </ul>
     </div>
@@ -48,6 +43,10 @@ export default {
     sendBookingId(bookingId) {
       this.$store.dispatch("fetchClickedBooking", bookingId);
       this.$router.push("/review");
+    },
+    getBookedRooms(bookingId) {
+      this.$store.dispatch("fetchBookedRoom", bookingId);
+      this.$router.push("/editBooking")
     },
 
     editBooking(bookingId) {
