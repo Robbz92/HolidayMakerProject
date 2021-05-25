@@ -39,7 +39,7 @@ export default {
                 },
                 ],
             //Redirecting you to the 'Success' page, if payment is successful
-            successURL: 'http://localhost:3000/success',
+            successURL: 'http://localhost:3000/myBookings',
             //Redirecting you to the 'Cancel' page, if payment is declined or canceled
             cancelURL: 'http://localhost:3000/cancel',
         }
@@ -48,7 +48,8 @@ export default {
         submit(){
             //Sending you to the checkout page from stripe
             this.$refs.checkoutRef.redirectToCheckout();
+            
         }
-    }
+    },
 }
 </script>

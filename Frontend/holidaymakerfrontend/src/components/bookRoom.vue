@@ -10,8 +10,8 @@
         v-model="board"
       >
         <option value="1">All inclusive</option>
-        <option value="2">Half pension</option>
-        <option value="3">Full pension</option>
+        <option value="2">Full pension</option>
+        <option value="3">Half pension</option>
         <option value="4">DIY</option>
       </select>
     </div>
@@ -33,7 +33,7 @@
         </option>
       </select>
       <div class="totalCost">
-        <p>total cost: {{ newPrice }} kr</p>
+        <p>Room cost: {{ newPrice }} kr</p>
       </div>
     </div>
 
@@ -106,6 +106,7 @@ export default {
         board: this.board,
         extraBedAmount: this.extraBed,
         totalCost: this.newPrice,
+        name: this.chosenRoom.type,
       }
       
       this.$parent.fillBookingArray(this.index, object);

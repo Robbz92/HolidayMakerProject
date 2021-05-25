@@ -10,15 +10,18 @@
   </div>
 
   <div>
-    <button type="submit" class="next" @click="makeBooking()">Next</button>
+    <button type="submit" class="next" @click="clickPopup(true)">Next</button>
+    <popup v-if="showPopup" :roomList="bookingsArray"/>
   </div>
 </template>
 
 <script>
+import popup from '../components/Popup.vue'
 import bookRoom from "../components/bookRoom.vue";
 export default {
   components: {
     bookRoom,
+    popup,
   },
 
   data() {
@@ -31,6 +34,7 @@ export default {
       bookingID: 0,
       options: [],
       bookingsArray: [],
+      showPopup: false,
     };
   },
 
@@ -73,6 +77,13 @@ export default {
   },
 
   methods: {
+    clickPopup(boolean){
+       if(!this.checkForDuplicates()){
+        alert("Rooms are not unique")
+      }else{
+        this.showPopup = boolean;
+      }
+    },
     fillBookingArray(index, object) {
       this.bookingsArray[index] = object;
       console.log(this.bookingsArray);
@@ -107,9 +118,7 @@ export default {
     },
 
     async makeBooking() {
-      if(!this.checkForDuplicates()){
-        alert("Rooms are not unique")
-      }else{
+      //console.log("makebookin")
         var boardChoice = document.getElementById("board");
         this.boardResult = parseInt(
           boardChoice.options[boardChoice.selectedIndex].value
@@ -133,7 +142,6 @@ export default {
         await this.$store.dispatch("fetchLatestBookingID");
 
         this.bookRoom();
-      }
     },
 
     async bookRoom() {
