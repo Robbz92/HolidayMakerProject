@@ -91,30 +91,49 @@ export default {
       return totalPrice;
     },
 
+    checkForDuplicates(){
+      var idList = []
+      var isUnique = true
+      this.bookingsArray.forEach(object => {
+        idList.push(object.roomID)
+      })
+
+      for(var i = 0; i < idList.length; i++){
+        if(idList.includes(idList[i], i+1))
+          isUnique = false
+      }
+
+      return isUnique
+    },
+
     async makeBooking() {
-      var boardChoice = document.getElementById("board");
-      this.boardResult = parseInt(
-        boardChoice.options[boardChoice.selectedIndex].value
-      );
+      if(!this.checkForDuplicates()){
+        alert("Rooms are not unique")
+      }else{
+        var boardChoice = document.getElementById("board");
+        this.boardResult = parseInt(
+          boardChoice.options[boardChoice.selectedIndex].value
+        );
 
-      let bookingcredentials = {
-        userId: this.getLoggedInUserID,
-        hotelId: this.$store.state.chosenRoom.hotel_id,
-        fromDate: this.getFromDate,
-        toDate: this.getToDate,
-        totalCost: this.getPriceFromObject(),
-      };
+        let bookingcredentials = {
+          userId: this.getLoggedInUserID,
+          hotelId: this.$store.state.chosenRoom.hotel_id,
+          fromDate: this.getFromDate,
+          toDate: this.getToDate,
+          totalCost: this.getPriceFromObject(),
+        };
 
-      console.log(bookingcredentials);
-      await fetch("http://localhost:3000/rest/makeBooking", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingcredentials),
-      });
+        console.log(bookingcredentials);
+        await fetch("http://localhost:3000/rest/makeBooking", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bookingcredentials),
+        });
 
-      await this.$store.dispatch("fetchLatestBookingID");
+        await this.$store.dispatch("fetchLatestBookingID");
 
-      this.bookRoom();
+        this.bookRoom();
+      }
     },
 
     async bookRoom() {
@@ -141,7 +160,7 @@ export default {
           body: JSON.stringify(BookRoomCredentials),
         });
       }
-    },
+    }
   },
 };
 </script>
