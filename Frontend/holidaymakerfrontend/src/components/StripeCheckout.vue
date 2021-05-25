@@ -48,7 +48,6 @@ export default {
         submit(){
             //Sending you to the checkout page from stripe
             this.$refs.checkoutRef.redirectToCheckout();
-            
         }
     },
 }

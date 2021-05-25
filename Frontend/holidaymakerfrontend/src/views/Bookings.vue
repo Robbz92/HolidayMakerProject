@@ -1,22 +1,23 @@
 <template>
-  <div>
-    <bookRoom
-      v-for="(room, index) in getRoomsToBook"
-      :key="index"
-      class="perRoom"
-      :room="room"
-      :index="index"
-    />
+  <div class="content">
+    <div>
+      <bookRoom
+        v-for="(room, index) in getRoomsToBook"
+        :key="index"
+        class="perRoom"
+        :room="room"
+        :index="index"
+      />
+    </div>
   </div>
-
-  <div>
+  <div id="next">
     <button type="submit" class="next" @click="clickPopup(true)">Next</button>
-    <popup v-if="showPopup" :roomList="bookingsArray"/>
+    <popup v-if="showPopup" :roomList="bookingsArray" />
   </div>
 </template>
 
 <script>
-import popup from '../components/Popup.vue'
+import popup from "../components/Popup.vue";
 import bookRoom from "../components/bookRoom.vue";
 export default {
   components: {
@@ -77,10 +78,10 @@ export default {
   },
 
   methods: {
-    clickPopup(boolean){
-       if(!this.checkForDuplicates()){
-        alert("Rooms are not unique")
-      }else{
+    clickPopup(boolean) {
+      if (!this.checkForDuplicates()) {
+        alert("Rooms are not unique");
+      } else {
         this.showPopup = boolean;
       }
     },
@@ -102,46 +103,45 @@ export default {
       return totalPrice;
     },
 
-    checkForDuplicates(){
-      var idList = []
-      var isUnique = true
-      this.bookingsArray.forEach(object => {
-        idList.push(object.roomID)
-      })
+    checkForDuplicates() {
+      var idList = [];
+      var isUnique = true;
+      this.bookingsArray.forEach((object) => {
+        idList.push(object.roomID);
+      });
 
-      for(var i = 0; i < idList.length; i++){
-        if(idList.includes(idList[i], i+1))
-          isUnique = false
+      for (var i = 0; i < idList.length; i++) {
+        if (idList.includes(idList[i], i + 1)) isUnique = false;
       }
 
-      return isUnique
+      return isUnique;
     },
 
     async makeBooking() {
       //console.log("makebookin")
-        var boardChoice = document.getElementById("board");
-        this.boardResult = parseInt(
-          boardChoice.options[boardChoice.selectedIndex].value
-        );
+      var boardChoice = document.getElementById("board");
+      this.boardResult = parseInt(
+        boardChoice.options[boardChoice.selectedIndex].value
+      );
 
-        let bookingcredentials = {
-          userId: this.getLoggedInUserID,
-          hotelId: this.$store.state.chosenRoom.hotel_id,
-          fromDate: this.getFromDate,
-          toDate: this.getToDate,
-          totalCost: this.getPriceFromObject(),
-        };
+      let bookingcredentials = {
+        userId: this.getLoggedInUserID,
+        hotelId: this.$store.state.chosenRoom.hotel_id,
+        fromDate: this.getFromDate,
+        toDate: this.getToDate,
+        totalCost: this.getPriceFromObject(),
+      };
 
-        console.log(bookingcredentials);
-        await fetch("http://localhost:3000/rest/makeBooking", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(bookingcredentials),
-        });
+      console.log(bookingcredentials);
+      await fetch("http://localhost:3000/rest/makeBooking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingcredentials),
+      });
 
-        await this.$store.dispatch("fetchLatestBookingID");
+      await this.$store.dispatch("fetchLatestBookingID");
 
-        this.bookRoom();
+      this.bookRoom();
     },
 
     async bookRoom() {
@@ -168,12 +168,12 @@ export default {
           body: JSON.stringify(BookRoomCredentials),
         });
       }
-    }
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .perRoom {
   background-color: rgba(255, 255, 255, 0.3);
   margin: 10px auto;
@@ -184,5 +184,18 @@ export default {
 
 #roomName {
   margin: 0 0;
+}
+
+.content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+#next{
+  margin: 10px auto;
 }
 </style>
