@@ -22,7 +22,6 @@ public class BookingService {
 
     public String deleteBooking(long id) {
         bookingRepo.deleteById(id);
-
         return "Booking has been removed";
     }
 }
