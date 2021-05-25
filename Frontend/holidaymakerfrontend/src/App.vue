@@ -2,9 +2,8 @@
   <div id="nav">
     <router-link to="/" id="logo"><img src="./assets/logo.png" /></router-link>
     <div class="buttons">
-      <router-link  to="/myBookings" v-if="isLoggedIn">My Bookings</router-link>
       <router-link to="/login" id="text" v-if="!isLoggedIn">Login</router-link>
-    <h4 class="loggedInUser" v-if="isLoggedIn">{{ loggedInUser.firstName }}</h4>
+      <router-link class="loggedInUser" to="/myBookings" v-if="isLoggedIn">{{ loggedInUser.firstName }}</router-link>
       <button class="sameBtns" v-if="isLoggedIn" @click="logout">Log out</button>
       <router-link to="/register" v-if ="!isLoggedIn" id="text">Register</router-link>
     </div>
@@ -98,6 +97,14 @@ export default {
 #nav a {
   font-weight: bold;
   color: #ffffff;
+}
+
+.loggedInUser{
+  position: absolute;
+  top: 35px;
+  font-size: larger;
+  right: 80px;
+  text-decoration: none;
 }
 
 </style>
