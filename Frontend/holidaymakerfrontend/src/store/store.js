@@ -33,6 +33,8 @@ export default createStore({
     deleteBooking: '',
     searchedTemperature: '',
     filterAmmount: 0,
+    roomListForEdit:[],
+    bookedRoom:'',
   },
   mutations: {
     setBookings(state, payload){
@@ -105,36 +107,42 @@ export default createStore({
     setFromDate(state, payload) {
       state.fromDate = payload
     },
-
+    
     setToDate(state, payload) {
       state.toDate = payload
     },
-
+    
     setNumberOfDays(state, payload) {
       state.numberOfDays = payload
     },
-
+    
     setSearchedTemperature(state, payload) {
       state.searchedTemperature = payload
     },
-
+    
     setDeleteBooking(state, payload) {
       state.deleteBooking = payload
-    }
+    },
+    setRoomListForEdit(state,payload){
+      state.roomListForEdit=payload
+    },
+    setBookedRoom(state, payload){
+      state.bookedRoom = payload;
+    },
   },
-
+  
   actions: {
     async fetchClickedBooking(store, bookingId) {
       await axios.get("http://localhost:3000/api/rest/bookingById/" + bookingId)
-        .then(response => {
-          console.log(response.data)
-          this.commit("setClickedBooking", response.data)
-        })
+      .then(response => {
+        console.log(response.data)
+        this.commit("setClickedBooking", response.data)
+      })
     },
     async fetchMyBookings() {
       await axios.get("http://localhost:3000/api/rest/allMyBooknings")
-        .then(response => {
-          console.log(response.data)
+      .then(response => {
+        console.log(response.data)
           this.commit("setMyBookings", response.data)
         })
     },
@@ -245,12 +253,19 @@ export default createStore({
     },
 
   async fetchDeleteBooking(store, bookingId) {
-    await axios.get("http://localhost:3000/rest/deleteBooking/" + bookingId)
+    await axios.delete("http://localhost:3000/rest/deleteBooking/" + bookingId)
     .then(response => {
       console.log(response.data)
       this.commit("setDeleteBooking", response.data)
     })
-  }
+  },
+  async fetchBookedRoom(store, bookingId) {
+    await axios.get("http://localhost:3000/api/rest/bookedRoomsById/" + bookingId)
+      .then(response => {
+        console.log(response.data)
+        this.commit("setBookedRoom", response.data)
+      })
+  },
 
   },
 
@@ -317,6 +332,12 @@ export default createStore({
 
     getDeleteBooking(state) {
       return state.deleteBooking
+    },
+    getRoomsForEdit(state) {
+      return state.getRoomsForEdit
+    },
+    getBookedRoom(state){
+      return state.bookedRoom;
     },
   },
 })

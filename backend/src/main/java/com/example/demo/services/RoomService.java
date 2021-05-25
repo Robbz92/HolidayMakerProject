@@ -20,4 +20,8 @@ public class RoomService {
     public List<Map> getFreeRooms(String dateOne, String dateTwo, long hotelID, double size) {
         return roomRepo.findFreeRoomsOnDate(hotelID,dateOne, dateTwo, size);
     }
+
+    public List<Room> getAllRoomsOnHotelId(int id) {
+        return roomRepo.getAllroomsOnHotelId(id);
+    }
 }

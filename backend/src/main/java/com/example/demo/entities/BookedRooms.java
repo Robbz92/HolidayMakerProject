@@ -1,5 +1,8 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -28,9 +31,11 @@ public class BookedRooms {
     public BookedRooms() {
     }
 
+
     public Bookings getBookings() {
         return bookings;
     }
+
 
     public void setBookings(Bookings bookings) {
         this.bookings = bookings;

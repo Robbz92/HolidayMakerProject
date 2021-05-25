@@ -70,4 +70,7 @@ public class UserService {
         }
         return null;
     }
+    public List<Map> bookedRoomsById(long bookingId) {
+        return userRepo.getBookedRoomsById(bookingId);
+    }
 }

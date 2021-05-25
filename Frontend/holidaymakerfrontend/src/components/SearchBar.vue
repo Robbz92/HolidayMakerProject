@@ -52,7 +52,7 @@
             <li>
               Adults:
               <select id="person" v-model="adults">
-                <option v-for="(person, index) in cuantity" :key="index">
+                <option v-for="(person, index) in quantity" :key="index">
                   {{ person }}
                 </option>
               </select>
@@ -60,7 +60,7 @@
             <li>
               Children:
               <select id="person" v-model="children">
-                <option v-for="(children, index) in cuantity" :key="index">
+                <option v-for="(children, index) in quantity" :key="index">
                   {{ children }}
                 </option>
               </select>
@@ -71,7 +71,7 @@
             <li v-for="child in Number(children)" :key="child">
               Age of child: {{ child }}
               <select id="childAge" v-model="age">
-                <option v-for="(age, index) in cuantity" :key="index">
+                <option v-for="(age, index) in quantity" :key="index">
                   {{ age }}
                 </option>
               </select>
@@ -82,7 +82,7 @@
       <div class="rooms">
         <h6>Rooms</h6>
         <select id="room" v-model="room">
-          <option v-for="(room, index) in cuantity" :key="index">
+          <option v-for="(room, index) in quantity" :key="index">
             {{ room }}
           </option>
         </select>
@@ -138,7 +138,7 @@ export default {
       children: 0,
       age: 0,
       show: false,
-      cuantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      quantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 
       // Skapar styleObject för att kunna kalla på datepickers attribut.
       // Går inte att CSSa på dessa inputs med id eller class.
