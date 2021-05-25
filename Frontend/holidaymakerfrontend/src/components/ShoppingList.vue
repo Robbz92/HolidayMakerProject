@@ -1,12 +1,12 @@
 <template>
   <div class="shoppingList" v-if="roomList != ''">
     <ul class="theLiost">
-      <li class="test" v-for="(roomItem, index) in updateRoomList" :key="index">
-        {{getHotel}} - {{ roomItem.type }} {{ roomItem.price }}
-        <button @click="removeRoom(index, roomItem.id)">x</button>
+      <li class="roomItemList" v-for="(roomItem, index) in updateRoomList" :key="index">
+        {{getHotel}} - {{ roomItem.type }}
+        <button class="removeBtn" @click="removeRoom(index, roomItem.id)">x</button>
       </li>
     </ul>
-    <button @click="bookRoom(roomList)" v-if="roomList != ''">KLICKA MIG?</button>
+    <button id="checkOutBtn" @click="bookRoom(roomList)" v-if="roomList != ''">Check out</button>
   </div>
 </template>
 
@@ -54,13 +54,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .shoppingList {
   position: absolute;
   right: 0;
   width: 15%;
   min-height: 10%;
-  text-align: right;
+ 
+ 
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.15);
   box-shadow: inset 0 0 5px rgba(255, 255, 255, .3);
@@ -70,10 +71,22 @@ export default {
   padding-left: 0;
 }
 
-.test{
+.roomItemList{
   list-style: none;
   margin-left: 0;
-  text-align: right;
   min-width: 100%;
+  margin-top: 10px;
+}
+
+#checkOutBtn{
+  margin: 5px;
+  margin-top: 30px;
+}
+
+.removeBtn{
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: -20px;
 }
 </style>
