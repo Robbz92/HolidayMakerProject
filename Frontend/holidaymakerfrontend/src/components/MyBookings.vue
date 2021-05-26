@@ -5,17 +5,33 @@
     :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
     <div class="bookings" v-if="!show">
       <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
-        <li id="booking">
+        <li id="booking"> 
           <div class="hotelPicture">
+             <h2>{{ bookings.name }}</h2>
             <img id="hotelPic" :src="bookings.hotel_img" />
           </div>
-          <h4>{{ bookings.name }}</h4>
-          <p>{{bookings.address}}</p>
-          <p>Date: {{ bookings.from_date }} - {{ bookings.to_date }}</p>
-           <p>Booked rooms: {{ bookings.BookedRooms}}</p>
-          <p>Price: {{ bookings.total_cost }} kr</p>
-          <button @click="sendBookingId(bookings.id)">Review</button>
-          <button @click="editBooking(bookings)">Edit Booking</button>
+          <div class="booking-text">
+            <table>
+            <tr>
+              <th>Address</th>
+              <th>From Date</th>
+              <th>To Date</th>
+              <th>Booked Rooms</th>
+              <th>Total Cost</th>
+            </tr>
+            <tr>
+              <td>{{bookings.address}}</td>
+              <td>{{ bookings.from_date }}</td>
+              <td>{{ bookings.to_date }}</td>
+              <td>{{ bookings.BookedRooms}}</td>
+              <td>{{ bookings.total_cost }}</td>
+            </tr>            
+          </table>
+          </div>
+          <div class="buttons-container" >
+            <button @click="sendBookingId(bookings.id)">Review</button>
+            <button @click="editBooking(bookings)">Edit</button>
+          </div>
         </li>
       </ul>
     </div>
@@ -106,14 +122,27 @@ export default {
   margin: 0 auto;
   margin-top: 5em;
   backdrop-filter: blur(5px);
+  
 }
 #booking {
-  display: flex;
-  justify-self: center;
   margin-top: 0;
   margin: 1em;
   border-bottom: 1px solid rgb(187, 184, 184);
+  display: flex;
+  
 }
+.booking-text{
+  width: 100%;
+  margin-top: 70px;
+}
+.booking-text table{
+  width:100%;
+}
+.booking-text table th{
+  margin: 0;
+ 
+}
+
 .roomPicture,
 .hotelPicture {
   margin: 0;
@@ -135,4 +164,16 @@ h4 {
 #MyBookingsH3{
   font-size:35px;
 }
+.buttons-container{
+  display:flex;
+  
+}
+.buttons-container button{
+  width:75px;
+  height: 40px;
+  margin-top: 63px;
+  margin-right: 10px;
+
+}
+
 </style>

@@ -67,7 +67,6 @@ export default {
       let calculatedPrice = this.getPrice*this.getNumberOfDays;
       return calculatedPrice;
     },
-
   },
 };
 </script>
