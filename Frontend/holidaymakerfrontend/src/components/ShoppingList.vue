@@ -45,7 +45,9 @@ export default {
         alert("Du måste logga in eller skapa ett konto innan du ska boka.");
       } 
       else{
+        //Sparar för hotell id't
         this.$store.commit("setChosenRoom", room[0])
+        //Sparar ner listan med rum du valt, för att visa dom i "Booking"
         this.$store.commit('setRoomsToBook', room)
         this.$router.push("/bookings/");
       }

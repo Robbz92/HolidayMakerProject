@@ -69,6 +69,10 @@ export default {
     };
   },
 
+//Vi har inte lagt till filtrerings funktionaliteten på länder eller städer
+//Hade bara varit att klippa och klistra från setHotels,
+//Vi har distkuterat om vi skulle ha allt som en lista,
+//eller fortfarande ha dom som separata
   computed: {
     setCountries() {
       var countries = this.$store.getters.getCountries;
@@ -83,10 +87,13 @@ export default {
     setHotels() {
       var hotels = this.$store.getters.getHotels;
       var newHotelList = [];
+      //Kör en filtrering på en ny variabel
       let filteredHotels = hotels.filter((hotel) => {
         if(this.filters.length > 0){
           this.filters.forEach(element => {
+            //Sparar en variabel ifall hotellet redan är tillagd i listan
             let x = newHotelList.find(y => y.name == hotel.name)
+            //Kollar så att hotellet inte är empty, och ifall den är tillagd
             if(this.filterComfortsAndAttractions(hotel) != undefined){
               if(!x){
                 console.log(element)
@@ -98,9 +105,10 @@ export default {
         }else
         return hotel
       });
+      //Ifall där finns filter
       if(this.filters.length > 0){
         return newHotelList
-      }else{
+      }else{ //Eller inte
         console.log(filteredHotels)
         newHotelList = hotels
         return newHotelList
@@ -115,6 +123,8 @@ export default {
 
   methods: {
     filterComfortsAndAttractions(hotel){
+      //Boolean som bestämmer ifall ett hotell finns med i båda
+      //filtrerings listorna, i så fall return, annars är den empty
       let willShow = true;
       this.filters.forEach(element => {
         if(!hotel.comfortList.includes(element.filter) && element.type == "comfort" ||

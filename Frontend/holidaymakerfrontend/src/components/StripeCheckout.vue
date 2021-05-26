@@ -46,6 +46,7 @@ export default {
     },
     methods:{
         submit(){
+            this.$parent.paynow()
             //Sending you to the checkout page from stripe
             this.$refs.checkoutRef.redirectToCheckout();
         }

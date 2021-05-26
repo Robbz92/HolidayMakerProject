@@ -85,6 +85,7 @@ export default {
         this.showPopup = boolean;
       }
     },
+
     fillBookingArray(index, object) {
       this.bookingsArray[index] = object;
       console.log(this.bookingsArray);
@@ -161,6 +162,7 @@ export default {
           toDate: toDate,
           bookings: bookingIDObject,
         };
+        
         console.log(BookRoomCredentials);
         await fetch("http://localhost:3000/rest/bookRoom", {
           method: "POST",

@@ -163,18 +163,25 @@ export default {
       this.$store.commit("setSearchPhrase", phrase);
 
       console.log(this.$store.getters.getSearchPhrase);
+      //Ifall du använder en searchphrase
       if (this.searchPhrase.length > 0) {
         this.$store.dispatch("searchFor");
         this.$router.push("/");
         this.$parent.onSearch();
-      } else if (this.$store.getters.getTempSearch != 0) {
+      } 
+      //Ifall du söker på temperatur
+      else if (this.$store.getters.getTempSearch != 0) {
         this.tempSearch(this.$store.getters.getTempSearch);
         this.$router.push("/");
-      } else if (this.$store.getters.getFilterAmmount >= 3) {
+      } 
+      //Ifall du bara söker med hjälp av filter
+      else if (this.$store.getters.getFilterAmmount >= 3) {
         this.$store.dispatch("fetchAllHotels");
         this.$router.push("/");
         this.$parent.onSearch();
-      } else
+      } 
+      //Ifall ingen sökning går igenom
+      else
         alert(
           "You need to search by phrase, temperature or at least 3 filters"
         );
@@ -225,6 +232,7 @@ export default {
       console.log(newDate);
       this.$store.commit("setToDate", newDate);
     },
+
     sendSize(room, adults, children) {
       var person = Number(adults) + Number(children);
       console.log(person);
@@ -232,6 +240,7 @@ export default {
       console.log(size);
       this.$store.commit("setSize", size);
     },
+    
     showAll() {
       this.show = !this.show;
     },

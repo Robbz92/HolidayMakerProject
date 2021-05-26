@@ -61,7 +61,7 @@ export default {
       newPrice: 0,
       extraBed: false,
       board: 1,
-      chosenRoom: this.room,
+      chosenRoom: this.room, //chosenRoom är rummet som är valt i drop down menyn, var tvungen att ha den som en separat variabel för att kunna ändra dynamiskt vilket val som är gjort
     };
   },
 
@@ -101,15 +101,19 @@ export default {
 
       this.newPrice = calculatedPrice;
   
+      this.updateRoomInList()
+    },
+
+    updateRoomInList(){
       let object = {
         roomID: this.chosenRoom.id,
         board: this.board,
         extraBedAmount: this.extraBed,
         totalCost: this.newPrice,
-        name: this.chosenRoom.type,
+        name: this.chosenRoom.type
       }
-      
-      this.$parent.fillBookingArray(this.index, object);
+
+      this.$parent.fillBookingArray(this.index, object)
     },
 
     getNumberOfDays() {
