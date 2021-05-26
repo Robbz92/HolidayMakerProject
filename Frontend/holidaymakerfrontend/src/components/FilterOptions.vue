@@ -145,10 +145,6 @@ export default {
         this.comfortTrigger = false;
       }
     },
-
-    testFunktion(filter) {
-      this.$parent.onFilter(filter);
-    },
   },
 };
 </script>
