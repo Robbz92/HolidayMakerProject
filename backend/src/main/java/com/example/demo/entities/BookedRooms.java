@@ -36,7 +36,6 @@ public class BookedRooms {
         return bookings;
     }
 
-
     public void setBookings(Bookings bookings) {
         this.bookings = bookings;
     }

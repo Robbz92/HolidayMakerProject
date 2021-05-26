@@ -219,6 +219,7 @@ export default {
     },
 
     saveBooking() {
+      
       this.$router.push("/myBookings");
     },
   },
