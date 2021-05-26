@@ -45,7 +45,7 @@
       <h2>Rooms</h2>
       <h3 v-if="getRoomList.length==0">No rooms were found according to the search.</h3>
       <ul v-for="(room, index) in getRoomList" :key="index">
-        <li id="liRoom">
+        <li id="liRoom" :class="'room' + room.id">
           <div class="roomPicture">
             <img id="roomPic" :src="room.room_img" />
           </div>
@@ -67,7 +67,7 @@
               <p>Total price: {{calculatePrice(room.price)}}:- for {{getNumberOfDays}} nights.<br><br> Price per night: {{ room.price }}:-</p>
             </div>
             <div class="booking">
-              <button @click="bookRoom(room)">Book</button>
+              <button @click="addRoom(room)">Book</button>
             </div>
           </div>
         </li>
@@ -88,19 +88,22 @@
       </div>
     </div>
   </div>
+  <ShoppingList :roomCard="roomList" />
 </template>
 
 <script>
+import ShoppingList from '../components/ShoppingList.vue'
 export default {
+  data(){
+    return{
+      roomList: []
+    };
+  },
 
+  components: {
+    ShoppingList,
+  },
   computed: {
-    loggedInUser() {
-      return this.$store.state.loggedInUser;
-    },
-
-    isLoggedIn() {
-      return this.loggedInUser != null;
-    },
     getReviews() {
       return this.$store.getters.getReviews;
     },
@@ -124,15 +127,14 @@ export default {
     },        
   },
   methods: {
-    bookRoom(room){
-       if (this.loggedInUser == null) {
-        alert("Du måste logga in eller skapa ett konto innan du ska boka.");
-       // this.$router.push("/")
-      } 
-      else{
-        this.$store.commit("setChosenRoom", room)
-        this.$router.push("/bookings/");
-      }
+    addRoom(room){
+      this.roomList.push(room);
+      document.getElementsByClassName("room" + room.id)[0].style.display = "none";
+    },
+
+    showRoom(room){
+      console.log(room)
+      document.getElementsByClassName("room" + room)[0].style.display = "flex";
     },
 
     calculatePrice(price) {
@@ -151,7 +153,6 @@ export default {
   padding: 0px;
   width: 30%;
 }
-
 #allRooms {
   list-style-type: none;
   border: 1px solid rgb(187, 184, 184);

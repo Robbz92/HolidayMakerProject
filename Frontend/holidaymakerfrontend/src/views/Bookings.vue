@@ -1,53 +1,44 @@
 <template>
-  <div class="board">
-    <p>Choose board</p>
-    <select name="boardDropDown" id="board">
-      <option value="1">All inclusive</option>
-      <option value="2">Half pension</option>
-      <option value="3">Full pension</option>
-      <option value="4">DIY</option>
-    </select>
-  </div>
-  <div class="room">
-    <p>Choose room type</p>
-    <select name="roomtype" id="roomtype" @change="calculatePrice()" v-model="roomItem">
-      <option
-        v-for="(roomItem, index) in getRoomList"
+  <div class="content">
+    <div>
+      <bookRoom
+        v-for="(room, index) in getRoomsToBook"
         :key="index"
-        :value="roomItem"
-      >
-        {{ roomItem.type }} {{ roomItem.price }} kr
-      </option>
-    </select>
-    <div class="totalCost">
-      <p>total cost: {{totalPrice}} kr</p>
+        class="perRoom"
+        :room="room"
+        :index="index"
+      />
     </div>
   </div>
-
-  <div class="extraBed">
-    <p>Do you want an extra bed?</p>
-    <label for="accept">Yes</label>
-    <input v-model="accept" type="checkbox" id="extraBed" name="horns" />
-  </div>
-
-  <div>
-    <button type="submit" class="next" @click="makeBooking()">Next</button>
+  <div id="next">
+    <button type="submit" class="next" @click="clickPopup(true)">Next</button>
+    <popup v-if="showPopup" :roomList="bookingsArray" />
   </div>
 </template>
 
 <script>
+import popup from "../components/Popup.vue";
+import bookRoom from "../components/bookRoom.vue";
 export default {
+  components: {
+    bookRoom,
+    popup,
+  },
+
   data() {
     return {
-      accept: false,
-      totalPrice:0,
-      roomItem:"",
-      boardResult:0,
-      extraBed:0,
+      newPrice: [],
+      accept: [],
+      roomItem: [],
+      boardResult: [],
+      extraBed: [],
       bookingID: 0,
-      
+      options: [],
+      bookingsArray: [],
+      showPopup: false,
     };
   },
+
   computed: {
     getBookings() {
       return this.$store.getters.getBookings;
@@ -80,92 +71,131 @@ export default {
     getRoomList() {
       return this.$store.getters.getRoomList;
     },
+
+    getRoomsToBook() {
+      return this.$store.getters.getRoomsToBook;
+    },
   },
 
-  methods:{
-      getNumberOfDays(){
-        return this.$store.getters.getNumberOfDays;
-      },
-  
-      calculatePrice() {
-        let calculatedPrice = this.roomItem.price*this.$store.getters.getNumberOfDays;
-        this.totalPrice = calculatedPrice;
-        console.log(calculatedPrice)
-      },
-    async makeBooking(){
-      //userId, hotelId, fromDate, toDate, totalCost
-      // skapar bookings, //fungerar om vi är inloggade.
-      //TODO: fixa catch error om inte inloggad.
-     // console.log("value: " + price.target.value)
+  methods: {
+    clickPopup(boolean) {
+      if (!this.checkForDuplicates()) {
+        alert("Rooms are not unique");
+      } else {
+        this.showPopup = boolean;
+      }
+    },
+    fillBookingArray(index, object) {
+      this.bookingsArray[index] = object;
+      console.log(this.bookingsArray);
+    },
+
+    getNumberOfDays() {
+      return this.$store.getters.getNumberOfDays;
+    },
+
+    getPriceFromObject() {
+      let totalPrice = 0;
+      this.bookingsArray.forEach((object) => {
+        totalPrice += object.totalCost;
+      });
+
+      return totalPrice;
+    },
+
+    checkForDuplicates() {
+      var idList = [];
+      var isUnique = true;
+      this.bookingsArray.forEach((object) => {
+        idList.push(object.roomID);
+      });
+
+      for (var i = 0; i < idList.length; i++) {
+        if (idList.includes(idList[i], i + 1)) isUnique = false;
+      }
+
+      return isUnique;
+    },
+
+    async makeBooking() {
+      //console.log("makebookin")
       var boardChoice = document.getElementById("board");
-      this.boardResult = parseInt(boardChoice.options[boardChoice.selectedIndex].value);
-  
-  //Bytas i framtiden*
-      if(this.boardResult==1){
-        this.totalPrice *= 1.2;
-      }
-      if(this.boardResult==2){
-        this.totalPrice *= 1.15;
-      }
-      if(this.boardResult==3){
-        this.totalPrice *= 1.1
-      }
-       this.extraBed = null;
-      if (this.accept == true) {//bockad checkbox
-        this.extraBed = 1;
-        this.totalPrice *= 1.05;
-      } else { //avbockad checkboc
-        this.extraBed = 0;
-      }
-      console.log(this.totalPrice)
+      this.boardResult = parseInt(
+        boardChoice.options[boardChoice.selectedIndex].value
+      );
 
       let bookingcredentials = {
         userId: this.getLoggedInUserID,
         hotelId: this.$store.state.chosenRoom.hotel_id,
         fromDate: this.getFromDate,
         toDate: this.getToDate,
-        totalCost: this.totalPrice,
+        totalCost: this.getPriceFromObject(),
       };
 
       console.log(bookingcredentials);
       await fetch("http://localhost:3000/rest/makeBooking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingcredentials)
+        body: JSON.stringify(bookingcredentials),
       });
 
       await this.$store.dispatch("fetchLatestBookingID");
-      
-      this.bookRoom()
+
+      this.bookRoom();
     },
 
-    async bookRoom() {    
-      var roomID = this.roomItem.id;
-      this.bookingID = this.$store.getters.getBookingId
+    async bookRoom() {
+      this.bookingID = this.$store.getters.getBookingId;
+      var fromDate = this.$store.state.fromDate;
+      var toDate = this.$store.state.toDate;
 
       let bookingIDObject = {
         id: this.bookingID,
       };
-
-      let BookRoomCredentials = {
-        roomsId: roomID,
-        board: this.boardResult,
-        extraBedAmount: this.extraBed,
-        fromDate: this.getFromDate,
-        toDate: this.getToDate,
-        bookings: bookingIDObject,
-      };
-
-      console.log(BookRoomCredentials);
-      await fetch("http://localhost:3000/rest/bookRoom", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(BookRoomCredentials),
-      });
+      for (let i = 0; i < this.bookingsArray.length; i++) {
+        let BookRoomCredentials = {
+          roomsId: this.bookingsArray[i].roomID,
+          board: this.bookingsArray[i].board,
+          extraBedAmount: this.bookingsArray[i].extraBedAmount == true ? 1 : 0,
+          fromDate: fromDate,
+          toDate: toDate,
+          bookings: bookingIDObject,
+        };
+        console.log(BookRoomCredentials);
+        await fetch("http://localhost:3000/rest/bookRoom", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(BookRoomCredentials),
+        });
+      }
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
+.perRoom {
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 10px auto;
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#roomName {
+  margin: 0 0;
+}
+
+.content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+#next{
+  margin: 10px auto;
+}
 </style>

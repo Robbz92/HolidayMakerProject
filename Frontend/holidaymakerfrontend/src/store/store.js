@@ -25,6 +25,7 @@ export default createStore({
     roomList: [],
     hasSearched: false,
     chosenRoom: "", // väljer ett rum under bokningen
+    roomsToBook: [],
     bookingId: 0,
     size:'',
     myBookings:[],
@@ -38,6 +39,9 @@ export default createStore({
     },
     setChosenRoom(state, payload){
       state.chosenRoom = payload;
+    },
+    setRoomsToBook(state, payload) {
+      state.roomsToBook = payload;
     },
     setFilterAmmount(state, payload) {
       state.filterAmmount = payload
@@ -244,6 +248,11 @@ export default createStore({
     getChosenRoom(state){
       return state.chosenRoom;
     },
+
+    getRoomsToBook(state) {
+      return state.roomsToBook;
+    },
+
     getBookingId(state){
       return state.bookingId;
     },
@@ -308,6 +317,10 @@ export default createStore({
 
     getTempSearch(state) {
       return state.searchedTemperature
+    },
+
+    getChosenHotel(state) {
+      return state.chosenHotel
     }
   },
 })
