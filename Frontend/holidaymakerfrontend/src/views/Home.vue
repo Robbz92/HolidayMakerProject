@@ -3,7 +3,7 @@
     <hotelList :searchResultText="searchResultText" :filters="filters"/>
     <div id="search">
       <searchBar />
-      <sortOptions v-if="gotClicked"/>
+      <sortOptions id="sortOption" v-if="gotClicked"/>
     </div>
   </div>
 </template>
@@ -85,4 +85,8 @@ export default {
   justify-content: center;
   overflow: hidden;
 }
+
+#sortOption{
+}
+
 </style>

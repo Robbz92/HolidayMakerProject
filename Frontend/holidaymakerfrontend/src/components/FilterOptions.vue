@@ -200,8 +200,7 @@ export default {
 }
 
 .dropdown {
-  display: flex;
-  visibility: hidden;
+  display: none;
   background: linear-gradient(rgba(120, 120, 120, 0.5), rgba(255, 255, 255, 0.5) 100%);
   max-height: 40vh;
   min-height: 0;
@@ -217,7 +216,7 @@ export default {
 }
 
 .isActive{
-  visibility: inherit;
+  display: flex;
   filter: opacity(1);
 }
 
