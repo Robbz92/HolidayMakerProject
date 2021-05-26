@@ -45,8 +45,6 @@ export default {
           this.searchResultText = "Loading.."
           var e = document.getElementById('search')
           e.style.top = "3%";
-          this.$store.commit("setHasSearched", true)
-          console.log("set to true")
           document.getElementById("forAnimationOnly").style.top = "7.5vh";
           document.getElementById("headline").style.display="none";
 
@@ -55,7 +53,6 @@ export default {
       },
 
       onFilter(filter){
-        console.log(filter)
         this.filters = filter
       }    
     },

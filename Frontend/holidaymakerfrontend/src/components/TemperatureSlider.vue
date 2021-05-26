@@ -1,6 +1,7 @@
 <template>
     <div>
-    <p>{{ temp }}°</p>
+    <p v-if="tempRange != 0">{{ temp - tempRange}}° - {{ getTempPlus }}°</p>
+    <p v-else>{{ temp }}°</p>
         <vue3-slider
           v-model="temp"
           id="slider"
@@ -10,6 +11,8 @@
           :max="30"
           :height="10"
         />
+        <p style="font-style: italic">Temperature Range</p>
+        <input type="number" style="width: 35px" min="0" max="10" v-model="tempRange" :update="changeSliderColor()">
     </div>
 </template>
 
@@ -25,12 +28,24 @@ export default {
     return {
       sliderColor: this.changeSliderColor(),
       temp: 0,
+      tempRange: 2,
     };
+  },
+
+  computed:{
+    getTempPlus(){
+      return parseInt(this.temp) + parseInt(this.tempRange)
+    }
   },
 
   methods:{
     updateTemp(){
+      if(this.tempRange > 10)
+        this.tempRange = 10
+      if(this.tempRange < 0)
+        this.tempRange = 0
       this.$store.commit("setSearchedTemperature", this.temp);
+      this.$store.commit("setTempRange", this.tempRange)
     },
 
     changeSliderColor() {

@@ -88,7 +88,6 @@ export default {
 
     fillBookingArray(index, object) {
       this.bookingsArray[index] = object;
-      console.log(this.bookingsArray);
     },
 
     getNumberOfDays() {

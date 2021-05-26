@@ -118,10 +118,10 @@ public class HotelService {
         return placeName;
     }
 
-    public List<Hotel> getByTemp(int temp) {
+    public List<Hotel> getByTemp(int temp, int range) {
         List<Hotel> hotelList = new ArrayList<>();
-        if(hotelRepo.countryTemperature(temp-2,temp+2) != null){
-            hotelList.addAll(hotelRepo.countryTemperature(temp-2,temp+2));
+        if(hotelRepo.countryTemperature(temp-range,temp+range) != null){
+            hotelList.addAll(hotelRepo.countryTemperature(temp-range,temp+range));
             for(Hotel hotel : hotelList){
                 hotel.setComfortList(getComfortsForCard(hotel.getId()));
                 hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));

@@ -186,7 +186,9 @@ export default {
 .roomPicture {
   margin: 0;
   padding: 0;
-  width: 450px;
+  min-width: 450px;
+  max-width: 450px;
+  max-height: 400px;
   height: auto;
   overflow: hidden;
 }

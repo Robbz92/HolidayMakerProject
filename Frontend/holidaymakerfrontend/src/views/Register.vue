@@ -62,7 +62,7 @@ export default {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
       });
-      alert("register succefurry");
+      alert("registered succefully");
 
       this.$router.push("/");
     },

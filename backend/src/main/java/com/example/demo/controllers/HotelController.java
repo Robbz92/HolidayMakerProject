@@ -45,7 +45,6 @@ public class HotelController {
     @GetMapping("hotelSearch/{phrase}")
     public List<Hotel> getByName(@PathVariable String phrase){ return hotelService.getByPhrase(phrase); }
 
-    @GetMapping("tempSearch/{temp}")
-    public List<Hotel> getByTemp(@PathVariable int temp){return hotelService.getByTemp(temp);}
-
+    @GetMapping("tempSearch/{temp}-{range}")
+    public List<Hotel> getByTemp(@PathVariable int temp,@PathVariable int range){return hotelService.getByTemp(temp, range);}
 }

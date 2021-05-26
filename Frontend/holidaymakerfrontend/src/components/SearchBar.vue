@@ -129,7 +129,6 @@ export default {
     DatePicker,
     filterOptions,
   },
-  props: {},
 
   data() {
     return {
@@ -159,10 +158,8 @@ export default {
 
   methods: {
     searchFor(phrase) {
-      console.log(phrase);
       this.$store.commit("setSearchPhrase", phrase);
-
-      console.log(this.$store.getters.getSearchPhrase);
+      
       //Ifall du använder en searchphrase
       if (this.searchPhrase.length > 0) {
         this.$store.dispatch("searchFor");
@@ -187,16 +184,9 @@ export default {
         );
     },
 
-    fetchAll() {
-      this.$store.dispatch("fetchAllHotels");
-      this.$router.push("/");
-      this.$parent.onSearch();
-    },
-
     tempSearch(temp) {
       console.log(temp);
       this.$store.dispatch("fetchHotelByTemperature");
-      this.$router.push("/");
       this.$parent.onSearch();
     },
 
@@ -229,15 +219,12 @@ export default {
       if (day.length < 2) day = "0" + day;
 
       var newDate = [year, month, day].join("-");
-      console.log(newDate);
       this.$store.commit("setToDate", newDate);
     },
 
     sendSize(room, adults, children) {
       var person = Number(adults) + Number(children);
-      console.log(person);
       var size = person / room;
-      console.log(size);
       this.$store.commit("setSize", size);
     },
     
@@ -252,7 +239,6 @@ export default {
       let days = duration.asDays();
       this.numberOfDays = Math.round(days);
       this.$store.commit("setNumberOfDays", this.numberOfDays);
-      console.log(this.numberOfDays)
     },
 
     onFilter(filter) {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="getAllMyBookings != ''">
       <h3>My Bookings</h3>
     <div class="bookings">
       <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
@@ -20,6 +20,9 @@
              </li>
           </ul> 
     </div>
+  </div>
+  <div v-else>
+    <h3>You don't have any bookings</h3>
   </div>
 </template>
 
@@ -48,7 +51,8 @@ computed: {
   methods: {
      sendBookingId(bookingId){
       this.$store.dispatch("fetchClickedBooking", bookingId);
-      this.$router.push("/review");
+      setTimeout(500)
+      this.$router.push("/review")
       },
   }
 }

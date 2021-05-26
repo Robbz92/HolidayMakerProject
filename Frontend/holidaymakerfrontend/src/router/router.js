@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 import Hotel from '../views/Hotel.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue' 
-import MyBookings from '../components/MyBookings.vue'
+import MyBookings from '../views/MyBookings.vue'
 import Review from '../views/Review.vue'
 import Bookings from '../views/Bookings.vue'
 

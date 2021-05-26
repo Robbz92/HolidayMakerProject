@@ -31,6 +31,7 @@ export default createStore({
     myBookings:[],
     clickedBooking: '',
     searchedTemperature: '',
+    temperatureRange: 0,
     filterAmmount: 0
   },
   mutations: {
@@ -118,6 +119,10 @@ export default createStore({
 
     setSearchedTemperature(state, payload) {
       state.searchedTemperature = payload
+    },
+
+    setTempRange(state, payload) {
+      state.temperatureRange = payload
     }
   },
 
@@ -125,7 +130,6 @@ export default createStore({
     async fetchLatestBookingID() {
       await axios.get("http://localhost:3000/rest/getLatestBookings/")
         .then(response => {
-          console.log(response.data)
           this.commit("setBookingId", response.data)
         })
     },
@@ -133,14 +137,12 @@ export default createStore({
     async fetchClickedBooking(store, bookingId) {
       await axios.get("http://localhost:3000/api/rest/bookingById/" + bookingId)
         .then(response => {
-          console.log(response.data)
           this.commit("setClickedBooking", response.data)
         })
     },
     async fetchMyBookings() {
       await axios.get("http://localhost:3000/api/rest/allMyBooknings")
         .then(response => {
-          console.log(response.data)
           this.commit("setMyBookings", response.data)
         })
     },
@@ -148,7 +150,6 @@ export default createStore({
     async fetchHotel() {
       await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" +  this.state.fromDate+ "/" + this.state.toDate + "/" + this.state.size)
         .then(response => {
-          console.log(response.data)
           this.commit("setRoomList", response.data)
         })
     },
@@ -156,15 +157,13 @@ export default createStore({
     async fetchAllHotels() {
       await axios.get("http://localhost:3000/rest/getAllHotels")
         .then(response => {
-          console.log(response.data)
           this.commit("setHotelList", response.data)
         })
     },
 
     async fetchHotelByTemperature() {
-      await axios.get("http://localhost:3000/rest/tempSearch/" + this.state.searchedTemperature)
+      await axios.get("http://localhost:3000/rest/tempSearch/" + this.state.searchedTemperature + "-" + this.state.temperatureRange)
         .then(response => {
-          console.log(response.data)
           this.commit("setHotelList", response.data)
         })
     },
@@ -172,7 +171,6 @@ export default createStore({
     async fetchCountries() {
       await axios.get("http://localhost:3000/rest/getCountry")
         .then(response => {
-          console.log(response.data)
           this.commit("setCountryList", response.data)
         })
     },
@@ -180,7 +178,6 @@ export default createStore({
     async fetchReviews(store, hotelId) {
       await axios.get("http://localhost:3000/rest/reviews/" + hotelId)
         .then(response => {
-          console.log(response.data)
           this.commit("setReviewList", response.data)
         })
     },
@@ -188,7 +185,6 @@ export default createStore({
     async fetchCities() {
       await axios.get("http://localhost:3000/rest/getCity")
         .then(response => {
-          console.log(response.data)
           this.commit("setCityList", response.data)
         })
     },
@@ -196,19 +192,16 @@ export default createStore({
     async searchFor() {
       await axios.get("http://localhost:3000/rest/citySearch/" + this.state.searchPhrase)
         .then(response => {
-          console.log(response.data)
           this.commit("setCityList", response.data)
         })
 
       await axios.get("http://localhost:3000/rest/countrySearch/" + this.state.searchPhrase)
         .then(response => {
-          console.log(response.data)
           this.commit("setCountryList", response.data)
         })
 
       await axios.get("http://localhost:3000/rest/hotelSearch/" + this.state.searchPhrase)
         .then(response => {
-          console.log(response.data)
           this.commit("setHotelList", response.data)
         })
     },
@@ -216,28 +209,24 @@ export default createStore({
     async fetchInformation(store, hotelId) {
       await axios.get("http://localhost:3000/rest/hotelInfo/" + hotelId)
         .then(response => {
-          console.log(response.data)
           this.commit("setInformation", response.data)
         })
     },
     async fetchTemperature(store, hotelId) {
       await axios.get("http://localhost:3000/rest/hotelCityTemparatureByHotelId/" + hotelId)
         .then(response => {
-          console.log(response.data)
           this.commit("setTemperature", response.data)
         })
     },
     async fetchAttractions(store, hotelId) {
       await axios.get("http://localhost:3000/rest/hotelAttraction/" + hotelId)
         .then(response => {
-          console.log(response.data)
           this.commit("setAttractions", response.data)
         })
     },
     async fetchComforts(store, hotelId) {
       await axios.get("http://localhost:3000/rest/hotelComforts/" + hotelId)
         .then(response => {
-          console.log(response.data)
           this.commit("setComforts", response.data)
         })
     },
@@ -264,9 +253,11 @@ export default createStore({
     getClickedBooking(state){
       return state.clickedBooking
     },
+    
     getMyBookings(state) {
       return state.myBookings
-    }, 
+    },
+    
     getHasSearched(state) {
       return state.hasSearched
     },
@@ -317,6 +308,10 @@ export default createStore({
 
     getTempSearch(state) {
       return state.searchedTemperature
+    },
+
+    getTempRange(state) {
+      return state.temperatureRange
     },
 
     getChosenHotel(state) {

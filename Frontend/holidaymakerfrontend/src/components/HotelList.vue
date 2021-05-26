@@ -52,10 +52,10 @@ Som vi sen skriver ut på hemsidan på rätt ställen
 import Card from "./HotelCard.vue";
 
 export default {
-  props:{
-      searchResultText: String,
-      filters: []
-  },
+  props:[
+      'searchResultText', 
+      'filters'
+    ],
 
   components: {
     Card,
@@ -96,7 +96,9 @@ export default {
             //Kollar så att hotellet inte är empty, och ifall den är tillagd
             if(this.filterComfortsAndAttractions(hotel) != undefined){
               if(!x){
-                console.log(element)
+                if(element) //ANVÄNDS ENDAST FÖR ATT ELEMENT SKA ANVÄNDAS
+                  console.log()
+
                 newHotelList.push(this.filterComfortsAndAttractions(hotel))
               }
             }
@@ -109,7 +111,8 @@ export default {
       if(this.filters.length > 0){
         return newHotelList
       }else{ //Eller inte
-        console.log(filteredHotels)
+        if(filteredHotels)
+          console.log()
         newHotelList = hotels
         return newHotelList
       }

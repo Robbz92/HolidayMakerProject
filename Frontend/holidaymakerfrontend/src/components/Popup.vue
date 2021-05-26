@@ -73,9 +73,9 @@ export default {
       this.$parent.makeBooking();
     },
 
-    paylater() {
+    async paylater() {
       this.$parent.makeBooking();
-      this.$router.push("/myBookings");
+      setTimeout(() => this.$router.push("/myBookings"), 500)
     },
 
     getBoardName() {
