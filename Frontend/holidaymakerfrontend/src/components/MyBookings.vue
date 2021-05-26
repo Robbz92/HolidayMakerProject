@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <h3>My Bookings</h3>
+    <h3 id="MyBookingsH3">My Bookings</h3>
     <EditBooking v-if="show" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
     :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
     <div class="bookings" v-if="!show">
@@ -95,7 +95,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .bookings {
   list-style-type: none;
   border: 1px solid rgb(187, 184, 184);
@@ -131,5 +131,8 @@ h4 {
 #hotelPic {
   height: auto;
   width: 100%;
+}
+#MyBookingsH3{
+  font-size:35px;
 }
 </style>

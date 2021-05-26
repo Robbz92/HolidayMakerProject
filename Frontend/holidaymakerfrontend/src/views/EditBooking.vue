@@ -7,16 +7,22 @@
           <img :src="hotel_img" />
         </div>
         <div class="oldText">
-          <h2>Old cost</h2>
-          <p>{{ total_cost }} SEK</p>
-          <h2>From date</h2>
-          <p>{{ fromDate }}</p>
-          <h2>To date</h2>
-          <p>{{ toDate }}</p>
-          <h2>New total cost</h2>
-          <p>New total price: {{ newTotalPrice }}</p>
+          <table>
+            <tr>
+              <th>Old Cost</th>
+              <th>From Date</th>
+              <th>To Date</th>
+              <th>New Total Cost</th>
+            </tr>
+            <tr>
+              <td>{{total_cost}} SEK</td>
+              <td>{{fromDate}}</td>
+              <td>{{toDate}}</td>
+              <td>{{newTotalPrice}}</td>
+            </tr>            
+          </table>
         </div>
-        <div class="date">
+        <!--  <div class="date">
           <div class="checkIn">
             <h6>Check-in</h6>
             <date-picker
@@ -39,17 +45,17 @@
               :style="styleObject"
             ></date-picker>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="rooms-container">
-        <h3>Booked Room(s)</h3>
+        <h3 id="bookedRoomsH3">Booked Room(s)</h3>
         <ul v-for="(theRoom, index) in getBookedRooms" :key="index">
           <li id="rooms">
             <div class="roomPicture">
               <img id="roomPic" :src="theRoom.room_img" />
             </div>
+            <div class="room-text">
             <p>Room: {{ theRoom.type }}</p>
-            <p>Room board: {{ theRoom.board }}</p>
             <select
               v-model="editBoard"
               id="boardChoice"
@@ -62,8 +68,9 @@
             </select>
             <p>Extra Bed: {{ theRoom.extraBed }}</p>
             <p>Room price: {{ theRoom.price }}kr/night</p>
+            </div>
             <button
-              id="editBooking"
+              id="editBookingButton"
               @click="
                 editBooking(
                   theRoom.bookedRoomId,
@@ -89,7 +96,7 @@
 
 
 <script>
-import DatePicker from "vue3-datepicker";
+//import DatePicker from "vue3-datepicker";
 import moment from "moment";
 
 export default {
@@ -123,7 +130,7 @@ export default {
     };
   },
   components: {
-    DatePicker,
+    // DatePicker,
   },
 
   computed: {
@@ -181,7 +188,7 @@ export default {
 
     calculatePrice(roomPrice) {
       let roomPlusDays = roomPrice * this.calculateDateDiff();
-      this.newTotalPrice = roomPlusDays;
+      let price = roomPlusDays;
 
       var boardChoice = document.getElementById("boardChoice");
       this.boardResult = parseInt(
@@ -189,14 +196,15 @@ export default {
       );
 
       if (this.boardResult == 1) {
-        this.newTotalPrice *= 1.2;
+        price *= 1.2;
       }
       if (this.boardResult == 2) {
-        this.newTotalPrice *= 1.15;
+        price *= 1.15;
       }
       if (this.boardResult == 3) {
-        this.newTotalPrice *= 1.1;
+        price *= 1.1;
       }
+      this.newTotalPrice = parseFloat(price).toFixed(2); //newTotalPrice only has 2 decimals
 
       /* this.extraBed = null;
       if (this.accept == true) {
@@ -220,6 +228,7 @@ export default {
 <style scoped>
 .main-container {
   backdrop-filter: blur(5px);
+  
 }
 
 .hotel-container {
@@ -231,10 +240,16 @@ export default {
   border-radius: 5px;
   margin: 0 auto;
   margin-top: 5em;
+  overflow: auto;
 }
 
 .nameAndImage {
   display: block;
+  margin-left: 1em;
+}
+.nameAndImage img{
+  height: 250px;
+  width: 250px; 
 }
 
 .old-container {
@@ -245,16 +260,64 @@ export default {
   list-style: none;
   display: flex;
 }
-img {
-  width: 200px;
-  height: auto;
+ul{
+  margin: 0;
+  padding: 0;
+  margin-left: 1em;
+  margin-right: 1em;
+  
 }
-
+.oldText {
+  width:100%;
+}
+.oldText table{
+  width:100%;
+  margin-top: 75px;
+}
 #rooms {
   display: flex;
+  width:100%;
+  justify-content: space-evenly;
+  border-bottom: 1px solid rgb(187, 184, 184);
+  margin-bottom: 35px;
+  padding-bottom: 15px;
+  vertical-align: middle;
+}
+.room-text{
+display:flex;
+justify-content: space-evenly;
+width:100%;
+}
+#roomPic{
+  height: 150px;
+  width: 200px;
+  object-fit: cover;
+}
+#boardChoice{
+  width: 130px;
+  height:35px ;
+  outline: none;
+}
+#editBookingButton{
+width:100px;
+height:45px;
+}
+#bookedRoomsH3{
+  margin-bottom: 80px;
+}
+.buttons{
+  float:right;
+}
+.buttons button{
+  margin-left: 20px;
+
 }
 
-.oldText {
-  display: block;
+#deleteBooking{
+  background-color:rgb(251, 76, 76);
+}
+#deleteBooking:hover{
+  background-color: white;
+  color: rgb(251, 76, 76);
 }
 </style>
