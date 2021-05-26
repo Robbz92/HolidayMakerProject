@@ -18,6 +18,7 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
+    price: [],
     fromDate: '',
     toDate: '',
     numberOfDays: '',
@@ -32,19 +33,11 @@ export default createStore({
     deleteBooking: '',
     searchedTemperature: '',
     filterAmmount: 0,
-    bookedRoom: '',
+    roomListForEdit:[],
+    bookedRoom:'',
   },
 
   mutations: {
-    setBookedRoom(state, payload){
-      state.bookedRoom = payload;
-    },
-    setBookingId(state, payload){
-      state.bookingId = payload;
-    },
-    setChosenRoom(state, payload){
-      state.chosenRoom = payload;
-    },
     setBookings(state, payload) {
       state.bookings = payload;
     },
@@ -52,8 +45,8 @@ export default createStore({
       state.filterAmmount = payload
     },
 
-    setClickedBooking(state, payload){
-      state.clickedBooking= payload
+    setClickedBooking(state, payload) {
+      state.clickedBooking = payload
     },
     setMyBookings(state, payload) {
       state.myBookings = payload
@@ -108,59 +101,61 @@ export default createStore({
     setLoggedInUser(state, user) {
       state.loggedInUser = user;
     },
+    setRooms(state, payload) {
+      state.price = payload;
+    },
 
     setFromDate(state, payload) {
       state.fromDate = payload
     },
-
+    
     setToDate(state, payload) {
       state.toDate = payload
     },
-
+    
     setNumberOfDays(state, payload) {
       state.numberOfDays = payload
     },
-
+    
     setSearchedTemperature(state, payload) {
       state.searchedTemperature = payload
     },
-
+    
     setDeleteBooking(state, payload) {
       state.deleteBooking = payload
-    }
+    },
+    setRoomListForEdit(state,payload){
+      state.roomListForEdit=payload
+    },
+    setBookedRoom(state, payload){
+      state.bookedRoom = payload;
+    },
   },
-
+  
   actions: {
-    async fetchBookedRoom(store, bookingId) {
-      console.log("llega aqui")
-      await axios.get("http://localhost:3000/api/rest/bookedRoomsById/" + bookingId)
-        .then(response => {
-          console.log(response.data)
-          this.commit("setBookedRoom", response.data)
+    async fetchClickedBooking(store, bookingId) {
+      await axios.get("http://localhost:3000/api/rest/bookingById/" + bookingId)
+      .then(response => {
+        console.log(response.data)
+        this.commit("setClickedBooking", response.data)
+      })
+    },
+    async fetchMyBookings() {
+      await axios.get("http://localhost:3000/api/rest/allMyBooknings")
+      .then(response => {
+        console.log(response.data)
+          this.commit("setMyBookings", response.data)
         })
     },
+
     async fetchLatestBookingID() {
       await axios.get("http://localhost:3000/rest/getLatestBookings/")
         .then(response => {
           console.log(response.data)
-          this.commit("setBookingId", response.data)
+          this.commit("setBookings", response.data)
         })
     },
 
-    async fetchClickedBooking(store, bookingId) {
-      await axios.get("http://localhost:3000/api/rest/bookingById/" + bookingId)
-        .then(response => {
-          console.log(response.data)
-          this.commit("setClickedBooking", response.data)
-        })
-    },
-    async fetchMyBookings() {
-      await axios.get("http://localhost:3000/api/rest/allMyBooknings")
-        .then(response => {
-          console.log(response.data)
-          this.commit("setMyBookings", response.data)
-        })
-    },
     async fetchHotel() {
       await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.size)
         .then(response => {
@@ -258,30 +253,27 @@ export default createStore({
         })
     },
 
-    async fetchDeleteBooking(store, bookingId) {
-      await axios.delete("http://localhost:3000/rest/deleteBooking/" + bookingId)
-        .then(response => {
-          console.log(response.data)
-          this.commit("setDeleteBooking", response.data)
-        })
-    }
+  async fetchDeleteBooking(store, bookingId) {
+    await axios.delete("http://localhost:3000/rest/deleteBooking/" + bookingId)
+    .then(response => {
+      console.log(response.data)
+      this.commit("setDeleteBooking", response.data)
+    })
+  },
+  async fetchBookedRoom(store, bookingId) {
+    await axios.get("http://localhost:3000/api/rest/bookedRoomsById/" + bookingId)
+      .then(response => {
+        console.log(response.data)
+        this.commit("setBookedRoom", response.data)
+      })
+  },
 
   },
 
   getters: {
-    getBookedRoom(state){
-      return state.bookedRoom;
-    },
-    getChosenRoom(state){
-      return state.chosenRoom;
-    },
-    getBookingId(state){
-      return state.bookingId;
-    },
     getBookings(state) {
       return state.bookings;
     },
-
     getFilterAmmount(state) {
       return state.filterAmmount
     },
@@ -291,7 +283,7 @@ export default createStore({
     },
     getMyBookings(state) {
       return state.myBookings
-    }, 
+    },
     getHasSearched(state) {
       return state.hasSearched
     },
@@ -299,23 +291,18 @@ export default createStore({
     getRoomList(state) {
       return state.roomList
     },
-    
     getComforts(state) {
       return state.comforts
     },
-
     getAttractions(state) {
       return state.attractions
     },
-
     getTemperature(state) {
       return state.temperature
     },
-
     getInformation(state) {
       return state.information
     },
-
     getCountries(state) {
       return state.countryList
     },
@@ -347,5 +334,11 @@ export default createStore({
     getDeleteBooking(state) {
       return state.deleteBooking
     },
-  }
+    getRoomsForEdit(state) {
+      return state.getRoomsForEdit
+    },
+    getBookedRoom(state){
+      return state.bookedRoom;
+    },
+  },
 })

@@ -27,11 +27,11 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-
+    @JsonIgnore
     public long getId() {
         return id;
     }
-
+    @JsonProperty
     public void setId(long id) {
         this.id = id;
     }

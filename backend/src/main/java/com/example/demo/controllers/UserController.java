@@ -40,5 +40,8 @@ public class UserController {
     @PostMapping("/rest/newReview")
     public Review addReview(@RequestBody Review review){return userService.addReview(review);}
 
+    @GetMapping("/rest/bookedRoomsById/{bookingId}")
+    public List<Map> getBookedRooms(@PathVariable long bookingId){return userService.bookedRoomsById(bookingId);}
+
 
 }

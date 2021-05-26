@@ -1,18 +1,21 @@
 <template>
-  <div>
-    <h3>My Bookings</h3>
-    <div class="bookings">
+  <div class="main-container">
+    <h3 id="MyBookingsH3">My Bookings</h3>
+    <EditBooking v-if="show" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
+    :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
+    <div class="bookings" v-if="!show">
       <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
         <li id="booking">
           <div class="hotelPicture">
             <img id="hotelPic" :src="bookings.hotel_img" />
           </div>
           <h4>{{ bookings.name }}</h4>
+          <p>{{bookings.address}}</p>
           <p>Date: {{ bookings.from_date }} - {{ bookings.to_date }}</p>
-          <p>Booked rooms: {{ bookings.BookedRooms}}</p>
-          <h4>Total price: {{ bookings.total_cost }} kr</h4>
+           <p>Booked rooms: {{ bookings.BookedRooms}}</p>
+          <p>Price: {{ bookings.total_cost }} kr</p>
           <button @click="sendBookingId(bookings.id)">Review</button>
-          <button @click="editBooking(bookings.id), getBookedRooms(bookings.id)">Edit Booking</button>
+          <button @click="editBooking(bookings)">Edit Booking</button>
         </li>
       </ul>
     </div>
@@ -20,44 +23,79 @@
 </template>
 
 <script>
+import EditBooking from "../views/EditBooking.vue";
 export default {
   name: "MyBookings",
+
+  components: {
+    EditBooking,
+  },
 
   data() {
     return {
       score: 0,
       text: "",
       hotel_id: "",
-      show: true,
+      show: false,
+      fromDate: "",
+      toDate: "",
+      board:"",
+      name:"",
+      hotel_img:"",
+      extra_bed_amount:"",
+      type:"",
+      room_img:"",
+      total_cost:"",
+      id:"",
+
     };
   },
   computed: {
     getAllMyBookings() {
       return this.$store.getters.getMyBookings;
     },
+    getRoomsForEdit(){
+      return this.$store.getters.getRoomsForEdit;
+    }
+  
   },
   mounted() {
     this.$store.dispatch("fetchMyBookings");
   },
   methods: {
+    sendFromDate(fromDate){
+      this.$store.commit("setFromDate", fromDate);
+    },
+    sendToDate(toDate){
+      this.$store.commit("setToDate", toDate);
+    },
     sendBookingId(bookingId) {
       this.$store.dispatch("fetchClickedBooking", bookingId);
       this.$router.push("/review");
     },
-    getBookedRooms(bookingId) {
-      this.$store.dispatch("fetchBookedRoom", bookingId);
-      this.$router.push("/editBooking")
+
+
+    editBooking(booking) {
+      this.fromDate = booking.from_date;
+      this.toDate = booking.to_date;
+      this.board=booking.board;
+      this.name = booking.name;
+      this.hotel_img = booking.hotel_img;
+      this.extra_bed_amount = booking.extra_bed_amount;
+      this.type = booking.type;
+      this.room_img = booking.room_img;
+      this.total_cost = booking.total_cost;
+      this.id=booking.id;
+      this.$store.dispatch("fetchBookedRoom", booking.id);
+      this.$store.dispatch("fetchClickedBooking", booking.id);
+      this.show = true;
     },
 
-    editBooking(bookingId) {
-      this.$store.dispatch("fetchClickedBooking", bookingId);
-      this.$router.push("/editBooking")
-    }
   },
 };
 </script>
 
-<style>
+<style scoped>
 .bookings {
   list-style-type: none;
   border: 1px solid rgb(187, 184, 184);
@@ -67,6 +105,7 @@ export default {
   border-radius: 5px;
   margin: 0 auto;
   margin-top: 5em;
+  backdrop-filter: blur(5px);
 }
 #booking {
   display: flex;
@@ -92,5 +131,8 @@ h4 {
 #hotelPic {
   height: auto;
   width: 100%;
+}
+#MyBookingsH3{
+  font-size:35px;
 }
 </style>

@@ -54,7 +54,7 @@ import Card from "./HotelCard.vue";
 export default {
   props:{
       searchResultText: String,
-      filters: []
+      filters: {},
   },
 
   components: {

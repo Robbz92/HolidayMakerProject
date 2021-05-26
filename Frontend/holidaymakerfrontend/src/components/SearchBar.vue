@@ -52,7 +52,7 @@
             <li>
               Adults:
               <select id="person" v-model="adults">
-                <option v-for="(person, index) in cuantity" :key="index">
+                <option v-for="(person, index) in quantity" :key="index">
                   {{ person }}
                 </option>
               </select>
@@ -60,7 +60,7 @@
             <li>
               Children:
               <select id="person" v-model="children">
-                <option v-for="(children, index) in cuantity" :key="index">
+                <option v-for="(children, index) in quantity" :key="index">
                   {{ children }}
                 </option>
               </select>
@@ -70,8 +70,8 @@
           <div id="children">
             <li v-for="child in Number(children)" :key="child">
               Age of child: {{ child }}
-              <select id="childAge">
-                <option v-for="(age, index) in cuantity" :key="index">
+              <select id="childAge" v-model="age">
+                <option v-for="(age, index) in quantity" :key="index">
                   {{ age }}
                 </option>
               </select>
@@ -82,7 +82,7 @@
       <div class="rooms">
         <h6>Rooms</h6>
         <select id="room" v-model="room">
-          <option v-for="(room, index) in cuantity" :key="index">
+          <option v-for="(room, index) in quantity" :key="index">
             {{ room }}
           </option>
         </select>
@@ -101,7 +101,7 @@
         Go!
       </button>
     </div>
-    <filterOptions id="filterOptions" />
+    <filterOptions />
   </div>
 </template>
 
@@ -138,7 +138,7 @@ export default {
       children: 0,
       age: 0,
       show: false,
-      cuantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      quantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 
       // Skapar styleObject för att kunna kalla på datepickers attribut.
       // Går inte att CSSa på dessa inputs med id eller class.
@@ -273,7 +273,6 @@ export default {
       }
     },
   },
-    
 };
 </script>
 
@@ -293,14 +292,13 @@ export default {
   );
   border-radius: 15px;
   backdrop-filter: blur(5px);
-  height: 120px;
 }
 
 .bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 2em;
+  padding-bottom: 1em;
   margin: 0 auto;
 }
 
@@ -308,7 +306,6 @@ input {
   outline: none;
   border: none;
   height: 1.5em;
-  margin-left: 1em;
 }
 
 .search-container {
@@ -327,7 +324,6 @@ h6 {
 .groupAdults {
   display: flex;
   margin-right: 1em;
-  z-index: 2;
 }
 
 .label {
@@ -356,8 +352,8 @@ h6 {
 #ppl-list {
   display: block;
   position: absolute;
-  top: 62%;
-  right: 20.5%;
+  top: 89%;
+  right: 19.5%;
   background-color: white;
   border-radius: 0 0 5px 5px;
 }
@@ -391,18 +387,6 @@ li {
   outline: none;
 }
 
-.rooms {
-  margin-right: 2em;
-}
-
-#room {
-  width: 50px;
-  height: 22px;
-  border: none;
-  margin-bottom: 1em;
-  outline: none;
-}
-
 .go-container button {
   border: none;
   background-color: rgb(72, 210, 228);
@@ -412,7 +396,6 @@ li {
   font-size: 1.5em;
   padding: 15px;
   margin-top: 20px;
-  margin-right: 20px;
   border-radius: 5% 45% 30% 45%;
   cursor: pointer;
   transition: 0.2s ease;
@@ -423,10 +406,4 @@ li {
   color: rgb(72, 210, 228);
   background-color: white;
 }
-
-#filterOptions {
-  position: absolute;
-  top: 70%;
-}
-
 </style>
