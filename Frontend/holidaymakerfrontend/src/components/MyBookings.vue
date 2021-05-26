@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <h3>My Bookings</h3>
     <EditBooking v-if="show" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
     :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
@@ -105,6 +105,7 @@ export default {
   border-radius: 5px;
   margin: 0 auto;
   margin-top: 5em;
+  backdrop-filter: blur(5px);
 }
 #booking {
   display: flex;

@@ -138,7 +138,7 @@ export default {
       children: 0,
       age: 0,
       show: false,
-      quantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      quantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 
       // Skapar styleObject för att kunna kalla på datepickers attribut.
       // Går inte att CSSa på dessa inputs med id eller class.
