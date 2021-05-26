@@ -168,7 +168,7 @@ export default {
       } 
       //Ifall du söker på temperatur
       else if (this.$store.getters.getTempSearch != 0) {
-        this.tempSearch(this.$store.getters.getTempSearch);
+        this.tempSearch();
         this.$router.push("/");
       } 
       //Ifall du bara söker med hjälp av filter
@@ -184,8 +184,7 @@ export default {
         );
     },
 
-    tempSearch(temp) {
-      console.log(temp);
+    tempSearch() {
       this.$store.dispatch("fetchHotelByTemperature");
       this.$parent.onSearch();
     },

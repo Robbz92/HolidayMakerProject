@@ -28,7 +28,7 @@ export default {
     return {
       sliderColor: this.changeSliderColor(),
       temp: 0,
-      tempRange: 2,
+      tempRange: 0,
     };
   },
 
