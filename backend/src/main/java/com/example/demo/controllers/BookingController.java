@@ -18,9 +18,21 @@ public class BookingController {
 
     // Skapar en entry i databasen med en bokning i bookings
     @PostMapping("/makeBooking")
-    public void makeBooking(@RequestBody Bookings bookingsObj){bookingService.makeBooking(bookingsObj);}
+    public void makeBooking(@RequestBody Bookings bookingsObj) {
+        bookingService.makeBooking(bookingsObj);
+    }
 
     // hämtar alla bokningar från bookings + bookedRooms i en lista.
     @GetMapping("/getLatestBookings")
-    public int getLatestBookings(){return bookingService.getLatestBookings();}
+    public int getLatestBookings() {
+        return bookingService.getLatestBookings();
+    }
+
+    // Delete booking
+    @DeleteMapping("/deleteBooking/{id}")
+    public String deleteBooking(@PathVariable long id) {
+        return bookingService.deleteBooking(id);
+    }
+
+
 }

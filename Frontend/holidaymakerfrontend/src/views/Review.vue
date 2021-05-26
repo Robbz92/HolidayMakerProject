@@ -1,17 +1,17 @@
 <template>
   <div class="review">
-    <ul v-for="(theBook, index) in getTheBooking " :key="index">
+    <ul v-for="(theBooking, index) in getTheBooking " :key="index">
       <li id="list">
         <h3>Review</h3>
         <div id="theInfo">
         <div class="hotelPicture">
-          <img id="hotelPic" :src="theBook.hotel_img"/>
+          <img id="hotelPic" :src="theBooking.hotel_img"/>
         </div>
-          <p>Total Cost: {{theBook.total_cost}} kr</p>
-          <p>Date: {{theBook.from_date}} - {{theBook.to_date}}</p>
-          <p>Room: {{theBook.type}}</p>
-          <p>Board: {{theBook.board}} </p> 
-          <p>Address: {{theBook.address}} </p>
+          <p>Total Cost: {{theBooking.total_cost}} kr</p>
+          <p>Date: {{theBooking.from_date}} - {{theBook.to_date}}</p>
+          <p>Room: {{theBooking.type}}</p>
+          <p>Board: {{theBooking.board}} </p> 
+          <p>Address: {{theBooking.address}} </p>
         </div>
         <form>
           <h3>Score: {{score}}</h3>
@@ -24,9 +24,9 @@
             v-model="text"
             ></textarea>  
         </form>
-        <button id="adding" @click="addReview(theBook.hotel_id)">Add Review</button> 
+        <button id="adding" @click="addReview(theBooking.hotel_id)">Add Review</button> 
       </li>  
-    </ul> 
+    </ul>
    </div> 
 </template>
 
@@ -71,12 +71,7 @@ computed: {
     },
   
  },
-  async mounted() {
-     this.booking =  this.$store.getters.getClickedBooking
-    
-     console.log("From Mounted "+this.booking)
-     
-   }
+
 }
 </script>
 

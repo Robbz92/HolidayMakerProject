@@ -197,7 +197,7 @@ export default {
 
 .dropdown {
   display: none;
-  background: linear-gradient(rgba(120, 120, 120, 0.5), rgba(255, 255, 255, 0.5) 100%);
+  background: linear-gradient(rgba(120, 120, 120, 1) 10%, rgba(255, 255, 255, 0.7) 100%);
   max-height: 40vh;
   min-height: 0;
   overflow-y: auto;

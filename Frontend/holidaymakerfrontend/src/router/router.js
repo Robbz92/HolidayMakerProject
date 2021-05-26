@@ -6,6 +6,7 @@ import Register from '../views/Register.vue'
 import MyBookings from '../views/MyBookings.vue'
 import Review from '../views/Review.vue'
 import Bookings from '../views/Bookings.vue'
+import EditBooking from '../views/EditBooking.vue'
 
 const routes = [
   {
@@ -43,6 +44,13 @@ const routes = [
     name: 'Review',
     component: Review,
   },
+
+  {
+    path: '/editBooking',
+    name: 'EditBooking',
+    component: EditBooking,
+  },
+
 
 ]
 

@@ -8,12 +8,12 @@
       <router-link to="/register" v-if ="!isLoggedIn" id="text">Register</router-link>
     </div>
   </div>
-
   <router-view />
 
 </template>
 
 <script>
+
 
 export default {
   computed: {
@@ -43,6 +43,7 @@ export default {
     let user = await fetch("/api/auth/whoami");
     try {
       user = await user.json();
+      console.log(user);
       this.$store.commit("setLoggedInUser", user);
     } catch {
       console.log("Not logged in");

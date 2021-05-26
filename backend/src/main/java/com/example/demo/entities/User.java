@@ -31,7 +31,7 @@ public class User {
     public long getId() {
         return id;
     }
-
+    @JsonProperty
     public void setId(long id) {
         this.id = id;
     }

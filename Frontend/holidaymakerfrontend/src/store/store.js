@@ -18,6 +18,7 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
+    price: [],
     fromDate: '',
     toDate: '',
     numberOfDays: '',
@@ -30,13 +31,16 @@ export default createStore({
     size:'',
     myBookings:[],
     clickedBooking: '',
+    deleteBooking: '',
     searchedTemperature: '',
-    temperatureRange: 0,
-    filterAmmount: 0
+    filterAmmount: 0,
+    roomListForEdit:[],
+    bookedRoom:'',
   },
+
   mutations: {
-    setBookingId(state, payload){
-      state.bookingId = payload;
+    setBookings(state, payload) {
+      state.bookings = payload;
     },
     setChosenRoom(state, payload){
       state.chosenRoom = payload;
@@ -48,11 +52,11 @@ export default createStore({
       state.filterAmmount = payload
     },
 
-    setClickedBooking(state, payload){
-      state.clickedBooking= payload
+    setClickedBooking(state, payload) {
+      state.clickedBooking = payload
     },
-    setMyBookings(state, payload){
-      state.myBookings =payload
+    setMyBookings(state, payload) {
+      state.myBookings = payload
     },
     setHasSearched(state, payload) {
       state.hasSearched = payload
@@ -104,28 +108,45 @@ export default createStore({
     setLoggedInUser(state, user) {
       state.loggedInUser = user;
     },
+    setRooms(state, payload) {
+      state.price = payload;
+    },
 
     setFromDate(state, payload) {
       state.fromDate = payload
     },
-
+    
     setToDate(state, payload) {
       state.toDate = payload
     },
-
+    
     setNumberOfDays(state, payload) {
       state.numberOfDays = payload
     },
-
+    
     setSearchedTemperature(state, payload) {
       state.searchedTemperature = payload
+    },
+    
+    setDeleteBooking(state, payload) {
+      state.deleteBooking = payload
+    },
+    setRoomListForEdit(state,payload){
+      state.roomListForEdit=payload
+    },
+    setBookedRoom(state, payload){
+      state.bookedRoom = payload;
     },
 
     setTempRange(state, payload) {
       state.temperatureRange = payload
+    },
+
+    setBookingId(state, payload) {
+      state.bookingId = payload
     }
   },
-
+  
   actions: {
     async fetchLatestBookingID() {
       await axios.get("http://localhost:3000/rest/getLatestBookings/")
@@ -142,13 +163,14 @@ export default createStore({
     },
     async fetchMyBookings() {
       await axios.get("http://localhost:3000/api/rest/allMyBooknings")
-        .then(response => {
+      .then(response => {
+        console.log(response.data)
           this.commit("setMyBookings", response.data)
         })
     },
 
     async fetchHotel() {
-      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" +  this.state.fromDate+ "/" + this.state.toDate + "/" + this.state.size)
+      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.size)
         .then(response => {
           this.commit("setRoomList", response.data)
         })
@@ -231,11 +253,26 @@ export default createStore({
         })
     },
 
+  async fetchDeleteBooking(store, bookingId) {
+    await axios.delete("http://localhost:3000/rest/deleteBooking/" + bookingId)
+    .then(response => {
+      console.log(response.data)
+      this.commit("setDeleteBooking", response.data)
+    })
+  },
+  async fetchBookedRoom(store, bookingId) {
+    await axios.get("http://localhost:3000/api/rest/bookedRoomsById/" + bookingId)
+      .then(response => {
+        console.log(response.data)
+        this.commit("setBookedRoom", response.data)
+      })
+  },
+
   },
 
   getters: {
-    getChosenRoom(state){
-      return state.chosenRoom;
+    getBookings(state) {
+      return state.bookings;
     },
 
     getRoomsToBook(state) {
@@ -250,7 +287,7 @@ export default createStore({
       return state.filterAmmount
     },
 
-    getClickedBooking(state){
+    getClickedBooking(state) {
       return state.clickedBooking
     },
     
@@ -265,23 +302,18 @@ export default createStore({
     getRoomList(state) {
       return state.roomList
     },
-    
     getComforts(state) {
       return state.comforts
     },
-
     getAttractions(state) {
       return state.attractions
     },
-
     getTemperature(state) {
       return state.temperature
     },
-
     getInformation(state) {
       return state.information
     },
-
     getCountries(state) {
       return state.countryList
     },
@@ -301,13 +333,23 @@ export default createStore({
     getSearchPhrase(state) {
       return state.searchPhrase
     },
-    
+
     getNumberOfDays(state) {
       return state.numberOfDays
     },
 
     getTempSearch(state) {
       return state.searchedTemperature
+    },
+
+    getDeleteBooking(state) {
+      return state.deleteBooking
+    },
+    getRoomsForEdit(state) {
+      return state.getRoomsForEdit
+    },
+    getBookedRoom(state){
+      return state.bookedRoom;
     },
 
     getTempRange(state) {
