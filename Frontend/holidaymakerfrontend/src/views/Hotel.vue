@@ -153,6 +153,7 @@ export default {
   padding: 0px;
   width: 30%;
 }
+
 #allRooms {
   list-style-type: none;
   border: 1px solid rgb(187, 184, 184);

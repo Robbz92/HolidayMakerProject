@@ -114,7 +114,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(3px);
 }
 
@@ -125,7 +125,7 @@ export default {
   max-height: 70%;
   top: 11.2%;
   left: 30%;
-  background-color:rgba(255, 255, 255, 0.5);
+  background-color:rgba(255, 255, 255, 0.7);
   box-shadow: 10px 10px 3px rgba(0, 0, 0, 0.1);
   visibility: inherit;
   border-radius: 30px;
