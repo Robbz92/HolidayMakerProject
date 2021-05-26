@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" v-if="getAllMyBookings != ''">
     <h3 id="MyBookingsH3">My Bookings</h3>
     <EditBooking v-if="show" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
     :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
@@ -36,10 +36,13 @@
       </ul>
     </div>
   </div>
+  <div v-else>
+    <h3>You haven't made any bookings yet</h3>
+  </div>
 </template>
 
 <script>
-import EditBooking from "../views/EditBooking.vue";
+import EditBooking from "./EditBooking.vue";
 export default {
   name: "MyBookings",
 
