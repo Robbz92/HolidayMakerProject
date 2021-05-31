@@ -37,13 +37,22 @@
                 </ul>
               </div>
             </div>
+            <div
+              class="favImg"
+              @click="addFavorite(info.id)"
+              v-if="loggedInUser"
+            >
+              <img src="../assets/heart-regular.svg" id="heart" />
+            </div>
           </li>
         </ul>
       </div>
     </div>
     <div id="allRooms">
       <h2>Rooms</h2>
-      <h3 v-if="getRoomList.length==0">No rooms were found according to the search.</h3>
+      <h3 v-if="getRoomList.length == 0">
+        No rooms were found according to the search.
+      </h3>
       <ul v-for="(room, index) in getRoomList" :key="index">
         <li id="liRoom" :class="'room' + room.id">
           <div class="roomPicture">
@@ -64,7 +73,11 @@
             </div>
             <div class="price">
               <h4>Price</h4>
-              <p>Total price: {{calculatePrice(room.price)}}:- for {{getNumberOfDays}} nights.<br><br> Price per night: {{ room.price }}:-</p>
+              <p>
+                Total price: {{ calculatePrice(room.price) }}:- for
+                {{ getNumberOfDays }} nights.<br /><br />
+                Price per night: {{ room.price }}:-
+              </p>
             </div>
             <div class="booking">
               <button @click="addRoom(room)">Book</button>
@@ -92,17 +105,18 @@
 </template>
 
 <script>
-import ShoppingList from '../components/ShoppingList.vue'
+import ShoppingList from "../components/ShoppingList.vue";
 export default {
-  data(){
-    return{
-      roomList: []
+  data() {
+    return {
+      roomList: [],
     };
   },
 
   components: {
     ShoppingList,
   },
+
   computed: {
     getReviews() {
       return this.$store.getters.getReviews;
@@ -124,24 +138,47 @@ export default {
     },
     getNumberOfDays() {
       return this.$store.getters.getNumberOfDays;
-    },        
+    },
+    loggedInUser() {
+      return this.$store.state.loggedInUser;
+    },
+    isLoggedIn() {
+      return this.loggedInUser != null;
+    },
   },
   methods: {
-    addRoom(room){
+    addRoom(room) {
       this.roomList.push(room);
-      document.getElementsByClassName("room" + room.id)[0].style.display = "none";
+      document.getElementsByClassName("room" + room.id)[0].style.display =
+        "none";
     },
 
-    showRoom(room){
-      console.log(room)
+    showRoom(room) {
+      console.log(room);
       document.getElementsByClassName("room" + room)[0].style.display = "flex";
     },
 
     calculatePrice(price) {
-      let calculatedPrice = price*this.getNumberOfDays;
+      let calculatedPrice = price * this.getNumberOfDays;
       return calculatedPrice;
-    },   
-  }
+    },
+
+    // En favorit innehåller user_id och hotel_id
+    // Vi hämtar den inloggade användarens id via "store.state"
+    // Sedan skickar vi hotel_id in till funktionen via "id" 
+    async addFavorite(id) {
+      let favoriteCredentials = {
+        userId: this.$store.state.loggedInUser.id,
+        hotelId: id
+      };
+
+      await fetch("http://localhost:3000/api/auth/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(favoriteCredentials),
+      });
+    },
+  },
 };
 </script>
 
@@ -214,7 +251,7 @@ h3 {
   margin: 0;
 }
 
-h4{
+h4 {
   margin: 0;
 }
 
@@ -244,7 +281,7 @@ h4{
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 ul {
@@ -288,5 +325,15 @@ ul {
   display: none;
 }
 
+.favImg {
+  height: 40px;
+  width: 40px;
+  margin-top: 2em;
+}
 
+#heart:hover {
+  cursor: pointer;
+  filter: invert(1);
+  transition: 0.2s ease;
+}
 </style>

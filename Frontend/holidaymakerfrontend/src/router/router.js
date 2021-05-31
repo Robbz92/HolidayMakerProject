@@ -7,6 +7,7 @@ import MyBookings from '../views/MyBookings.vue'
 import Review from '../views/Review.vue'
 import Bookings from '../views/Bookings.vue'
 import EditBooking from '../views/EditBooking.vue'
+import Favorites from '../views/Favorites.vue'
 
 const routes = [
   {
@@ -50,6 +51,12 @@ const routes = [
     name: 'EditBooking',
     component: EditBooking,
   },
+
+  {
+    path: '/favorites',
+    name: 'Favorites',
+    component: Favorites,
+  }
 
 
 ]

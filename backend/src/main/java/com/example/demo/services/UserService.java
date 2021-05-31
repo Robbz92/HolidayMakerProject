@@ -4,6 +4,7 @@ import com.example.demo.configs.MyUserDetailService;
 import com.example.demo.entities.Review;
 import com.example.demo.entities.User;
 
+import com.example.demo.repositories.FavoriteRepo;
 import com.example.demo.repositories.HotelRepo;
 import com.example.demo.repositories.ReviewRepo;
 import com.example.demo.repositories.UserRepo;
@@ -29,6 +30,9 @@ public class UserService {
 
     @Autowired
     private HotelRepo hotelRepo;
+
+    @Autowired
+    private FavoriteRepo favoriteRepo;
 
     /*
     skickar informationen vidare till MyUserDetailService
@@ -70,7 +74,9 @@ public class UserService {
         }
         return null;
     }
+
     public List<Map> bookedRoomsById(long bookingId) {
         return userRepo.getBookedRoomsById(bookingId);
     }
+
 }
