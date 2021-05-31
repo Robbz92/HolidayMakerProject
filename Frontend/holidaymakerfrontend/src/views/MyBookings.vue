@@ -6,7 +6,7 @@
     <div class="bookings" v-if="!show">
       <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
         <li id="booking"> 
-          <div class="hotelPicture">
+          <div class="hotelPicture" @click="sendToHotel(bookings.hotel_id)">
              <h2>{{ bookings.name }}</h2>
             <img id="hotelPic" :src="bookings.hotel_img" />
           </div>
@@ -93,6 +93,44 @@ export default {
       this.$router.push("/review");
     },
 
+    sendToHotel(id){
+      console.log(id)
+      this.viewHotel(id);
+      this.allReviews(id);
+      this.hotelInfo(id);
+      this.hotelTemperature(id);
+      this.hotelAttraction(id);
+      this.hotelComforts(id);
+    },
+    
+    viewHotel(id) {
+      this.$store.commit("setChosenHotel", id);
+      if(this.$store.state.searchPhrase != ""){
+        this.$store.dispatch("searchFor");
+      }
+      this.$store.dispatch("fetchHotel");
+      this.$router.push("/hotel");
+    },
+    allReviews(hotelId) {
+      this.$store.dispatch("fetchReviews", hotelId);
+      this.$router.push("/hotel");
+    },
+    hotelInfo(hotelId) {
+      this.$store.dispatch("fetchInformation", hotelId);
+      this.$router.push("/hotel");
+    },
+    hotelTemperature(hotelId) {
+      this.$store.dispatch("fetchTemperature", hotelId);
+      this.$router.push("/hotel");
+    },
+    hotelAttraction(hotelId) {
+      this.$store.dispatch("fetchAttractions", hotelId);
+      this.$router.push("/hotel");
+    },
+    hotelComforts(hotelId) {
+      this.$store.dispatch("fetchComforts", hotelId);
+      this.$router.push("/hotel");
+    },
 
     editBooking(booking) {
       this.fromDate = booking.from_date;
