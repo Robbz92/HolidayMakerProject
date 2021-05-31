@@ -226,7 +226,7 @@ export default {
 
     saveBooking() {
       
-      this.$router.push("/myBookings");
+      this.$router.push("/MyPage");
     },
   },
 };

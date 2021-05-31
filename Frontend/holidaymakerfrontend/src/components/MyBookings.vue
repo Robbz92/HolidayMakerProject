@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import EditBooking from "../views/EditBooking.vue";
+import EditBooking from "../components/EditBooking.vue";
 export default {
     components: {
         EditBooking
