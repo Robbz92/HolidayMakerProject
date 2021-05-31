@@ -1,7 +1,7 @@
 <template>
   <div class="main-container" v-if="getAllMyBookings != ''">
     <h3 id="MyBookingsH3">My Bookings</h3>
-    <EditBooking v-if="show" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
+    <EditBooking v-if="show" :paymentState="payment_state" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
     :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
     <div class="bookings" v-if="!show">
       <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
@@ -18,6 +18,7 @@
               <th>To Date</th>
               <th>Booked Rooms</th>
               <th>Total Cost</th>
+              <th>Paymen Status: </th>
             </tr>
             <tr>
               <td>{{bookings.address}}</td>
@@ -25,6 +26,7 @@
               <td>{{ bookings.to_date }}</td>
               <td>{{ bookings.BookedRooms}}</td>
               <td>{{ bookings.total_cost }}</td>
+              <td>{{ bookings.payment_state}}</td>
             </tr>            
           </table>
           </div>
@@ -66,17 +68,17 @@ export default {
       room_img:"",
       total_cost:"",
       id:"",
-
+      payment_state: "Not payed",
     };
   },
   computed: {
     getAllMyBookings() {
+      console.log(this.$store.getters.getMyBookings)
       return this.$store.getters.getMyBookings;
     },
     getRoomsForEdit(){
       return this.$store.getters.getRoomsForEdit;
-    }
-  
+    },
   },
   mounted() {
     this.$store.dispatch("fetchMyBookings");
@@ -95,6 +97,7 @@ export default {
 
 
     editBooking(booking) {
+      this.payment_state = booking.payment_state;
       this.fromDate = booking.from_date;
       this.toDate = booking.to_date;
       this.board=booking.board;

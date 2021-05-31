@@ -112,7 +112,7 @@ export default {
         totalCost: this.newPrice,
         name: this.chosenRoom.type
       }
-
+      // parent är bookings rad 89,
       this.$parent.fillBookingArray(this.index, object)
     },
 

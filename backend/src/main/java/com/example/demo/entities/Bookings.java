@@ -14,16 +14,18 @@ public class Bookings {
     private String fromDate;
     private String toDate;
     private double totalCost;
+    private String paymentState;
 
     @OneToMany(mappedBy = "bookings", cascade=CascadeType.ALL)
     private List<BookedRooms> bookedRooms = new ArrayList<>();
 
-    public Bookings(long userId, long hotelId, String fromDate, String toDate, long totalCost) {
+    public Bookings(long userId, long hotelId, String fromDate, String toDate, long totalCost, String paymentState) {
         this.userId = userId;
         this.hotelId = hotelId;
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.totalCost = totalCost;
+        this.paymentState = paymentState;
     }
 
     public Bookings() {
@@ -37,6 +39,13 @@ public class Bookings {
         this.bookedRooms = bookedRooms;
     }
 
+    public String getPaymentState() {
+        return paymentState;
+    }
+
+    public void setPaymentState(String paymentState) {
+        this.paymentState = paymentState;
+    }
 
     public long getId() {
         return id;
