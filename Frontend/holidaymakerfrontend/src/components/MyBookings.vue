@@ -1,6 +1,5 @@
 <template>
   <div class="main-container" v-if="getAllMyBookings != ''">
-    <h3 id="MyBookingsH3">My Bookings</h3>
     <EditBooking v-if="show" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
     :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
     <div class="bookings" v-if="!show">
@@ -42,76 +41,73 @@
 </template>
 
 <script>
-import EditBooking from "./EditBooking.vue";
+import EditBooking from "../views/EditBooking.vue";
 export default {
-  name: "MyBookings",
-
-  components: {
-    EditBooking,
-  },
-
-  data() {
-    return {
-      score: 0,
-      text: "",
-      hotel_id: "",
-      show: false,
-      fromDate: "",
-      toDate: "",
-      board:"",
-      name:"",
-      hotel_img:"",
-      extra_bed_amount:"",
-      type:"",
-      room_img:"",
-      total_cost:"",
-      id:"",
-
-    };
-  },
-  computed: {
-    getAllMyBookings() {
-      return this.$store.getters.getMyBookings;
-    },
-    getRoomsForEdit(){
-      return this.$store.getters.getRoomsForEdit;
-    }
-  
-  },
-  mounted() {
-    this.$store.dispatch("fetchMyBookings");
-  },
-  methods: {
-    sendFromDate(fromDate){
-      this.$store.commit("setFromDate", fromDate);
-    },
-    sendToDate(toDate){
-      this.$store.commit("setToDate", toDate);
-    },
-    sendBookingId(bookingId) {
-      this.$store.dispatch("fetchClickedBooking", bookingId);
-      this.$router.push("/review");
+    components: {
+        EditBooking
     },
 
-
-    editBooking(booking) {
-      this.fromDate = booking.from_date;
-      this.toDate = booking.to_date;
-      this.board=booking.board;
-      this.name = booking.name;
-      this.hotel_img = booking.hotel_img;
-      this.extra_bed_amount = booking.extra_bed_amount;
-      this.type = booking.type;
-      this.room_img = booking.room_img;
-      this.total_cost = booking.total_cost;
-      this.id=booking.id;
-      this.$store.dispatch("fetchBookedRoom", booking.id);
-      this.$store.dispatch("fetchClickedBooking", booking.id);
-      this.show = true;
+    data() {
+        return {
+            score: 0,
+            text: "",
+            hotel_id: "",
+            show: false,
+            fromDate: "",
+            toDate: "",
+            board:"",
+            name:"",
+            hotel_img:"",
+            extra_bed_amount:"",
+            type:"",
+            room_img:"",
+            total_cost:"",
+            id:"",
+        };
     },
 
-  },
-};
+    computed: {
+        getAllMyBookings() {
+            return this.$store.getters.getMyBookings;
+        },
+        getRoomsForEdit(){
+            return this.$store.getters.getRoomsForEdit;
+        }
+    },
+
+    mounted() {
+        this.$store.dispatch("fetchMyBookings");
+    },
+
+    methods: {
+        sendFromDate(fromDate){
+            this.$store.commit("setFromDate", fromDate);
+        },
+        sendToDate(toDate){
+            this.$store.commit("setToDate", toDate);
+        },
+        sendBookingId(bookingId) {
+            this.$store.dispatch("fetchClickedBooking", bookingId);
+            this.$router.push("/review");
+        },
+
+        editBooking(booking) {
+            this.fromDate = booking.from_date;
+            this.toDate = booking.to_date;
+            this.board=booking.board;
+            this.name = booking.name;
+            this.hotel_img = booking.hotel_img;
+            this.extra_bed_amount = booking.extra_bed_amount;
+            this.type = booking.type;
+            this.room_img = booking.room_img;
+            this.total_cost = booking.total_cost;
+            this.id=booking.id;
+            this.$store.dispatch("fetchBookedRoom", booking.id);
+            this.$store.dispatch("fetchClickedBooking", booking.id);
+            this.show = true;
+        },
+    },
+}
 </script>
 
 <style scoped>
@@ -132,18 +128,19 @@ export default {
   margin: 1em;
   border-bottom: 1px solid rgb(187, 184, 184);
   display: flex;
-  
 }
+
 .booking-text{
   width: 100%;
   margin-top: 70px;
 }
+
 .booking-text table{
   width:100%;
 }
+
 .booking-text table th{
   margin: 0;
- 
 }
 
 .roomPicture,
@@ -154,6 +151,7 @@ export default {
   height: auto;
   overflow: hidden;
 }
+
 p,
 h4 {
   margin: 0.5em;
@@ -164,19 +162,16 @@ h4 {
   height: auto;
   width: 100%;
 }
-#MyBookingsH3{
-  font-size:35px;
-}
+
 .buttons-container{
   display:flex;
-  
 }
+
 .buttons-container button{
   width:75px;
   height: 40px;
   margin-top: 63px;
   margin-right: 10px;
-
 }
 
 </style>
