@@ -1,4 +1,5 @@
 <template>
+<div id="backButton" @click="showFalse"><h3>Return</h3></div>
   <div class="main-container">
     <div class="hotel-container">
       <div class="old-container">
@@ -112,6 +113,7 @@ export default {
     "total_cost",
     "id",
   ],
+  
   data() {
     return {
       editBoard: this.board,
@@ -154,6 +156,10 @@ export default {
 
         this.$router.push("/");
       }
+    },
+
+    showFalse(){
+      this.$parent.toggleShow(false)
     },
 
     async editBooking(bookedRoomId, roomId, extraBed) {
@@ -227,9 +233,18 @@ export default {
 </script>
 
 <style scoped>
+#backButton{
+  width: 8vw;
+  height: 6vh;
+  background-color: rgba(255, 255, 255, .3);
+  position: absolute;
+  top: 32vh;
+  right: 5vw;
+  z-index: 5;
+}
+
 .main-container {
   backdrop-filter: blur(5px);
-  
 }
 
 .hotel-container {
