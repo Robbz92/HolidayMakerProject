@@ -36,6 +36,7 @@ export default createStore({
     filterAmmount: 0,
     roomListForEdit:[],
     bookedRoom:'',
+    hotelListReviews: [],
   },
 
   mutations: {
@@ -144,10 +145,27 @@ export default createStore({
 
     setBookingId(state, payload) {
       state.bookingId = payload
-    }
+    },
+
+    setHotelListForReview(state, payload){
+      state.hotelListReviews = payload;
+    },
   },
   
   actions: {
+    //fetch reviews on bookingID
+    // getters + setters.
+    // review. dispatch -> kolla om listan.len == [] -> gör review
+    // Annars popup -> du får inte göra en review
+    async fetchHotelListForReviews() {
+      await axios.get("http://localhost:3000/rest/findReviews/" + this.state.loggedInUser.id)
+        .then(response => {
+          console.log(response.data)
+          this.commit("setHotelListForReview", response.data)
+        })
+    },
+
+
     async fetchLatestBookingID() {
       await axios.get("http://localhost:3000/rest/getLatestBookings/")
         .then(response => {
@@ -271,6 +289,9 @@ export default createStore({
   },
 
   getters: {
+    getHotelListForReview(state){
+      return state.hotelListReviews;
+    },
     getBookings(state) {
       return state.bookings;
     },

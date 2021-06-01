@@ -28,7 +28,7 @@
           </table>
           </div>
           <div class="buttons-container" >
-            <button @click="sendBookingId(bookings.id)">Review</button>
+            <button v-if="checkIfReviewed(bookings.hotel_id)" @click="sendBookingId(bookings.id)">Review</button>
             <button @click="editBooking(bookings)">Edit</button>
           </div>
         </li>
@@ -72,14 +72,28 @@ export default {
         },
         getRoomsForEdit(){
             return this.$store.getters.getRoomsForEdit;
-        }
+        },
+
+        getHotelList(){
+          return this.$store.getters.getHotelListForReview;
+        },
+
     },
 
     mounted() {
         this.$store.dispatch("fetchMyBookings");
+        this.$store.dispatch("fetchHotelListForReviews");
     },
 
     methods: {
+      checkIfReviewed(hotelId){
+        if(this.$store.getters.getHotelListForReview.includes(hotelId)){
+          return false;
+        }
+        else{
+          return true;
+        }
+      },
         sendFromDate(fromDate){
             this.$store.commit("setFromDate", fromDate);
         },
