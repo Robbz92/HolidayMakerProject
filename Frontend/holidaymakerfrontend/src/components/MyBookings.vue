@@ -41,7 +41,7 @@
           </div>
           <div class="buttons-container">
             <button
-              v-if="checkIfReviewed(bookings.hotel_id)"
+              v-if="checkIfReviewed(bookings.hotel_id, index)"
               @click="sendBookingId(bookings.id)"
             >
               Review
@@ -118,12 +118,17 @@ export default {
       return date;
     },
 
-    checkIfReviewed(hotelId) {
-      if (this.$store.getters.getHotelListForReview.includes(hotelId)) {
-        return false;
+    checkIfReviewed(hotelId, index) {
+      let bool = false;
+
+      console.log( this.getAllMyBookings[index].to_date + " " + this.currentDate())
+      if (!this.$store.getters.getHotelListForReview.includes(hotelId) && this.getAllMyBookings[index].to_date <= this.currentDate()){
+        bool = true;
       } else {
-        return true;
+        bool = false;
       }
+      console.log(bool)
+      return bool
     },
     sendFromDate(fromDate) {
       this.$store.commit("setFromDate", fromDate);
