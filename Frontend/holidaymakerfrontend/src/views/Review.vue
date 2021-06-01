@@ -19,7 +19,7 @@
           <h3>Write your opinion</h3>
           <textarea id="text" cols="40" rows="10" v-model="text"></textarea>
         </form>
-        <button id="adding" @click="addReview(theBooking.hotel_id)">
+        <button id="adding" @click="addReview(theBooking.hotel_id, theBooking.id)">
           Add Review
         </button>
       </li>
@@ -54,11 +54,12 @@ export default {
       this.hotel_id = id;
     },
 
-    async addReview(id) {
+    async addReview(id, bookingID) {
       let newReview = {
         text: this.text,
         hotel_id: id,
         score: this.score,
+        bookingId: bookingID,
       };
       console.log(newReview);
       await fetch("http://localhost:3000/api/rest/newReview", {
