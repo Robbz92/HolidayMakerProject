@@ -1,4 +1,5 @@
 <template>
+<div id="backButton" @click="showFalse"><label id="returnButtonText">Return</label></div>
   <div class="main-container">
     <div class="hotel-container">
       <div class="old-container">
@@ -65,7 +66,7 @@
 
 <script>
 import moment from "moment";
-import editRoom from "../components/editRoom.vue";
+import editRoom from "./editRoom.vue";
 
 export default {
   props: [
@@ -169,6 +170,9 @@ export default {
         body: JSON.stringify(editBookingObject),
       });
     },
+    showFalse(){
+      this.$parent.toggleShow(false)
+    },
 
     calculateDateDiff() {
       let start = moment(this.fromDate);
@@ -223,9 +227,25 @@ export default {
 </script>
 
 <style scoped>
+#backButton{
+  width: 8vw;
+  height: 6vh;
+  background-color: rgba(255, 255, 255, .3);
+  position: absolute;
+  top: 25.3vh;
+  right: 5vw;
+  z-index: 5;
+  border-radius: 5px;
+  font-size: larger;
+}
+
+#returnButtonText{
+  display: block;
+  margin: 18px auto;
+}
+
 .main-container {
   backdrop-filter: blur(5px);
-  
 }
 
 .hotel-container {

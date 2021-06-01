@@ -8,7 +8,7 @@
           {{getRoom}}
         <select v-model="chosenRoom">
             <option :value="room.id" selected>
-                {{getRoom}}{{getRoomId}}
+                {{getBookedRooms.type}}{{getBookedRooms.roomId}}
             </option>
           <option
             :value="roomsForEdit.id"
@@ -49,7 +49,7 @@ export default {
         return{
             newTotalPrice:this.price,
             checked:"",
-            board:this.room.board,
+            board: this.room.board,
             bookedRoomById:"",
             extraBed:"",
             roomType:"",
@@ -64,11 +64,10 @@ export default {
     ],
     mounted(){
         this.bookedRoomById=this.getBookedRoomById(this.index)
-        this.extraBed=this.bookedRoomById.extraBed,
-        this.roomType=this.bookedRoomById.type,
-        this.roomId=this.bookedRoomById.roomId,
-        console.log(this.bookedRoomById)
-        console.log(this.extraBed)
+        this.extraBed = this.bookedRoomById.extraBed
+        this.roomType = this.bookedRoomById.type
+        this.roomId = this.bookedRoomById.roomId
+        this.board = this.bookedRoomById.board
        
         if(this.extraBed>0){
             this.checked=true;
@@ -81,13 +80,9 @@ export default {
     getAllRooms(){
         return this.$store.getters.getRoomList;
     },
-    getRoom(){
-        return this.roomType;
-    },
-    getRoomId(){
-        return this.roomId;
-    }
-
+    getBookedRooms(){
+        return this.getBookedRoomById(this.index)
+      },
     },
     methods:{
           calculateDateDiff() {
@@ -118,6 +113,7 @@ export default {
       }
       this.newTotalPrice = parseFloat(price).toFixed(2); //newTotalPrice only has 2 decimals
     },
+    
     updateRoomInList(){
         let object={
             roomId:this.chosenRoom,
@@ -128,6 +124,7 @@ export default {
         }
         this.$parent.updateRoomInEditRoomList(this.index,object)
     },
+
     getBookedRoomById(id){
       return this.$store.getters.getBookedRoom[id];
     },
@@ -137,5 +134,5 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 </style>

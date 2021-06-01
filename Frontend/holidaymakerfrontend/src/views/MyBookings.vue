@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import EditBooking from "./EditBooking.vue";
+import EditBooking from "../components/EditBooking.vue";
 export default {
   name: "MyBookings",
 
@@ -92,8 +92,6 @@ export default {
       this.$store.dispatch("fetchClickedBooking", bookingId);
       this.$router.push("/review");
     },
-
-
     editBooking(booking) {
       this.fromDate = booking.from_date;
       this.toDate = booking.to_date;
@@ -111,6 +109,9 @@ export default {
       this.hotel_id=booking.hotel_id;
       console.log(booking)
     },
+    toggleShow(value){
+      this.show = value
+    }
 
   },
 };
