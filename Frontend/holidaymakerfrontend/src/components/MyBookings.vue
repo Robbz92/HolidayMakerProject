@@ -106,6 +106,10 @@ export default {
             this.$store.dispatch("fetchClickedBooking", booking.id);
             this.show = true;
         },
+
+        toggleShow(value){
+          this.show = value
+        }
     },
 }
 </script>

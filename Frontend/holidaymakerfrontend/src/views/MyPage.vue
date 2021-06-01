@@ -5,6 +5,7 @@
 </div>
   <div>
     <MyBooking v-if="showBookings"/>
+    <h3 v-if="showFavorites">Hej sebbe</h3>
   </div>
 </template>
 
