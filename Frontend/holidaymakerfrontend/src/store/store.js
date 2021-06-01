@@ -19,16 +19,16 @@ export default createStore({
     attractions: String,
     comforts: String,
     price: [],
-    fromDate: '',
-    toDate: '',
+    fromDate: '', // sök funktionen
+    toDate: '', // sök funktionen
     numberOfDays: '',
-    chosenHotel: '',
+    chosenHotel: '', // för att hämta lediga rum
     roomList: [],
     hasSearched: false,
     chosenRoom: "", // väljer ett rum under bokningen
     roomsToBook: [],
     bookingId: 0,
-    size:'',
+    size:'', // sök funktionen
     myBookings:[],
     clickedBooking: '',
     deleteBooking: '',
@@ -36,6 +36,7 @@ export default createStore({
     filterAmmount: 0,
     roomListForEdit:[],
     bookedRoom:'',
+    room: '', // sök funktionen
   },
 
   mutations: {
@@ -144,6 +145,9 @@ export default createStore({
 
     setBookingId(state, payload) {
       state.bookingId = payload
+    },
+    setRoom(state, payload){
+      state.room = payload
     }
   },
   
@@ -170,21 +174,25 @@ export default createStore({
     },
 
     async fetchHotel() {
-      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.size)
+      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" 
+      + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.size)
         .then(response => {
           this.commit("setRoomList", response.data)
         })
     },
 
     async fetchAllHotels() {
-      await axios.get("http://localhost:3000/rest/getAllHotels")
+      await axios.get("http://localhost:3000/rest/getAllHotels/"  + this.state.fromDate +
+      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
         .then(response => {
           this.commit("setHotelList", response.data)
         })
     },
 
     async fetchHotelByTemperature() {
-      await axios.get("http://localhost:3000/rest/tempSearch/" + this.state.searchedTemperature + "-" + this.state.temperatureRange)
+      console.log(this.state.fromDate + "fromdate desde fetch")
+      await axios.get("http://localhost:3000/rest/tempSearch/" + this.state.fromDate +
+      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room + "/" + this.state.searchedTemperature + "/" + this.state.temperatureRange)
         .then(response => {
           this.commit("setHotelList", response.data)
         })
@@ -212,17 +220,20 @@ export default createStore({
     },
 
     async searchFor() {
-      await axios.get("http://localhost:3000/rest/citySearch/" + this.state.searchPhrase)
+      await axios.get("http://localhost:3000/rest/citySearch/" + this.state.searchPhrase + "/" + this.state.fromDate +
+      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
         .then(response => {
           this.commit("setCityList", response.data)
         })
 
-      await axios.get("http://localhost:3000/rest/countrySearch/" + this.state.searchPhrase)
+      await axios.get("http://localhost:3000/rest/countrySearch/" + this.state.searchPhrase + "/" + this.state.fromDate +
+      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
         .then(response => {
           this.commit("setCountryList", response.data)
         })
 
-      await axios.get("http://localhost:3000/rest/hotelSearch/" + this.state.searchPhrase)
+      await axios.get("http://localhost:3000/rest/hotelSearch/" + this.state.searchPhrase + "/" + this.state.fromDate +
+      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
         .then(response => {
           this.commit("setHotelList", response.data)
         })
@@ -358,6 +369,9 @@ export default createStore({
 
     getChosenHotel(state) {
       return state.chosenHotel
-    }
+    },
+    getRoom(state){
+      return state.room
+    },
   },
 })

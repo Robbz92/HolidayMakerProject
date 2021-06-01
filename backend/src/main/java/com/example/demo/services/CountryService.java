@@ -25,7 +25,7 @@ public class CountryService {
 /*
     Skapar Country lista , City lista och hotel lista
  */
-    public List<Hotel> getByPhrase(String phrase) {
+    public List<Hotel> getByPhrase(String phrase, String fromDate, String toDate, double size, long room) {
         List<Country> countryList = new ArrayList<>();
         List<City> cityList = new ArrayList<>();
         List<Hotel> hotelList = new ArrayList<>();
@@ -49,7 +49,7 @@ public class CountryService {
             lägger vi till i hotelList
              */
             for(City city : cityList){
-                hotelList.addAll(hotelService.getByCity(city.getId()));
+                hotelList.addAll(hotelService.getByCity(city.getId(), fromDate, toDate, size, room));
             }
         }
 

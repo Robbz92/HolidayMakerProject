@@ -91,11 +91,12 @@
     <div class="go-container">
       <button
         @click="
-          searchFor(searchPhrase),
             sendFromDate(fromDate),
             sendToDate(toDate),
             sendSize(room, adults, children),
-            calculateDateDiff()
+            sendRoom(room),
+            calculateDateDiff(),
+            searchFor(searchPhrase)
         "
       >
         Go!
@@ -225,6 +226,11 @@ export default {
       var person = Number(adults) + Number(children);
       var size = person / room;
       this.$store.commit("setSize", size);
+      
+    },
+    sendRoom(room){
+      this.$store.commit("setRoom", room);
+     
     },
     
     showAll() {

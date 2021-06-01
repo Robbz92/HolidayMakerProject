@@ -46,6 +46,7 @@ export default {
         this.tempRange = 0
       this.$store.commit("setSearchedTemperature", this.temp);
       this.$store.commit("setTempRange", this.tempRange)
+    
     },
 
     changeSliderColor() {

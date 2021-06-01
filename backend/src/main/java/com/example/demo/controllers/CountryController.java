@@ -23,6 +23,7 @@ public class CountryController {
     /*
     Hämtar alla hotell som matchar sökningen på länder
      */
-    @GetMapping("/countrySearch/{phrase}")
-    public List<Hotel> getByName(@PathVariable String phrase){ return countryService.getByPhrase(phrase); }
+    @GetMapping("/countrySearch/{phrase}/{fromDate}/{toDate}/{size}/{room}")
+    public List<Hotel> getByName(@PathVariable String phrase, @PathVariable String fromDate, @PathVariable String toDate, @PathVariable double size, @PathVariable long room){
+        return countryService.getByPhrase(phrase, fromDate, toDate, size, room); }
 }
