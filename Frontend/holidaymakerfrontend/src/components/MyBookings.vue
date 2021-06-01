@@ -105,13 +105,14 @@ export default {
 
   methods: {
     checkIfOutOfDate(index) {
-      // formaterar datum samt kollar om datumet har gått ut, såfall ska man inte kunna editera något.
+      // kollar om datumet har gått ut, såfall ska man inte kunna editera något.
       if (this.getAllMyBookings[index].from_date > this.currentDate()) {
         return true;
       } else {
         return false;
       }
     },
+
     // Dagens datum
     currentDate() {
       var date = new Date().toISOString().slice(0, 10);
@@ -121,7 +122,7 @@ export default {
     checkIfReviewed(hotelId, index) {
       let bool = false;
 
-      console.log( this.getAllMyBookings[index].to_date + " " + this.currentDate())
+      // kollar ifall vi inte redan har gjort en review samt att vi har kommit hem från resan.
       if (!this.$store.getters.getHotelListForReview.includes(hotelId) && this.getAllMyBookings[index].to_date <= this.currentDate()){
         bool = true;
       } else {
