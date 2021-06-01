@@ -128,7 +128,7 @@ export default {
       } else {
         bool = false;
       }
-      console.log(bool)
+      
       return bool
     },
     sendFromDate(fromDate) {

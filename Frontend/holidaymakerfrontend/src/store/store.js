@@ -18,7 +18,7 @@ export default createStore({
     temperature: String,
     attractions: String,
     comforts: String,
-    price: [],
+    price: [], // används ej?
     fromDate: '',
     toDate: '',
     numberOfDays: '',
@@ -109,7 +109,7 @@ export default createStore({
     setLoggedInUser(state, user) {
       state.loggedInUser = user;
     },
-    setRooms(state, payload) {
+    setRooms(state, payload) { // används ej?
       state.price = payload;
     },
 

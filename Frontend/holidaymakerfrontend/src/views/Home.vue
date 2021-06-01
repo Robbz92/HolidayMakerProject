@@ -84,7 +84,4 @@ export default {
   overflow: hidden;
 }
 
-#sortOption{
-}
-
 </style>
