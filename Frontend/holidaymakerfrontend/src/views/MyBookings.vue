@@ -92,7 +92,10 @@ export default {
       this.$store.dispatch("fetchClickedBooking", bookingId);
       this.$router.push("/review");
     },
-    editBooking(booking) {
+
+    async editBooking(booking) {
+      this.$store.dispatch("fetchBookedRoom", booking.id);
+      await this.$store.dispatch("fetchClickedBooking", booking.id);
       this.fromDate = booking.from_date;
       this.toDate = booking.to_date;
       this.board=booking.board;
@@ -103,11 +106,8 @@ export default {
       this.room_img = booking.room_img;
       this.total_cost = booking.total_cost;
       this.id=booking.id;
-      this.$store.dispatch("fetchBookedRoom", booking.id);
-      this.$store.dispatch("fetchClickedBooking", booking.id);
       this.show = true;
       this.hotel_id=booking.hotel_id;
-      console.log(booking)
     },
     toggleShow(value){
       this.show = value

@@ -5,10 +5,9 @@
         <img id="roomPic" :src="room.room_img" />
       </div>
       <div class="room-text">
-          {{getRoom}}
         <select v-model="chosenRoom">
             <option :value="room.id" selected>
-                {{getBookedRooms.type}}{{getBookedRooms.roomId}}
+                {{getBookedRooms.type}} {{getBookedRooms.roomId}}
             </option>
           <option
             :value="roomsForEdit.id"
@@ -45,47 +44,45 @@
 <script>
 import moment from "moment"
 export default {
-    data(){
-        return{
-            newTotalPrice:this.price,
-            checked:"",
-            board: this.room.board,
-            bookedRoomById:"",
-            extraBed:"",
-            roomType:"",
-            chosenRoom:this.room.id,
-            roomId:"",
-        }
-    },
-    props:[
-        "room",
-        "price",
-        "index",
-    ],
-    mounted(){
-        this.bookedRoomById=this.getBookedRoomById(this.index)
-        this.extraBed = this.bookedRoomById.extraBed
-        this.roomType = this.bookedRoomById.type
-        this.roomId = this.bookedRoomById.roomId
-        this.board = this.bookedRoomById.board
-       
-        if(this.extraBed>0){
-            this.checked=true;
-        }
-        else{
-            this.checked=false;
-        }
-    },
-    computed:{
+  data(){
+    return{
+      newTotalPrice: this.price,
+      checked:"",
+      board: this.room.board,
+      bookedRoomById: "",
+      extraBed: "",
+      roomType: "",
+      chosenRoom: this.room.id,
+      roomId: "",
+    }
+  },
+
+  props:[
+      "room",
+      "price",
+      "index",
+  ],
+
+  mounted(){
+    if(this.extraBed>0){
+        this.checked=true;
+    }
+    else{
+        this.checked=false;
+    }
+  },
+
+  computed:{
     getAllRooms(){
-        return this.$store.getters.getRoomList;
+      return this.$store.getters.getRoomList;
     },
     getBookedRooms(){
         return this.getBookedRoomById(this.index)
-      },
-    },
-    methods:{
-          calculateDateDiff() {
+    }
+  },
+
+  methods:{
+    calculateDateDiff() {
       let start = moment(this.fromDate);
       let end = moment(this.toDate);
       let duration = moment.duration(end.diff(start));
@@ -93,13 +90,13 @@ export default {
       this.numberOfDays = Math.round(days);
       return this.numberOfDays;
     },
-        calculatePrice(roomPrice) {
+
+    calculatePrice(roomPrice) {
       let roomPlusDays = roomPrice * this.calculateDateDiff();
       let price = roomPlusDays;
-
       var boardChoice = document.getElementById("boardChoice");
       this.boardResult = parseInt(
-        boardChoice.options[boardChoice.selectedIndex].value
+      boardChoice.options[boardChoice.selectedIndex].value
       );
 
       if (this.boardResult == 1) {
@@ -113,23 +110,22 @@ export default {
       }
       this.newTotalPrice = parseFloat(price).toFixed(2); //newTotalPrice only has 2 decimals
     },
-    
+  
     updateRoomInList(){
-        let object={
-            roomId:this.chosenRoom,
-            board:this.board,
-            extra_bed_amount:this.extraBed,
-            total_cost:this.newTotalPrice,
-            name:this.room.type
-        }
-        this.$parent.updateRoomInEditRoomList(this.index,object)
+      let object={
+          roomId:this.chosenRoom,
+          board:this.board,
+          extra_bed_amount:this.extraBed,
+          total_cost:this.newTotalPrice,
+          name:this.room.type
+      }
+      this.$parent.updateRoomInEditRoomList(this.index,object)
     },
 
     getBookedRoomById(id){
       return this.$store.getters.getBookedRoom[id];
     },
-    },
-
+  },
 }
 
 </script>

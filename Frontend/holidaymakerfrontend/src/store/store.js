@@ -259,15 +259,15 @@ export default createStore({
       console.log(response.data)
       this.commit("setDeleteBooking", response.data)
     })
-  },
-  async fetchBookedRoom(store, bookingId) {
-    await axios.get("http://localhost:3000/api/rest/bookedRoomsById/" + bookingId)
+    },
+  
+    async fetchBookedRoom(store, bookingId) {
+      await axios.get("http://localhost:3000/api/rest/bookedRoomsById/" + bookingId)
       .then(response => {
         console.log(response.data)
         this.commit("setBookedRoom", response.data)
       })
-  },
-
+    },
   },
 
   getters: {

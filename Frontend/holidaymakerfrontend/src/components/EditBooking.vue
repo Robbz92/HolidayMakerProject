@@ -50,7 +50,7 @@
       </div>
       <div class="rooms-container">
         <h3 id="bookedRoomsH3">Booked Room(s)</h3>
-        <editRoom :room="room" :price="theRoom.price" :index="index" v-for="(theRoom, index) in getBookedRooms" :key="index"/>
+        <editRoom :room="theRoom" :price="theRoom.price" :index="index" v-for="(theRoom, index) in getBookedRooms" :key="index"/>
           
       </div>
       <div class="buttons">
@@ -106,10 +106,8 @@ export default {
   },
   mounted(){
     this.$store.commit("setChosenHotel" , this.hotel_id)
-    console.log(this.hotel_id)
     this.$store.commit("setFromDate",this.fromDate) 
     this.$store.commit("setToDate" ,this.toDate)
-
     this.$store.dispatch("fetchHotel");
   },
 
