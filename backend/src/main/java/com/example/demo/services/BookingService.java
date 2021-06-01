@@ -24,4 +24,5 @@ public class BookingService {
         bookingRepo.deleteById(id);
         return "Booking has been removed";
     }
+
 }

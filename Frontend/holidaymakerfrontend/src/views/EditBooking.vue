@@ -49,40 +49,8 @@
       </div>
       <div class="rooms-container">
         <h3 id="bookedRoomsH3">Booked Room(s)</h3>
-        <ul v-for="(theRoom, index) in getBookedRooms" :key="index">
-          <li id="rooms">
-            <div class="roomPicture">
-              <img id="roomPic" :src="theRoom.room_img" />
-            </div>
-            <div class="room-text">
-            <p>Room: {{ theRoom.type }}</p>
-            <select
-              v-model="editBoard"
-              id="boardChoice"
-              @change="calculatePrice(theRoom.price), calculateDateDiff()"
-            >
-              <option value="1">All inclusive</option>
-              <option value="2">Full pension</option>
-              <option value="3">Half pension</option>
-              <option value="4">DIY</option>
-            </select>
-            <p>Extra Bed: {{ theRoom.extraBed }}</p>
-            <p>Room price: {{ theRoom.price }}kr/night</p>
-            </div>
-            <button
-              id="editBookingButton"
-              @click="
-                editBooking(
-                  theRoom.bookedRoomId,
-                  theRoom.roomId,
-                  theRoom.extraBed
-                )
-              "
-            >
-              Update
-            </button>
-          </li>
-        </ul>
+        <editRoom :room="room" :price="theRoom.price" :index="index" v-for="(theRoom, index) in getBookedRooms" :key="index"/>
+          
       </div>
       <div class="buttons">
         <button id="deleteBooking" @click="deleteBooking(id)">
@@ -96,30 +64,32 @@
 
 
 <script>
-//import DatePicker from "vue3-datepicker";
 import moment from "moment";
+import editRoom from "../components/editRoom.vue";
 
 export default {
   props: [
     "fromDate",
     "toDate",
-    "board",
     "name",
     "hotel_img",
-    "extra_bed_amount",
-    "type",
-    "room_img",
     "total_cost",
     "id",
+    "hotel_id",
+    "room",
   ],
   data() {
     return {
-      editBoard: this.board,
+
       bookingsId: this.id,
       newFromDate: this.getFromDate,
       newToDate: this.getToDate,
       numberOfDays: 0,
       newTotalPrice: 0,
+      chosenRoom: [],
+      editRoomList:[],
+
+
       styleObject: {
         outline: "none",
         border: "none",
@@ -131,9 +101,22 @@ export default {
   },
   components: {
     // DatePicker,
+    editRoom,
+  },
+  mounted(){
+    this.$store.commit("setChosenHotel" , this.hotel_id)
+    console.log(this.hotel_id)
+    this.$store.commit("setFromDate",this.fromDate) 
+    this.$store.commit("setToDate" ,this.toDate)
+
+    this.$store.dispatch("fetchHotel");
   },
 
   computed: {
+    getRoomList(){
+      return this.$store.getters.getRoomList;
+    },
+
     getTheBooking() {
       return this.$store.getters.getClickedBooking;
     },
@@ -146,6 +129,11 @@ export default {
     getBookedRooms() {
       return this.$store.getters.getBookedRoom;
     },
+    getExtraBed(){
+      console.log(this.extra_bed_amount)
+      return this.extra_bed_amount;
+    },
+
   },
   methods: {
     deleteBooking(id) {
@@ -155,13 +143,17 @@ export default {
         this.$router.push("/");
       }
     },
+    updateRoomInEditRoomList(index, room){
+      this.editRoomList[index]=room
 
-    async editBooking(bookedRoomId, roomId, extraBed) {
+    },
+
+    async editBooking(bookedRoomId, extraBed) {
       let bookingsIdObject = {
         id: this.id,
       };
       let editBookingObject = {
-        roomsId: roomId,
+        roomsId: this.chosenRoom,
         board: this.editBoard,
         fromDate: this.fromDate,
         toDate: this.toDate,
@@ -169,6 +161,7 @@ export default {
         extraBedAmount: extraBed,
         bookings: bookingsIdObject,
       };
+      console.log(this.chosenRoom)
       console.log(editBookingObject);
       await fetch("http://localhost:3000/rest/editBooking", {
         method: "PUT",
@@ -221,6 +214,9 @@ export default {
     saveBooking() {
       
       this.$router.push("/myBookings");
+    },
+    getBookedRoomById(id){
+      return this.$store.getters.getBookedRoom[id];
     },
   },
 };

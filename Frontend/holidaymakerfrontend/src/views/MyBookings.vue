@@ -1,8 +1,8 @@
 <template>
   <div class="main-container" v-if="getAllMyBookings != ''">
     <h3 id="MyBookingsH3">My Bookings</h3>
-    <EditBooking v-if="show" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
-    :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
+    <EditBooking v-if="show" :fromDate="fromDate" :toDate="toDate" :total_cost="total_cost" :hotel_img="hotel_img" 
+    :name="name" :id="id" :hotel_id="hotel_id" :room="{extra_bed_amount:extra_bed_amount, type:type, room_img:room_img, board:board,}"/>
     <div class="bookings" v-if="!show">
       <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
         <li id="booking"> 
@@ -99,7 +99,7 @@ export default {
       this.toDate = booking.to_date;
       this.board=booking.board;
       this.name = booking.name;
-      this.hotel_img = booking.hotel_img;
+      this.hotel_img = booking.hotel_img; 
       this.extra_bed_amount = booking.extra_bed_amount;
       this.type = booking.type;
       this.room_img = booking.room_img;
@@ -108,6 +108,8 @@ export default {
       this.$store.dispatch("fetchBookedRoom", booking.id);
       this.$store.dispatch("fetchClickedBooking", booking.id);
       this.show = true;
+      this.hotel_id=booking.hotel_id;
+      console.log(booking)
     },
 
   },

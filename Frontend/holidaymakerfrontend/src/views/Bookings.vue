@@ -98,6 +98,7 @@ export default {
       let totalPrice = 0;
       this.bookingsArray.forEach((object) => {
         totalPrice += object.totalCost;
+      
       });
 
       return totalPrice;

@@ -28,7 +28,7 @@ export default createStore({
     chosenRoom: "", // väljer ett rum under bokningen
     roomsToBook: [],
     bookingId: 0,
-    size:'',
+    size:1,
     myBookings:[],
     clickedBooking: '',
     deleteBooking: '',
@@ -144,7 +144,7 @@ export default createStore({
 
     setBookingId(state, payload) {
       state.bookingId = payload
-    }
+    },
   },
   
   actions: {

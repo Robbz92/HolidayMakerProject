@@ -113,7 +113,7 @@ export default {
         name: this.chosenRoom.type
       }
 
-      this.$parent.fillBookingArray(this.index, object)
+      this.$parent.fillBookingArray(this.index, object)//parent is Bookings.vue
     },
 
     getNumberOfDays() {
