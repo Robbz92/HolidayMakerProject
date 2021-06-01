@@ -29,4 +29,8 @@ public class FavoriteService {
     public void saveFavorite(Favorite favorite){
         favoriteRepo.save(favorite);
     }
+
+    public void deleteFavorite(long id) {
+        favoriteRepo.deleteById(id);
+    }
 }

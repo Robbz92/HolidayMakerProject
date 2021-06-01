@@ -37,6 +37,8 @@ export default createStore({
     roomListForEdit: [],
     bookedRoom: '',
     favoriteList: [],
+    favoriteId: '',
+    deleteFavorite: '',
   },
 
   mutations: {
@@ -162,6 +164,14 @@ export default createStore({
     setFavoriteList(state, payload) {
       state.favoriteList = payload
     },
+
+    setFavoriteId(state, payload) {
+      state.favoriteId = payload
+    },
+
+    setDeleteFavorite(state, payload) {
+      state.deleteFavorite = payload
+    }
 
   },
 
@@ -297,7 +307,15 @@ export default createStore({
         console.log(response.data)
         this.commit("setFavoriteList", response.data)
       })
-    }
+    },
+
+    async deleteFavorite(store, favoriteId) {
+      await axios.delete("http://localhost:3000/api/auth/favorites/" + favoriteId)
+      .then(response => {
+        console.log(response.data)
+        this.commit("setDeleteFavorite", response.data)
+      })
+    },
 
   },
 

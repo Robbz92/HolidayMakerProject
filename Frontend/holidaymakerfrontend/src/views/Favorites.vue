@@ -32,7 +32,7 @@
         </div>
         <div class="buttons">
           <button>Open</button>
-          <button>Delete</button>
+          <button @click="deleteFavorite(favorite.favorite_id)" id="deleteButton">Delete</button>
         </div>
       </div>
     </div>
@@ -50,6 +50,15 @@ export default {
   methods: {
     pushToBookings() {
       this.$router.push("/myBookings")
+    },
+
+    deleteFavorite(favoriteId) {
+      console.log(favoriteId)
+      if(confirm("Are you sure you want to delete this favorite?")) {
+        this.$store.dispatch("deleteFavorite", favoriteId);
+
+        location.reload()
+      }
     }
   },
 
@@ -92,5 +101,29 @@ h3 {
 
 .name_and_img img {
   width: 100%;
+}
+
+.favText {
+  margin-top: 3.5em;
+}
+
+th, td{
+  width: 250px;
+}
+
+.buttons {
+  margin: 0;
+  padding: 0;
+}
+
+.buttons button {
+  width: 100px;
+  height: 45px;
+  margin-right: 1em;
+  margin-top: 240px;
+}
+
+#deleteButton {
+  background-color: rgb(251, 76, 76);
 }
 </style>

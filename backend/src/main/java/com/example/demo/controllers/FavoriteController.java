@@ -21,4 +21,7 @@ public class FavoriteController {
     @PostMapping("auth/favorites")
     public void saveFavorite(@RequestBody Favorite favorite){favoriteService.saveFavorite(favorite);}
 
+    @DeleteMapping("auth/favorites/{id}")
+    public void deleteFavorite(@PathVariable long id){favoriteService.deleteFavorite(id);}
+
 }
