@@ -5,23 +5,23 @@
         <img id="roomPic" :src="room.room_img" />
       </div>
       <div class="room-text">
-        <select v-model="chosenRoom">
-            <option :value="room.id" selected>
-                {{getBookedRooms.type}} {{getBookedRooms.roomId}}
+        <select v-model="chosenRoom" @change="calculatePrice()">
+            <option :value="room" selected>
+                {{getBookedRooms.type}} {{getBookedRooms.price}}
             </option>
           <option
-            :value="roomsForEdit.id"
+            :value="roomsForEdit"
             v-for="(roomsForEdit, index) in getAllRooms"
             :key="index"
           >
-            {{ roomsForEdit.type }} {{ roomsForEdit.id }}
+            {{ roomsForEdit.type }} {{ roomsForEdit.price }}
 
           </option>
         </select>
         <select
           v-model="board"
           id="boardChoice"
-          @change="calculatePrice(price)"
+          @change="calculatePrice()"
         >
           <option value="1">All inclusive</option>
           <option value="2">Full pension</option>
@@ -34,6 +34,7 @@
           type="checkbox"
           :id="'extraBed'"
           :checked="checked"
+          @change="calculatePrice()"
         />
         <p>Room price: {{ newTotalPrice }}kr/night</p>
       </div>
@@ -52,7 +53,7 @@ export default {
       bookedRoomById: "",
       extraBed: "",
       roomType: "",
-      chosenRoom: this.room.id,
+      chosenRoom: this.room,
       roomId: "",
     }
   },
@@ -61,9 +62,11 @@ export default {
       "room",
       "price",
       "index",
+      "dates"
   ],
 
   mounted(){
+    this.extraBed = this.room.extraBed
     if(this.extraBed>0){
         this.checked=true;
     }
@@ -83,32 +86,44 @@ export default {
 
   methods:{
     calculateDateDiff() {
-      let start = moment(this.fromDate);
-      let end = moment(this.toDate);
+      let start = moment(this.dates.fromDate);
+      let end = moment(this.dates.toDate);
       let duration = moment.duration(end.diff(start));
       let days = duration.asDays();
       this.numberOfDays = Math.round(days);
       return this.numberOfDays;
     },
 
-    calculatePrice(roomPrice) {
-      let roomPlusDays = roomPrice * this.calculateDateDiff();
-      let price = roomPlusDays;
-      var boardChoice = document.getElementById("boardChoice");
-      this.boardResult = parseInt(
-      boardChoice.options[boardChoice.selectedIndex].value
+    calculatePrice() {
+      let boardMultiplier = 1.2;
+      //Checks what board is chosen per room
+      switch (this.board) {
+        case "1":
+          boardMultiplier = 1.2;
+          break;
+        case "2":
+          boardMultiplier = 1.15;
+          break;
+        case "3":
+          boardMultiplier = 1.1;
+          break;
+        case "4":
+          boardMultiplier = 1;
+          break;
+      }
+
+      let bedMultiplier = 1;
+      if (this.extraBed) bedMultiplier = 1.05;
+
+      let numberOfDays = this.calculateDateDiff();
+
+      let calculatedPrice = Math.round(
+        this.chosenRoom.price * boardMultiplier * bedMultiplier * numberOfDays
       );
 
-      if (this.boardResult == 1) {
-        price *= 1.2;
-      }
-      if (this.boardResult == 2) {
-        price *= 1.15;
-      }
-      if (this.boardResult == 3) {
-        price *= 1.1;
-      }
-      this.newTotalPrice = parseFloat(price).toFixed(2); //newTotalPrice only has 2 decimals
+      this.newTotalPrice = calculatedPrice; //newTotalPrice only has 2 decimals
+
+      this.updateRoomInList()
     },
   
     updateRoomInList(){
