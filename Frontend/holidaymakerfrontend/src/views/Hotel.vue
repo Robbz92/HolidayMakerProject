@@ -42,9 +42,9 @@
               id="favImg"
               @click="addFavorite(info.id)"
               v-if="loggedInUser"
-              :disabled="isFavorite"
             >
-              <img :src="imageSource" id="heart" />
+              <img src="../assets/heart-regular.svg" id="heart" v-if="!isFavorite"/>
+              <img src="../assets/heart-solid.svg" id="heart" v-else />
             </div>
           </li>
         </ul>
@@ -108,15 +108,12 @@
 
 <script>
 import ShoppingList from "../components/ShoppingList.vue";
-import heart2 from "../assets/heart-solid.svg";
 
 export default {
   data() {
     return {
       roomList: [],
       hotelName: "",
-      isFavorite: false,
-      imageSource: heart2,
     };
   },
 
@@ -155,6 +152,20 @@ export default {
     getFavoriteList() {
       return this.$store.getters.getFavoriteList;
     },
+    isFavorite() {
+      let favList = [];
+      let name = this.getInfo[0].name;
+
+      this.getFavoriteList.forEach((favorite) => {
+        favList.push(favorite.name);
+      });
+
+      if (favList.includes(name)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     addRoom(room) {
@@ -176,36 +187,33 @@ export default {
     // En favorit innehåller user_id och hotel_id
     // Vi hämtar den inloggade användarens id via "store.state"
     // Sedan skickar vi hotel_id in till funktionen via "id"
+    // Alla ens favoriters namn läggs i en ny array
+    // för att kunna använda "includes()" och kolla om detta
+    // hotell finns med i ens favoriter
     async addFavorite(id) {
       let favoriteCredentials = {
         userId: this.$store.state.loggedInUser.id,
         hotelId: id,
-      };      
+      };
 
-      this.checkFavorite(favoriteCredentials);
-      
-      },
+      let favList = [];
+      this.hotelName = this.getInfo[0].name;
 
-    async checkFavorite(favoriteCredentials) {
-
-      let favList = await this.getFavoriteList;
-
-      for (let hotel in this.getInfo) {
-        this.hotelName = this.getInfo[hotel].name;
-      }
-
-      favList.forEach(favorite => {
-        if (this.hotelName === favorite.name) {
-          alert("You already have this as a favorite.")
-      }else{
-        fetch("http://localhost:3000/api/auth/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(favoriteCredentials),
+      this.getFavoriteList.forEach((favorite) => {
+        favList.push(favorite.name);
       });
-          alert("Favorite added!");
-      }})        
-      
+
+      if (favList.includes(this.hotelName)) {
+        alert("You already have this as a favorite.");
+      } else {
+        fetch("http://localhost:3000/api/auth/favorites", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(favoriteCredentials),
+        });
+        alert("Favorite added!");
+        this.$store.dispatch("fetchFavorites");
+      }
     },
   },
 
