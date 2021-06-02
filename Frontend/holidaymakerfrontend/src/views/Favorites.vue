@@ -31,7 +31,7 @@
           </table>
         </div>
         <div class="buttons">
-          <button>Open</button>
+          <!-- <button @click="openFavorite(favorite.name)">Open</button> -->
           <button @click="deleteFavorite(favorite.favorite_id)" id="deleteButton">Delete</button>
         </div>
       </div>
@@ -41,6 +41,7 @@
 
 <script>
 export default {
+
   computed: {
     getFavoriteList() {
       return this.$store.getters.getFavoriteList;
@@ -53,13 +54,20 @@ export default {
     },
 
     deleteFavorite(favoriteId) {
-      console.log(favoriteId)
       if(confirm("Are you sure you want to delete this favorite?")) {
         this.$store.dispatch("deleteFavorite", favoriteId);
 
         location.reload()
       }
-    }
+    },
+
+    /* async openFavorite(hotelName) {
+      this.$store.commit("setSearchPhrase", hotelName);
+      this.$store.dispatch("searchFor");
+      this.$router.push("/");
+      this.$root.onSearch();      
+    }, */
+
   },
 
   mounted() {
@@ -125,5 +133,10 @@ th, td{
 
 #deleteButton {
   background-color: rgb(251, 76, 76);
+}
+
+#deleteButton:hover {
+  background-color: white;
+  color: rgb(251, 76, 76);
 }
 </style>

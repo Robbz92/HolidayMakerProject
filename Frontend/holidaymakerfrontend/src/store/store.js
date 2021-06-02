@@ -28,7 +28,7 @@ export default createStore({
     chosenRoom: "", // väljer ett rum under bokningen
     roomsToBook: [],
     bookingId: 0,
-    size: '',
+    size: 1,
     myBookings: [],
     clickedBooking: '',
     deleteBooking: '',
@@ -304,7 +304,7 @@ export default createStore({
     async fetchFavorites() {
       await axios.get("http://localhost:3000/api/auth/favorites")
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         this.commit("setFavoriteList", response.data)
       })
     },
