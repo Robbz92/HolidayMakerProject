@@ -39,10 +39,12 @@
             </div>
             <div
               class="favImg"
+              id="favImg"
               @click="addFavorite(info.id)"
               v-if="loggedInUser"
             >
-              <img src="../assets/heart-regular.svg" id="heart" />
+              <img src="../assets/heart-regular.svg" id="heart" v-if="!isFavorite"/>
+              <img src="../assets/heart-solid.svg" id="heart" v-else />
             </div>
           </li>
         </ul>
@@ -79,9 +81,9 @@
                 Price per night: {{ room.price }}:-
               </p>
             </div>
-            <div class="booking">
-              <button @click="addRoom(room)">Book</button>
-            </div>
+          </div>
+          <div class="booking">
+            <button @click="addRoom(room)">Book</button>
           </div>
         </li>
       </ul>
@@ -106,10 +108,12 @@
 
 <script>
 import ShoppingList from "../components/ShoppingList.vue";
+
 export default {
   data() {
     return {
       roomList: [],
+      hotelName: "",
     };
   },
 
@@ -145,6 +149,23 @@ export default {
     isLoggedIn() {
       return this.loggedInUser != null;
     },
+    getFavoriteList() {
+      return this.$store.getters.getFavoriteList;
+    },
+    isFavorite() {
+      let favList = [];
+      let name = this.getInfo[0].name;
+
+      this.getFavoriteList.forEach((favorite) => {
+        favList.push(favorite.name);
+      });
+
+      if (favList.includes(name)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     addRoom(room) {
@@ -165,21 +186,39 @@ export default {
 
     // En favorit innehåller user_id och hotel_id
     // Vi hämtar den inloggade användarens id via "store.state"
-    // Sedan skickar vi hotel_id in till funktionen via "id" 
+    // Sedan skickar vi hotel_id in till funktionen via "id"
+    // Alla ens favoriters namn läggs i en ny array
+    // för att kunna använda "includes()" och kolla om detta
+    // hotell finns med i ens favoriter
     async addFavorite(id) {
       let favoriteCredentials = {
         userId: this.$store.state.loggedInUser.id,
-        hotelId: id
+        hotelId: id,
       };
 
-      await fetch("http://localhost:3000/api/auth/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(favoriteCredentials),
+      let favList = [];
+      this.hotelName = this.getInfo[0].name;
+
+      this.getFavoriteList.forEach((favorite) => {
+        favList.push(favorite.name);
       });
 
-      alert("Favorite added!")
+      if (favList.includes(this.hotelName)) {
+        alert("You already have this as a favorite.");
+      } else {
+        fetch("http://localhost:3000/api/auth/favorites", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(favoriteCredentials),
+        });
+        alert("Favorite added!");
+        this.$store.dispatch("fetchFavorites");
+      }
     },
+  },
+
+  beforeMount() {
+    this.$store.dispatch("fetchFavorites");
   },
 };
 </script>
@@ -217,8 +256,10 @@ export default {
 #liRoom {
   display: flex;
   justify-self: center;
+  justify-content: space-between;
   margin-top: 0;
   margin: 1em;
+  padding-bottom: 1em;
   border-bottom: 1px solid rgb(187, 184, 184);
 }
 
@@ -280,6 +321,13 @@ h4 {
   position: fixed;
   left: 15%;
   top: 0;
+}
+
+.booking button {
+  width: 100px;
+  height: 45px;
+  font-size: 20px;
+  margin-top: 280px;
 }
 
 ::-webkit-scrollbar {
