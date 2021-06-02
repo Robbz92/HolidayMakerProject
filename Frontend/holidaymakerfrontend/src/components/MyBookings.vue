@@ -1,13 +1,25 @@
 <template>
+  {{ currentDate() }}
   <div class="main-container" v-if="getAllMyBookings != ''">
     <h3 id="MyBookingsH3">My Bookings</h3>
-    <EditBooking v-if="show" :paymentState="payment_state" :fromDate="fromDate" :toDate="toDate" :board="board" :extra_bed_amount="extra_bed_amount" :type="type"
-    :total_cost="total_cost" :room_img="room_img" :hotel_img="hotel_img" :name="name" :id="id"/>
+    <EditBooking
+      v-if="show"
+      :fromDate="fromDate"
+      :toDate="toDate"
+      :board="board"
+      :extra_bed_amount="extra_bed_amount"
+      :type="type"
+      :total_cost="total_cost"
+      :room_img="room_img"
+      :hotel_img="hotel_img"
+      :name="name"
+      :id="id"
+    />
     <div class="bookings" v-if="!show">
       <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
-        <li id="booking"> 
+        <li id="booking">
           <div class="hotelPicture">
-             <h2>{{ bookings.name }}</h2>
+            <h2>{{ bookings.name }}</h2>
             <img id="hotelPic" :src="bookings.hotel_img" />
           </div>
           <div class="booking-text">
@@ -30,9 +42,16 @@
             </tr>            
           </table>
           </div>
-          <div class="buttons-container" >
-            <button @click="sendBookingId(bookings.id)">Review</button>
-            <button @click="editBooking(bookings)">Edit</button>
+          <div class="buttons-container">
+            <button
+              v-if="checkIfReviewed(bookings.hotel_id, index)"
+              @click="sendBookingId(bookings.id)"
+            >
+              Review
+            </button>
+            <button v-if="checkIfOutOfDate(index)" @click="editBooking(bookings)">
+              Edit
+            </button>
           </div>
         </li>
       </ul>
@@ -44,10 +63,8 @@
 </template>
 
 <script>
-import EditBooking from "./EditBooking.vue";
+import EditBooking from "../views/EditBooking.vue";
 export default {
-  name: "MyBookings",
-
   components: {
     EditBooking,
   },
@@ -71,23 +88,54 @@ export default {
       payment_state: "Not payed",
     };
   },
+
   computed: {
     getAllMyBookings() {
       console.log(this.$store.getters.getMyBookings)
       return this.$store.getters.getMyBookings;
     },
-    getRoomsForEdit(){
+    getRoomsForEdit() {
       return this.$store.getters.getRoomsForEdit;
     },
   },
+
   mounted() {
     this.$store.dispatch("fetchMyBookings");
+    this.$store.dispatch("fetchHotelListForReviews");
   },
+
   methods: {
-    sendFromDate(fromDate){
+    checkIfOutOfDate(index) {
+      // kollar om datumet har gått ut, såfall ska man inte kunna editera något.
+      if (this.getAllMyBookings[index].from_date > this.currentDate()) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    // Dagens datum
+    currentDate() {
+      var date = new Date().toISOString().slice(0, 10);
+      return date;
+    },
+
+    checkIfReviewed(hotelId, index) {
+      let bool = false;
+
+      // kollar ifall vi inte redan har gjort en review samt att vi har kommit hem från resan.
+      if (!this.$store.getters.getHotelListForReview.includes(hotelId) && this.getAllMyBookings[index].to_date <= this.currentDate()){
+        bool = true;
+      } else {
+        bool = false;
+      }
+      
+      return bool
+    },
+    sendFromDate(fromDate) {
       this.$store.commit("setFromDate", fromDate);
     },
-    sendToDate(toDate){
+    sendToDate(toDate) {
       this.$store.commit("setToDate", toDate);
     },
     sendBookingId(bookingId) {
@@ -95,24 +143,22 @@ export default {
       this.$router.push("/review");
     },
 
-
     editBooking(booking) {
       this.payment_state = booking.payment_state;
       this.fromDate = booking.from_date;
       this.toDate = booking.to_date;
-      this.board=booking.board;
+      this.board = booking.board;
       this.name = booking.name;
       this.hotel_img = booking.hotel_img;
       this.extra_bed_amount = booking.extra_bed_amount;
       this.type = booking.type;
       this.room_img = booking.room_img;
       this.total_cost = booking.total_cost;
-      this.id=booking.id;
+      this.id = booking.id;
       this.$store.dispatch("fetchBookedRoom", booking.id);
       this.$store.dispatch("fetchClickedBooking", booking.id);
       this.show = true;
     },
-
   },
 };
 </script>
@@ -128,25 +174,25 @@ export default {
   margin: 0 auto;
   margin-top: 5em;
   backdrop-filter: blur(5px);
-  
 }
 #booking {
   margin-top: 0;
   margin: 1em;
   border-bottom: 1px solid rgb(187, 184, 184);
   display: flex;
-  
 }
-.booking-text{
+
+.booking-text {
   width: 100%;
   margin-top: 70px;
 }
-.booking-text table{
-  width:100%;
+
+.booking-text table {
+  width: 100%;
 }
-.booking-text table th{
+
+.booking-text table th {
   margin: 0;
- 
 }
 
 .roomPicture,
@@ -157,6 +203,7 @@ export default {
   height: auto;
   overflow: hidden;
 }
+
 p,
 h4 {
   margin: 0.5em;
@@ -167,19 +214,15 @@ h4 {
   height: auto;
   width: 100%;
 }
-#MyBookingsH3{
-  font-size:35px;
+
+.buttons-container {
+  display: flex;
 }
-.buttons-container{
-  display:flex;
-  
-}
-.buttons-container button{
-  width:75px;
+
+.buttons-container button {
+  width: 75px;
   height: 40px;
   margin-top: 63px;
   margin-right: 10px;
-
 }
-
 </style>
