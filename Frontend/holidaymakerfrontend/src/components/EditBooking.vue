@@ -50,7 +50,7 @@
       </div>
       <div class="rooms-container">
         <h3 id="bookedRoomsH3">Booked Room(s)</h3>
-        <editRoom :room="theRoom" :price="theRoom.price" :index="index" v-for="(theRoom, index) in getBookedRooms" :key="index"/>
+        <editRoom :room="theRoom" :price="theRoom.price" :index="index" v-for="(theRoom, index) in getBookedRooms" :key="index" :dates="{fromDate:fromDate, toDate:toDate}"/>
           
       </div>
       <div class="buttons">

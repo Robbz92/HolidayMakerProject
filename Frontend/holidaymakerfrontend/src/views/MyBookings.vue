@@ -96,8 +96,10 @@ export default {
     async editBooking(booking) {
       this.$store.dispatch("fetchBookedRoom", booking.id);
       await this.$store.dispatch("fetchClickedBooking", booking.id);
+
       this.fromDate = booking.from_date;
       this.toDate = booking.to_date;
+
       this.board=booking.board;
       this.name = booking.name;
       this.hotel_img = booking.hotel_img; 
