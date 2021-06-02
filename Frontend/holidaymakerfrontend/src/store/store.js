@@ -157,10 +157,13 @@ export default createStore({
   },
   
   actions: {
-    //fetch reviews on bookingID
-    // getters + setters.
-    // review. dispatch -> kolla om listan.len == [] -> gör review
-    // Annars popup -> du får inte göra en review
+    async UpdatePaymentState(store, bookingsID) {
+      await axios.put("http://localhost:3000/rest/updatePaymentState/" + bookingsID)
+        .then(response => {
+          console.log(response.data)
+        })
+    },
+
     async fetchHotelListForReviews() {
       await axios.get("http://localhost:3000/rest/findReviews/" + this.state.loggedInUser.id)
         .then(response => {

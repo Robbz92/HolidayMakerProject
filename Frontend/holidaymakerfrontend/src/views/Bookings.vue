@@ -118,6 +118,7 @@ export default {
     },
 
     async makeBooking(isPayed) {
+      
       // hanterar betalnings status
       var paymentState = isPayed == true ? "Payed" : "Not Paid"
 

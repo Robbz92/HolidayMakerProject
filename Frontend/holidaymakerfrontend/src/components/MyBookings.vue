@@ -23,23 +23,23 @@
           </div>
           <div class="booking-text">
             <table>
-            <tr>
-              <th>Address</th>
-              <th>From Date</th>
-              <th>To Date</th>
-              <th>Booked Rooms</th>
-              <th>Total Cost</th>
-              <th>Paymen Status: </th>
-            </tr>
-            <tr>
-              <td>{{bookings.address}}</td>
-              <td>{{ bookings.from_date }}</td>
-              <td>{{ bookings.to_date }}</td>
-              <td>{{ bookings.BookedRooms}}</td>
-              <td>{{ bookings.total_cost }}</td>
-              <td>{{ bookings.payment_state}}</td>
-            </tr>            
-          </table>
+              <tr>
+                <th>Address</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Booked Rooms</th>
+                <th>Total Cost</th>
+                <th>Paymen Status:</th>
+              </tr>
+              <tr>
+                <td>{{ bookings.address }}</td>
+                <td>{{ bookings.from_date }}</td>
+                <td>{{ bookings.to_date }}</td>
+                <td>{{ bookings.BookedRooms }}</td>
+                <td>{{ bookings.total_cost }}</td>
+                <td>{{ bookings.payment_state }}</td>
+              </tr>
+            </table>
           </div>
           <div class="buttons-container">
             <button
@@ -48,12 +48,20 @@
             >
               Review
             </button>
-            
-              <button  v-if="checkIfOutOfDate(index, bookings.payment_state)" @click="editBooking(bookings)">
+
+            <button
+              v-if="checkIfOutOfDate(index, bookings.payment_state)"
+              @click="editBooking(bookings)"
+            >
               Edit
             </button>
-            
-            
+
+            <Stripe
+              :fromMyBookings="false"
+              :totalPrice="bookings.total_cost"
+              v-if="bookings.payment_state != 'Payed'"
+              @click="updateBooking(bookings)"
+            />
           </div>
         </li>
       </ul>
@@ -65,10 +73,12 @@
 </template>
 
 <script>
+import Stripe from "../components/StripeCheckout.vue";
 import EditBooking from "../views/EditBooking.vue";
 export default {
   components: {
     EditBooking,
+    Stripe,
   },
 
   data() {
@@ -78,23 +88,24 @@ export default {
       hotel_id: "",
       show: false,
       showEdit: true,
+      showPayNow: false,
       fromDate: "",
       toDate: "",
-      board:"",
-      name:"",
-      hotel_img:"",
-      extra_bed_amount:"",
-      type:"",
-      room_img:"",
-      total_cost:"",
-      id:"",
+      board: "",
+      name: "",
+      hotel_img: "",
+      extra_bed_amount: "",
+      type: "",
+      room_img: "",
+      total_cost: "",
+      id: "",
       payment_state: "Not payed",
     };
   },
 
   computed: {
     getAllMyBookings() {
-      console.log(this.$store.getters.getMyBookings)
+      console.log(this.$store.getters.getMyBookings);
       return this.$store.getters.getMyBookings;
     },
     getRoomsForEdit() {
@@ -108,12 +119,17 @@ export default {
   },
 
   methods: {
-   
+    // ifall det inte är betalat sedan innan => betalning görs uppdatera payment_state = "Payed"
+    updateBooking(bookings) {
+      console.log(bookings.id);
+      this.$store.dispatch("UpdatePaymentState", bookings.id);
+    },
+
     checkIfOutOfDate(index, payment) {
-      console.log("estado de pago " + payment)
-      if(payment == "Not Paid" || payment == "not payed" ){
+      if (payment == "Not Paid" || payment == "not payed") {
         return true;
       }
+
       // kollar om datumet har gått ut, såfall ska man inte kunna editera något.
       if (this.getAllMyBookings[index].from_date > this.currentDate()) {
         return true;
@@ -132,13 +148,16 @@ export default {
       let bool = false;
 
       // kollar ifall vi inte redan har gjort en review samt att vi har kommit hem från resan.
-      if (!this.$store.getters.getHotelListForReview.includes(hotelId) && this.getAllMyBookings[index].to_date <= this.currentDate()){
+      if (
+        !this.$store.getters.getHotelListForReview.includes(hotelId) &&
+        this.getAllMyBookings[index].to_date <= this.currentDate()
+      ) {
         bool = true;
       } else {
         bool = false;
       }
-      
-      return bool
+
+      return bool;
     },
     sendFromDate(fromDate) {
       this.$store.commit("setFromDate", fromDate);

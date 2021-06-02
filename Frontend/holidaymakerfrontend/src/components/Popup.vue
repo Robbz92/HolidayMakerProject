@@ -27,7 +27,7 @@
         <p>Total price: {{ totalCost }} SEK</p>
 
         <div class="payBtn">
-          <Stripe id="btn" :totalPrice="totalCost" />
+          <Stripe id="btn" :fromMyBookings="true" :totalPrice="totalCost" />
           <button id="btn" @click="paylater()">Pay later</button>
         </div>
       </div>

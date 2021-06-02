@@ -24,4 +24,8 @@ public class BookingService {
         bookingRepo.deleteById(id);
         return "Booking has been removed";
     }
+
+    public void updatePaymentState(long bookingsID){
+        bookingRepo.updatePayment("Payed", bookingsID);
+    }
 }

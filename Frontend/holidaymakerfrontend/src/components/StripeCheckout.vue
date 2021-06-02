@@ -22,7 +22,7 @@ export default {
         StripeCheckout
     },
 
-    props:['totalPrice'],
+    props:['totalPrice', "fromMyBookings"],
 
     data(){
         //Assigning the test API key connected to HolidayMaker
@@ -46,7 +46,10 @@ export default {
     },
     methods:{
         submit(){
-            this.$parent.paynow()
+            if(this.fromMyBookings == true){
+                this.$parent.paynow()
+            }
+            
             //Sending you to the checkout page from stripe
             this.$refs.checkoutRef.redirectToCheckout();
         }
