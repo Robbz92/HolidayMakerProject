@@ -31,6 +31,7 @@
         <p>Extra Bed: {{ extraBed }}</p>
         <label for="accept">Yes</label>
         <input
+        @change="calculatePrice()"
           type="checkbox"
           :id="'extraBed'"
           :checked="checked"
