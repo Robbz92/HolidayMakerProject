@@ -48,9 +48,12 @@
             >
               Review
             </button>
-            <button  v-if="checkIfOutOfDate(index) && showEdit " @click="editBooking(bookings)">
+            
+              <button  v-if="checkIfOutOfDate(index, bookings.payment_state)" @click="editBooking(bookings)">
               Edit
             </button>
+            
+            
           </div>
         </li>
       </ul>
@@ -105,12 +108,11 @@ export default {
   },
 
   methods: {
-    checkIfOutOfDate(index) {
-      if(this.payment_state == "Payed"){
-        this.showEdit = false;
-      }
-      else{
-        this.showEdit = true;
+   
+    checkIfOutOfDate(index, payment) {
+      console.log("estado de pago " + payment)
+      if(payment == "Not Paid" || payment == "not payed" ){
+        return true;
       }
       // kollar om datumet har gått ut, såfall ska man inte kunna editera något.
       if (this.getAllMyBookings[index].from_date > this.currentDate()) {
