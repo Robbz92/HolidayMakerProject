@@ -70,11 +70,13 @@ export default {
 
   methods: {
     paynow() {
-      this.$parent.makeBooking();
+      // skickar med en boolean för att hantera payment_state i databasen, parent är Booking.vue
+      this.$parent.makeBooking(true);
     },
 
     async paylater() {
-      this.$parent.makeBooking();
+      // ingen betalning
+      this.$parent.makeBooking(false);
       setTimeout(() => this.$router.push("/myBookings"), 500)
     },
 

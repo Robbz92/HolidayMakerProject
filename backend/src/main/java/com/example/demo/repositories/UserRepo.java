@@ -16,17 +16,16 @@ public interface UserRepo extends JpaRepository<User,Long> {
      */
     User findByEmail(String email);
 
-    @Query(value="SELECT hotels.address, booked_rooms.from_date, booked_rooms.to_date, COUNT" +
-            "(booked_rooms.id) AS BookedRooms, bookings.id, " +
-            "booked_rooms.board, bookings.hotel_id, bookings.total_cost, hotels.name, hotels.hotel_img " +
-            "FROM users " +
-            "INNER JOIN bookings ON users.id = bookings.user_id " +
-            "INNER JOIN booked_rooms ON bookings.id = booked_rooms.bookings_id " +
-            "INNER JOIN rooms ON rooms.id = booked_rooms.rooms_id " +
-            "INNER JOIN room_types ON room_types.id = rooms.room_type_id " +
-            "INNER JOIN hotels ON bookings.hotel_id = hotels.id " +
-            "WHERE users.id = ?1\n" +
-            "GROUP BY bookings.id",nativeQuery = true )
+    @Query(value="SELECT hotels.address, booked_rooms.from_date, booked_rooms.to_date, COUNT(booked_rooms.id) AS BookedRooms, bookings.id, bookings.payment_state,\n" +
+            "            booked_rooms.board, bookings.hotel_id, bookings.total_cost, hotels.name, hotels.hotel_img\n" +
+            "            FROM users\n" +
+            "            INNER JOIN bookings ON users.id = bookings.user_id\n" +
+            "            INNER JOIN booked_rooms ON bookings.id = booked_rooms.bookings_id\n" +
+            "            INNER JOIN rooms ON rooms.id = booked_rooms.rooms_id\n" +
+            "            INNER JOIN room_types ON room_types.id = rooms.room_type_id\n" +
+            "            INNER JOIN hotels ON bookings.hotel_id = hotels.id\n" +
+            "            WHERE users.id = ?\n" +
+            "            GROUP BY bookings.id",nativeQuery = true )
     List<Map> getAllMyBookings(long userId);
 
 
