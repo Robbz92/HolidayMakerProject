@@ -62,7 +62,7 @@ public class UserService {
         long hotel_id = review.getHotel_id();
 
         if(userRepo.existsById(user_id) && hotelRepo.existsById(hotel_id)){
-            Review newReview = new Review(review.getText(), review.getScore(), user_id, hotel_id);
+            Review newReview = new Review(review.getBookingId(), review.getText(), review.getScore(), user_id, hotel_id);
 
             reviewRepo.save(newReview);
 

@@ -17,8 +17,10 @@ public class ReviewController {
     /*
     hämtar reviews baserat på HotelID
      */
+
     @GetMapping("/reviews/{id}")
     public List<Map> getReviews(@PathVariable long id){return reviewService.getReviewsByHotelId(id);}
 
-
+    @GetMapping("/findReviews/{id}")
+    public List<Integer> getHotelidList(@PathVariable long id){return reviewService.getHotelidList(id);}
 }

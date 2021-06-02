@@ -1,5 +1,4 @@
 <template>
-  {{ currentDate() }}
   <div class="main-container" v-if="getAllMyBookings != ''">
     <h3 id="MyBookingsH3">My Bookings</h3>
     <EditBooking

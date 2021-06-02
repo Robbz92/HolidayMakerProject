@@ -3,18 +3,16 @@
     <router-link to="/" id="logo"><img src="./assets/logo.png" /></router-link>
     <div class="buttons">
       <router-link to="/login" id="text" v-if="!isLoggedIn">Login</router-link>
-      <router-link class="loggedInUser" to="/myBookings" v-if="isLoggedIn">{{ loggedInUser.firstName }}</router-link>
+      <router-link class="loggedInUser" to="/myPage" v-if="isLoggedIn">{{ loggedInUser.firstName }}</router-link>
       <button class="sameBtns" v-if="isLoggedIn" @click="logout">Log out</button>
       <router-link to="/register" v-if ="!isLoggedIn" id="text">Register</router-link>
     </div>
   </div>
   <router-view />
-
+  <flights/>
 </template>
 
 <script>
-
-
 export default {
   computed: {
     loggedInUser() {
@@ -30,7 +28,6 @@ export default {
     logout funktion
     */
   methods: {
-
     async logout() {
       fetch("/logout", { mode: "no-cors" });
 
@@ -39,16 +36,15 @@ export default {
       alert("You have logged out! Have fun on your holiday!");
     },
   },
+
   async mounted() {
     let user = await fetch("/api/auth/whoami");
     try {
       user = await user.json();
-      console.log(user);
       this.$store.commit("setLoggedInUser", user);
     } catch {
       console.log("Not logged in");
     }
-   
   },
   
 };
