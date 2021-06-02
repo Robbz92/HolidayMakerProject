@@ -69,7 +69,7 @@ export default {
       });
       alert("Thanks for sharing your opinion!");
 
-      this.$router.push("/myBookings");
+      this.$router.push("/myPage");
     },
   },
 

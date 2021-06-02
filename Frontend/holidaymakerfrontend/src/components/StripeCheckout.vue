@@ -39,7 +39,7 @@ export default {
                 },
                 ],
             //Redirecting you to the 'Success' page, if payment is successful
-            successURL: 'http://localhost:3000/myBookings',
+            successURL: 'http://localhost:3000/myPage',
             //Redirecting you to the 'Cancel' page, if payment is declined or canceled
             cancelURL: 'http://localhost:3000/cancel',
         }

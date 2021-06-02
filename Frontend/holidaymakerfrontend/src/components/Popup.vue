@@ -77,7 +77,7 @@ export default {
     async paylater() {
       // ingen betalning
       this.$parent.makeBooking(false);
-      setTimeout(() => this.$router.push("/myBookings"), 500)
+      setTimeout(() => this.$router.push("/myPage"), 500)
     },
 
     getBoardName() {
