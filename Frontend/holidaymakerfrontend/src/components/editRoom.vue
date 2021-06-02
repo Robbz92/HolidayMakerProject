@@ -28,16 +28,15 @@
           <option value="3">Half pension</option>
           <option value="4">DIY</option>
         </select>
-        <p>Extra Bed: {{ extraBed }}</p>
-        <label for="accept">Yes</label>
+        <label for="extraBed"> Would you like an extra bed? </label>
         <input
-        @change="calculatePrice()"
+          v-model="extraBed"
           type="checkbox"
           :id="'extraBed'"
           :checked="checked"
           @change="calculatePrice()"
         />
-        <p>Room price: {{ newTotalPrice }}kr/night</p>
+        <p>Room price: {{ newTotalPrice }}kr</p>
       </div>
     </li>
   </div>
@@ -74,6 +73,7 @@ export default {
     else{
         this.checked=false;
     }
+    this.calculatePrice()
   },
 
   computed:{
@@ -114,6 +114,7 @@ export default {
       }
 
       let bedMultiplier = 1;
+      console.log(this.extraBed)
       if (this.extraBed) bedMultiplier = 1.05;
 
       let numberOfDays = this.calculateDateDiff();
@@ -132,7 +133,7 @@ export default {
           roomId:this.chosenRoom,
           board:this.board,
           extra_bed_amount:this.extraBed,
-          total_cost:this.newTotalPrice,
+          roomCalculatedPrice:this.newTotalPrice,
           name:this.room.type
       }
       this.$parent.updateRoomInEditRoomList(this.index,object)

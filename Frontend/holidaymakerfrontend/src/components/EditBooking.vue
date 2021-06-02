@@ -64,7 +64,6 @@
 
 
 <script>
-import moment from "moment";
 import editRoom from "./editRoom.vue";
 
 export default {
@@ -143,6 +142,7 @@ export default {
     },
     updateRoomInEditRoomList(index, room){
       this.editRoomList[index]=room
+      this.calculatePrice()
 
     },
 
@@ -171,45 +171,12 @@ export default {
       this.$parent.toggleShow(false)
     },
 
-    calculateDateDiff() {
-      let start = moment(this.fromDate);
-      let end = moment(this.toDate);
-      let duration = moment.duration(end.diff(start));
-      let days = duration.asDays();
-      this.numberOfDays = Math.round(days);
-      return this.numberOfDays;
-    },
-
-    calculatePrice(roomPrice) {
-      let roomPlusDays = roomPrice * this.calculateDateDiff();
-      let price = roomPlusDays;
-
-      var boardChoice = document.getElementById("boardChoice");
-      this.boardResult = parseInt(
-        boardChoice.options[boardChoice.selectedIndex].value
-      );
-
-      if (this.boardResult == 1) {
-        price *= 1.2;
-      }
-      if (this.boardResult == 2) {
-        price *= 1.15;
-      }
-      if (this.boardResult == 3) {
-        price *= 1.1;
-      }
-      this.newTotalPrice = parseFloat(price).toFixed(2); //newTotalPrice only has 2 decimals
-
-      /* this.extraBed = null;
-      if (this.accept == true) {
-        //bockad checkbox
-        this.extraBed = 1;
-        this.newTotalPrice *= 1.05;
-        console.log(this.newTotalPrice);
-      } else {
-        //avbockad checkboc
-        this.extraBed = 0;
-      } */
+    calculatePrice(){
+      let newPrice =0;
+      this.editRoomList.forEach(roomInList =>{
+      newPrice +=roomInList.roomCalculatedPrice
+      });
+      this.newTotalPrice=newPrice;
     },
 
     saveBooking() {
