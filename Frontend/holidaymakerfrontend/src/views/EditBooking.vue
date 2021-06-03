@@ -13,12 +13,14 @@
               <th>From Date</th>
               <th>To Date</th>
               <th>New Total Cost</th>
+              <th>Payment Status</th>
             </tr>
             <tr>
               <td>{{total_cost}} SEK</td>
               <td>{{fromDate}}</td>
               <td>{{toDate}}</td>
               <td>{{newTotalPrice}}</td>
+              <td>{{paymentState}}</td>
             </tr>            
           </table>
         </div>
@@ -111,6 +113,7 @@ export default {
     "room_img",
     "total_cost",
     "id",
+    "paymentState",
   ],
   data() {
     return {
@@ -134,6 +137,11 @@ export default {
   },
 
   computed: {
+    getPaymentState(){
+      console.log(this.$store.getters.getPaymentState)
+      return this.$store.getters.getPaymentState;
+    },
+
     getTheBooking() {
       return this.$store.getters.getClickedBooking;
     },

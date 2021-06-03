@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 import Hotel from '../views/Hotel.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue' 
-import MyBookings from '../views/MyBookings.vue'
+import MyBookings from '../views/MyPage.vue'
 import Review from '../views/Review.vue'
 import Bookings from '../views/Bookings.vue'
 import EditBooking from '../views/EditBooking.vue'
@@ -36,8 +36,8 @@ const routes = [
     component: Bookings
   },
   {
-    path: '/myBookings',
-    name: 'MyBookings',
+    path: '/myPage',
+    name: 'My Page',
     component: MyBookings,
   },
   {

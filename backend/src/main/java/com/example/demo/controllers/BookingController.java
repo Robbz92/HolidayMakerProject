@@ -34,5 +34,6 @@ public class BookingController {
         return bookingService.deleteBooking(id);
     }
 
-
+    @PutMapping("/updatePaymentState/{bookingsID}")
+    public void updatePaymentState(@PathVariable long bookingsID){ bookingService.updatePaymentState(bookingsID);}
 }

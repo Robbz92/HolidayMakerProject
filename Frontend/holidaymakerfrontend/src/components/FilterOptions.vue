@@ -118,6 +118,7 @@ export default {
   },
 
   methods: {
+    // stänger/öppnar filter menyn
     showFilter() {
       if (this.dropdown == false) {
         this.dropdown = true;

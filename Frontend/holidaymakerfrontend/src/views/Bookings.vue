@@ -117,8 +117,11 @@ export default {
       return isUnique;
     },
 
-    async makeBooking() {
-      //console.log("makebookin")
+    async makeBooking(isPayed) {
+      
+      // hanterar betalnings status
+      var paymentState = isPayed == true ? "Payed" : "Not Paid"
+
       var boardChoice = document.getElementById("board");
       this.boardResult = parseInt(
         boardChoice.options[boardChoice.selectedIndex].value
@@ -130,6 +133,7 @@ export default {
         fromDate: this.getFromDate,
         toDate: this.getToDate,
         totalCost: this.getPriceFromObject(),
+        paymentState: paymentState,
       };
 
       console.log(bookingcredentials);

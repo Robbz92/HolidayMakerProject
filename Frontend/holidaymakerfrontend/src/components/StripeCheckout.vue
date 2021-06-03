@@ -22,7 +22,7 @@ export default {
         StripeCheckout
     },
 
-    props:['totalPrice'],
+    props:['totalPrice', "fromMyBookings"],
 
     data(){
         //Assigning the test API key connected to HolidayMaker
@@ -39,14 +39,17 @@ export default {
                 },
                 ],
             //Redirecting you to the 'Success' page, if payment is successful
-            successURL: 'http://localhost:3000/myBookings',
+            successURL: 'http://localhost:3000/myPage',
             //Redirecting you to the 'Cancel' page, if payment is declined or canceled
             cancelURL: 'http://localhost:3000/cancel',
         }
     },
     methods:{
         submit(){
-            this.$parent.paynow()
+            if(this.fromMyBookings == true){
+                this.$parent.paynow()
+            }
+            
             //Sending you to the checkout page from stripe
             this.$refs.checkoutRef.redirectToCheckout();
         }

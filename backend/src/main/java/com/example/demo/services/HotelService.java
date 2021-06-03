@@ -23,10 +23,10 @@ public class HotelService {
     loopar även ut hotel och sätter dit comforts och price som
     tillhör det hotellet.
      */
-    public List<Hotel> getByPhrase(String phrase) {
+    public List<Hotel> getByPhrase(String phrase, String fromDate, String toDate, double size, long room) {
         List<Hotel> hotelList = new ArrayList<>();
-        if(hotelRepo.findByName(phrase) != null){
-            hotelList.addAll(hotelRepo.findByName(phrase));
+        if(hotelRepo.findByName (phrase, fromDate, toDate, size, room) != null ){
+            hotelList.addAll(hotelRepo.findByName(phrase, fromDate, toDate, size, room));
             for(Hotel hotel : hotelList){
                 hotel.setComfortList(getComfortsForCard(hotel.getId()));
                 hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));
@@ -42,8 +42,8 @@ public class HotelService {
         matchar ID:et
         och returnerar en lista
          */
-    public List<Hotel> getByCity(Long id) {
-        List<Hotel> hotelList = hotelRepo.getByCityId(id);
+    public List<Hotel> getByCity(Long id, String fromDate, String toDate, double size, long room) {
+        List<Hotel> hotelList = hotelRepo.getByCityId(id, fromDate, toDate, size, room);
         for(Hotel hotel : hotelList){
             for(Map map : attractionById(hotel.getId())){
                 hotel.setComfortList(getComfortsForCard(hotel.getId()));
@@ -118,10 +118,10 @@ public class HotelService {
         return placeName;
     }
 
-    public List<Hotel> getByTemp(int temp, int range) {
+    public List<Hotel> getByTemp(String fromDate, String toDate, double size, long room, int temp, int range) {
         List<Hotel> hotelList = new ArrayList<>();
-        if(hotelRepo.countryTemperature(temp-range,temp+range) != null){
-            hotelList.addAll(hotelRepo.countryTemperature(temp-range,temp+range));
+        if(hotelRepo.countryTemperature(fromDate, toDate, size, room, temp-range,temp+range) != null){
+            hotelList.addAll(hotelRepo.countryTemperature(fromDate, toDate, size, room, temp-range,temp+range));
             for(Hotel hotel : hotelList){
                 hotel.setComfortList(getComfortsForCard(hotel.getId()));
                 hotel.setAttractionList(getAttractionsForCard(hotel.getCityId()));
@@ -132,8 +132,8 @@ public class HotelService {
         return hotelList;
     }
 
-    public List<Hotel> getAll() {
-        List<Hotel> hotelList = hotelRepo.findAll();
+    public List<Hotel> getAll(String fromDate, String toDate,  double size, long room) {
+        List<Hotel> hotelList = hotelRepo.findAll(fromDate, toDate, size, room);
         for(Hotel hotel : hotelList){
             for(Map map : attractionById(hotel.getId())){
                 hotel.setComfortList(getComfortsForCard(hotel.getId()));

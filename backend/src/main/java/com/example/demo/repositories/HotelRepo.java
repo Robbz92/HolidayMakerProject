@@ -23,14 +23,30 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
     /*
    hämtar hotel på en hotelfras(sök funktion)
      */
-    @Query(value = "SELECT * FROM hotels WHERE hotels.name LIKE %?%", nativeQuery = true)
-    List<Hotel> findByName(String name);
+    @Query(value = "SELECT hotels.id, hotels.name, rooms.id AS RoomID, hotels.hotel_img, hotels.address, hotels.city_id, hotels.distance_beach, hotels.distance_downtown, hotels.total_score\n" +
+            "FROM hotels INNER JOIN rooms ON hotels.id = rooms.hotel_id\n" +
+            "INNER JOIN room_types on rooms.room_type_id = room_types.id\n" +
+            "WHERE hotels.name LIKE %?1% AND room_types.size >= ?4 \n" +
+            "AND rooms.id\n" +
+            "NOT IN (SELECT rooms_id FROM booked_rooms WHERE from_date BETWEEN ?2 AND ?3 Or to_date BETWEEN ?2 AND ?3) \n" +
+            "GROUP BY hotels.name\n" +
+            "HAVING COUNT(rooms.id) >= ?5\n" +
+            "ORDER BY hotels.id", nativeQuery = true)
+    List<Hotel> findByName(String phrase, String fromDate, String toDate, double size, long room);
 
     /*
     hämtar allt från hotel på ett city ID(sök funktion)
      */
-   @Query(value = "Select * FROM hotels WHERE city_id = ?", nativeQuery = true)
-    List<Hotel> getByCityId (Long id);
+   @Query(value = "SELECT hotels.id, hotels.name, COUNT(rooms.id), hotels.hotel_img, hotels.address, hotels.city_id, hotels.distance_beach, hotels.distance_downtown, hotels.total_score\n" +
+           "FROM hotels INNER JOIN rooms ON hotels.id = rooms.hotel_id\n" +
+           "INNER JOIN room_types on rooms.room_type_id = room_types.id\n" +
+           "WHERE room_types.size >= ?4 AND hotels.city_id = ?1\n" +
+           "AND rooms.id\n" +
+           "NOT IN (SELECT rooms_id FROM booked_rooms WHERE from_date BETWEEN ?2 AND ?3 Or to_date BETWEEN ?2 AND ?3) \n" +
+           "GROUP BY hotels.name\n" +
+           "HAVING COUNT(rooms.id) >= ?5\n" +
+           "ORDER BY hotels.id", nativeQuery = true)
+    List<Hotel> getByCityId (Long id, String fromDate, String toDate, double size, long room);
 
    /*
    hämtar allt från hotel på HotelID(onClick hotelCard funktion)
@@ -86,13 +102,29 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
             true)
     String placeName (Long id);
 
-    @Query(value = "SELECT * FROM hotels", nativeQuery = true)
-    List<Hotel> findAll();
+    @Query(value = "SELECT hotels.id, hotels.name, hotels.hotel_img, hotels.address, hotels.city_id, hotels.distance_beach, hotels.distance_downtown, hotels.total_score\n" +
+            "FROM hotels INNER JOIN rooms ON hotels.id = rooms.hotel_id\n" +
+            "INNER JOIN room_types on rooms.room_type_id = room_types.id\n" +
+            "WHERE room_types.size >= ?3\n" +
+            "AND rooms.id\n" +
+            "NOT IN (SELECT rooms_id FROM booked_rooms WHERE from_date BETWEEN ?1 AND ?2 Or to_date BETWEEN ?1 AND ?2) \n" +
+            "GROUP BY hotels.name\n" +
+            "HAVING COUNT(rooms.id) >= ?4\n" +
+            "ORDER BY hotels.id", nativeQuery = true)
+    List<Hotel> findAll(String fromDate, String toDate, double size, long room );
 
-    @Query(value= "SELECT * FROM hotels h" +
-            " INNER JOIN cities c ON c.id = h.city_id" +
-            " INNER JOIN countries i ON i.id = c.country_id" +
-            " WHERE i.temperature >= ?1" +
-            " AND i.temperature <= ?2", nativeQuery = true)
-    List<Hotel> countryTemperature(int temp1, int temp2);
+    @Query(value= "SELECT hotels.id, hotels.name, hotels.hotel_img, hotels.address, hotels.city_id, hotels.distance_beach, hotels.distance_downtown, hotels.total_score\n" +
+            "FROM hotels \n" +
+            "          INNER JOIN cities ON cities.id = hotels.city_id\n" +
+            "          INNER JOIN countries ON countries.id = cities.country_id\n" +
+            "          INNER JOIN rooms ON hotels.id = rooms.hotel_id\n" +
+            "          INNER JOIN room_types on rooms.room_type_id = room_types.id\n" +
+            "WHERE countries.temperature >= ?4\n" +
+            "AND countries.temperature <= ?5 AND room_types.size >= ?3\n" +
+            "AND rooms.id\n" +
+            "           NOT IN (SELECT rooms_id FROM booked_rooms WHERE from_date BETWEEN ?1 AND ?2 Or to_date BETWEEN ?1 AND ?2) \n" +
+            "   GROUP BY hotels.name\n" +
+            "   HAVING COUNT(rooms.id) >= ?4\n" +
+            "   ORDER BY hotels.id", nativeQuery = true)
+    List<Hotel> countryTemperature(String fromDate, String toDate, double size, long room, int temp1, int temp2);
 }

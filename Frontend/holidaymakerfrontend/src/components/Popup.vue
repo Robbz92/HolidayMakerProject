@@ -27,7 +27,7 @@
         <p>Total price: {{ totalCost }} SEK</p>
 
         <div class="payBtn">
-          <Stripe id="btn" :totalPrice="totalCost" />
+          <Stripe id="btn" :fromMyBookings="true" :totalPrice="totalCost" />
           <button id="btn" @click="paylater()">Pay later</button>
         </div>
       </div>
@@ -70,12 +70,14 @@ export default {
 
   methods: {
     paynow() {
-      this.$parent.makeBooking();
+      // skickar med en boolean för att hantera payment_state i databasen, parent är Booking.vue
+      this.$parent.makeBooking(true);
     },
 
     async paylater() {
-      this.$parent.makeBooking();
-      setTimeout(() => this.$router.push("/myBookings"), 500)
+      // ingen betalning
+      this.$parent.makeBooking(false);
+      setTimeout(() => this.$router.push("/myPage"), 500)
     },
 
     getBoardName() {

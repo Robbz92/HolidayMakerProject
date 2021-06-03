@@ -15,6 +15,7 @@ public class Review {
     private String text;
     private int score;
     private long user_id;
+    private long bookingId;
 
     @Column(name = "hotel_id")
     private long hotel_id;
@@ -25,11 +26,20 @@ public class Review {
 
     public Review() {}
 
-    public Review(String text, int score, long user_id, long hotel_id) {
+    public Review(long bookingId, String text, int score, long user_id, long hotel_id) {
         this.text = text;
         this.score = score;
         this.user_id = user_id;
         this.hotel_id = hotel_id;
+        this.bookingId = bookingId;
+    }
+
+    public long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(long bookingId) {
+        this.bookingId = bookingId;
     }
 
     @JsonIgnore

@@ -18,12 +18,14 @@ public class HotelController {
     private HotelService hotelService;
 
     //Hämtar ALLA hotel
-    @GetMapping("/getAllHotels")
-    public List<Hotel> getAll(){ return hotelService.getAll(); }
+    @GetMapping("/getAllHotels/{fromDate}/{toDate}/{size}/{room}")
+    public List<Hotel> getAll(@PathVariable String fromDate, @PathVariable String toDate, @PathVariable double size, @PathVariable long room){
+        return hotelService.getAll(fromDate, toDate, size, room); }
 
     //Hämtar hotel per stad på HotelID
-    @GetMapping("/getHotelForCity/{id}")
-    public List<Hotel> getByCountry(@PathVariable Long id){ return hotelService.getByCity(id); }
+    @GetMapping("/getHotelForCity/{id}/{fromDate}/{toDate}/{size}/{room}")
+    public List<Hotel> getByCountry(@PathVariable Long id, @PathVariable String fromDate,@PathVariable String toDate,@PathVariable double size, @PathVariable long room){
+        return hotelService.getByCity(id, fromDate, toDate, size, room); }
 
     //Hämtar hotel på HotelID
     @GetMapping("/hotelInfo/{id}")
@@ -42,9 +44,11 @@ public class HotelController {
     public List<Map> getComfortsById(@PathVariable Long id){return hotelService.comfortsById(id);}
 
     //sökfunktion på inputfras antingen hotel/country/city
-    @GetMapping("hotelSearch/{phrase}")
-    public List<Hotel> getByName(@PathVariable String phrase){ return hotelService.getByPhrase(phrase); }
+    @GetMapping("hotelSearch/{phrase}/{fromDate}/{toDate}/{size}/{room}")
+    public List<Hotel> getByName(@PathVariable String phrase, @PathVariable String fromDate, @PathVariable String toDate, @PathVariable double size, @PathVariable long room){
+        return hotelService.getByPhrase(phrase, fromDate, toDate, size, room); }
 
-    @GetMapping("tempSearch/{temp}-{range}")
-    public List<Hotel> getByTemp(@PathVariable int temp,@PathVariable int range){return hotelService.getByTemp(temp, range);}
+    @GetMapping("tempSearch/{fromDate}/{toDate}/{size}/{room}/{temp}/{range}")
+    public List<Hotel> getByTemp(@PathVariable String fromDate, @PathVariable String toDate, @PathVariable double size, @PathVariable long room, @PathVariable int temp,@PathVariable int range){
+        return hotelService.getByTemp(fromDate, toDate, size, room, temp, range);}
 }
