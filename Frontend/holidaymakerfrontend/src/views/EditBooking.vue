@@ -97,7 +97,7 @@
 
 <script>
 //import DatePicker from "vue3-datepicker";
-import moment from "moment";
+import moment from "moment"; // Komponent som parsear, validerar, manipulerar och visar datum.
 
 export default {
   props: [
@@ -177,6 +177,7 @@ export default {
       });
     },
 
+    // Tillsammans med "moment" beräknas antal dagar mellan två datum.
     calculateDateDiff() {
       let start = moment(this.fromDate);
       let end = moment(this.toDate);
