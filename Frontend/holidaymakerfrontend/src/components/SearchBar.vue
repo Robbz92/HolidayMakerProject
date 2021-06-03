@@ -22,6 +22,7 @@
           <date-picker
             id="fromDate"
             v-model="fromDate"
+            :lowerLimit= "fromDateLimit"
             language="en"
             type="date"
             format="YYYY-MM-DD"
@@ -33,6 +34,7 @@
           <date-picker
             id="toDate"
             v-model="toDate"
+            :lowerLimit="toDateLimit"
             language="en"
             type="date"
             format="YYYY-MM-DD"
@@ -120,6 +122,11 @@ function addDays() {
   copy.setDate(today.getDate() + 7);
   return copy;
 }
+function dateLimit() {
+  const limitDate = new Date();
+  limitDate.setDate(today.getDate() + 1);
+  return limitDate;
+}
 
 /*
 Datepicker är ett bibliotek för att lättare hantera datum
@@ -154,6 +161,8 @@ export default {
       toDate: addDays(), // Lägger in 7 dagar framåt från dagens datum som standardvärde i kalendern
       numberOfDays: 0,
       temp: 0,
+      toDateLimit: dateLimit(),
+      fromDateLimit: new Date(),
     };
   },
 
