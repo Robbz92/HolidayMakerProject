@@ -48,7 +48,6 @@
             >
               Review
             </button>
-
             <button
               v-if="checkIfOutOfDate(index, bookings.payment_state)"
               @click="editBooking(bookings)"
@@ -59,8 +58,8 @@
             <Stripe
               :fromMyBookings="false"
               :totalPrice="bookings.total_cost"
-              v-if="bookings.payment_state != 'Payed'"
-              @click="updateBooking(bookings)"
+              :bookingID="bookings.id"
+              v-if="bookings.payment_state != 'Paid'"              
             />
           </div>
         </li>
@@ -97,7 +96,7 @@ export default {
       extra_bed_amount: "",
       type: "",
       room_img: "",
-      total_cost: "",
+      total_cost: 0,
       id: "",
       payment_state: "Not payed",
     };
@@ -105,7 +104,6 @@ export default {
 
   computed: {
     getAllMyBookings() {
-      console.log(this.$store.getters.getMyBookings);
       return this.$store.getters.getMyBookings;
     },
     getRoomsForEdit() {
@@ -116,24 +114,23 @@ export default {
   mounted() {
     this.$store.dispatch("fetchMyBookings");
     this.$store.dispatch("fetchHotelListForReviews");
+
+    console.log(this.getAllMyBookings)
   },
 
   methods: {
     // ifall det inte är betalat sedan innan => betalning görs uppdatera payment_state = "Payed"
-    updateBooking(bookings) {
-      console.log(bookings.id);
-      this.$store.dispatch("UpdatePaymentState", bookings.id);
+    // Metoden andropas från STRIPE
+    updateBooking(bookingID) {
+      this.$store.dispatch("UpdatePaymentState", bookingID);
     },
 
     checkIfOutOfDate(index, payment) {
-      if (payment == "Not Paid" || payment == "not payed") {
-        return true;
-      }
-
+      
       // kollar om datumet har gått ut, såfall ska man inte kunna editera något.
-      if (this.getAllMyBookings[index].from_date > this.currentDate()) {
-        return true;
-      } else {
+      if (this.getAllMyBookings[index].from_date >= this.currentDate() && payment === "Not Paid") {
+        return true;      
+        }else {
         return false;
       }
     },

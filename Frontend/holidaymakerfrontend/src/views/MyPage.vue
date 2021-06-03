@@ -1,43 +1,36 @@
 <template>
 <div id="Selectors">
-  <label id="BookTitle" @click="toggleBookings">Bookings</label>
-  <label id="FavTitle" @click="toggleFavorites">Favorites</label>
+  <label id="BookTitle" @click="toggleComponents(true)">Bookings</label>
+  <label id="FavTitle" @click="toggleComponents(false)">Favorites</label>
 </div>
   <div>
-    <MyBooking v-if="showBookings"/>
+    <MyBooking v-if="showToggle"/>
+    <Favorites v-if="!showToggle"/>
   </div>
 </template>
 
 <script>
 import MyBooking from "../components/MyBookings.vue"
+import Favorites from "../components/Favorites.vue"
 
 export default {
   name: "MyBookings",
 
   components: {
-    MyBooking
+    MyBooking,
+    Favorites
   },
 
   data(){
     return{
-      showBookings: true,
-      showFavorites: false
+      showToggle: true,
     }
   },
 
   methods:{
-    toggleBookings(){
-      if(this.showFavorites == true){
-        this.showFavorites = false
-      }
-      this.showBookings = true
-    },
-
-    toggleFavorites(){
-      if(this.showBookings == true){
-        this.showBookings = false
-      }
-      this.showFavorites = true
+    toggleComponents(value){
+      console.log(value)
+      this.showToggle = value
     },
   }
 };
@@ -52,5 +45,23 @@ export default {
   #Selectors > label{
     margin: 50px;
     font-weight: 600;
+  }
+
+  #BookTitle {
+    cursor: pointer;
+  }
+
+  #BookTitle:hover {
+    color: white;
+    transition: 0.2s ease;
+  }
+
+  #FavTitle {
+    cursor: pointer;
+  }
+
+  #FavTitle:hover {
+    color: white;
+    transition: 0.2s ease;
   }
 </style>

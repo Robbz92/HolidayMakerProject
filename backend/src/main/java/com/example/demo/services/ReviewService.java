@@ -27,5 +27,9 @@ public class ReviewService {
     public List<Map> getReviewsByHotelId(long id) {
         return reviewRepo.getReviews(id);
     }
-    public List<Integer> getHotelidList(long id) {return reviewRepo.findReviews(id);}
+    public List<Integer> getHotelidList() {
+        User user = userService.whoAmI();
+        long userId = user.getId();
+        System.out.println(userId);
+        return reviewRepo.findReviews(userId);}
 }
