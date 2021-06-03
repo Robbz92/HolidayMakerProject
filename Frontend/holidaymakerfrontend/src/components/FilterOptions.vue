@@ -16,6 +16,7 @@
       <div class="filtersAndTemp">
         <div class="things-container">
           <ul class="filters-wrapp" :class="{ filterActive: comfortTrigger }">
+            <button @click="resetFilter">Reset filters</button>
             <li v-for="(filter, index) in filters" :key="index">
               <div id="com-wrapp">
                 <input
@@ -93,6 +94,7 @@ export default {
         { filter: "Vulcanos", type: "attraction" },
         { filter: "Casinos", type: "attraction" },
       ],
+
       checkedFilters: [],
       activeTrigger: false,
       comfortTrigger: false,
@@ -145,6 +147,13 @@ export default {
         this.comfortTrigger = false;
       }
     },
+    
+    resetFilter(){
+      console.log(this.checkedFilters)
+      this.checkedFilters = []
+      this.$store.commit("setFilterAmmount", 0)
+      this.$parent.onFilter('')
+    }
   },
 };
 </script>
