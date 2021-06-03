@@ -7,12 +7,26 @@
           <div class="hotelPicture">
             <img id="hotelPic" :src="theBooking.hotel_img" />
           </div>
-          <p>Total Cost: {{ theBooking.total_cost }} kr</p>
-          <p>Date: {{ theBooking.from_date }} - {{ theBook.to_date }}</p>
-          <p>Room: {{ theBooking.type }}</p>
-          <p>Board: {{ theBooking.board }}</p>
-          <p>Address: {{ theBooking.address }}</p>
-        </div>
+           <div class="booking-text">
+            <table>
+            <tr>
+              <th>Address</th>
+              <th>From Date</th>
+              <th>To Date</th>
+              <th>Booked Rooms</th>
+              <th>Total Cost</th>
+            </tr>
+            <tr>
+              <td>{{theBooking.address}}</td>
+              <td>{{ theBooking.from_date }}</td>
+              <td>{{ theBooking.to_date }}</td>
+              <td>{{ theBooking.BookedRooms}}</td>
+              <td>{{ theBooking.total_cost }}</td>
+            </tr>            
+          </table>
+          </div>
+        </div> 
+
         <form>
           <h3>Score: {{ score }}</h3>
           <input id="score" type="range" v-model="score" min="1" max="5" />
@@ -79,7 +93,7 @@ export default {
 
 <style scoped>
 #text {
-  width: 60%;
+  width: 80%;
 }
 #theInfo {
   display: flex;
@@ -89,24 +103,51 @@ export default {
   border-bottom: 1px solid rgb(187, 184, 184);
 }
 
+.booking-Text {
+ width: 100%;
+  margin-top: 70px;
+  margin-left: 1px;
+}
+.booking-text{
+  width: 100%;
+  margin-top: 70px;
+}
+.booking-text table{
+  width:100%;
+}
+.booking-text table th{
+  margin: 0;
+ 
+}
+
 #list {
   list-style-type: none;
   border: 1px solid rgb(187, 184, 184);
   background-color: rgba(255, 255, 255, 0.322);
-  width: 55%;
+  width: 75%;
   margin-bottom: 20px;
   border-radius: 5px;
   margin: 0 auto;
   margin-top: 5em;
+  
+}
+.hotelPicture {
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  height: auto;
+  overflow: hidden;
 }
 #hotelPic {
-  width: 90%;
+  width: 100%;
   border-radius: 5px;
   margin-top: 5em;
   margin: 0;
   padding: 0;
   height: auto;
   overflow: hidden;
+  display: flex;
+  justify-content: space-between;
 }
 button {
   margin-bottom: 2em;
