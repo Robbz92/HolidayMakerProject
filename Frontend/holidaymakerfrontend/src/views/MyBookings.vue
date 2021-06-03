@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import EditBooking from "../components/EditBooking.vue";
+import EditBooking from "../components/EditBooking";
 export default {
   name: "MyBookings",
 
@@ -94,6 +94,7 @@ export default {
     },
 
     async editBooking(booking) {
+      console.log(booking)
       this.$store.dispatch("fetchBookedRoom", booking.id);
       await this.$store.dispatch("fetchClickedBooking", booking.id);
 

@@ -23,30 +23,6 @@
             </tr>            
           </table>
         </div>
-        <!--  <div class="date">
-          <div class="checkIn">
-            <h6>Check-in</h6>
-            <date-picker
-              id="fromDate"
-              v-model="getFromDate"
-              language="en"
-              type="date"
-              format="YYYY-MM-DD"
-              :style="styleObject"
-            ></date-picker>
-          </div>
-          <div class="checkOut">
-            <h6>Check-out</h6>
-            <date-picker
-              id="toDate"
-              v-model="getToDate"
-              language="en"
-              type="date"
-              format="YYYY-MM-DD"
-              :style="styleObject"
-            ></date-picker>
-          </div>
-        </div> -->
       </div>
       <div class="rooms-container">
         <h3 id="bookedRoomsH3">Booked Room(s)</h3>
@@ -103,6 +79,7 @@ export default {
     editRoom,
   },
   mounted(){
+    console.log(this.id)
     this.$store.commit("setChosenHotel" , this.hotel_id)
     this.$store.commit("setFromDate",this.fromDate) 
     this.$store.commit("setToDate" ,this.toDate)
@@ -110,13 +87,6 @@ export default {
   },
 
   computed: {
-    getRoomList(){
-      return this.$store.getters.getRoomList;
-    },
-
-    getTheBooking() {
-      return this.$store.getters.getClickedBooking;
-    },
     getFromDate() {
       return Date.parse(this.fromDate);
     },
@@ -126,11 +96,6 @@ export default {
     getBookedRooms() {
       return this.$store.getters.getBookedRoom;
     },
-    getExtraBed(){
-      console.log(this.extra_bed_amount)
-      return this.extra_bed_amount;
-    },
-
   },
   methods: {
     deleteBooking(id) {
@@ -146,27 +111,6 @@ export default {
 
     },
 
-    async editBooking(bookedRoomId, extraBed) {
-      let bookingsIdObject = {
-        id: this.id,
-      };
-      let editBookingObject = {
-        roomsId: this.chosenRoom,
-        board: this.editBoard,
-        fromDate: this.fromDate,
-        toDate: this.toDate,
-        id: bookedRoomId,
-        extraBedAmount: extraBed,
-        bookings: bookingsIdObject,
-      };
-      console.log(this.chosenRoom)
-      console.log(editBookingObject);
-      await fetch("http://localhost:3000/rest/editBooking", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editBookingObject),
-      });
-    },
     showFalse(){
       this.$parent.toggleShow(false)
     },
@@ -179,9 +123,42 @@ export default {
       this.newTotalPrice=newPrice;
     },
 
-    saveBooking() {
-      
-      this.$router.push("/myBookings");
+     async saveBooking() { 
+         let bookingsIdObject = {
+        id: this.id,
+      };
+      for (let i = 0; i < this.editRoomList.length; i++){
+         let editRoomObject= {
+        roomsId: this.editRoomList[i].roomsId,
+        board: this.editRoomList[i].board,
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        id: this.editRoomList[i].bookedRoomId,
+        extraBedAmount: this.editRoomList[i].extraBed,
+        bookings: bookingsIdObject,
+         };
+
+    
+       await fetch("http://localhost:3000/rest/editBooking", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editRoomObject),
+        });
+       }
+      let bookingsObject = {
+        id: this.id,
+        userId: this.$store.state.loggedInUser.id,
+        hotelId: this.hotel_id,
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        totalCost: this.newTotalPrice,
+        paymentState:"not payed",
+      }
+       await fetch("http://localhost:3000/rest/updateBooking", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bookingsObject),
+        });
     },
     getBookedRoomById(id){
       return this.$store.getters.getBookedRoom[id];

@@ -22,6 +22,10 @@ public class BookingController {
         bookingService.makeBooking(bookingsObj);
     }
 
+
+    @PutMapping("/updateBooking")
+    public void updateBookings(@RequestBody Bookings bookingsObject){bookingService.updateBooking(bookingsObject);}
+
     // hämtar alla bokningar från bookings + bookedRooms i en lista.
     @GetMapping("/getLatestBookings")
     public int getLatestBookings() {
