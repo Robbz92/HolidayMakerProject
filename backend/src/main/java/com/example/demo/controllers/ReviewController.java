@@ -21,6 +21,6 @@ public class ReviewController {
     @GetMapping("/reviews/{id}")
     public List<Map> getReviews(@PathVariable long id){return reviewService.getReviewsByHotelId(id);}
 
-    @GetMapping("/findReviews/{id}")
-    public List<Integer> getHotelidList(@PathVariable long id){return reviewService.getHotelidList(id);}
+    @GetMapping("/findReviews/")
+    public List<Integer> getHotelidList(){return reviewService.getHotelidList();}
 }

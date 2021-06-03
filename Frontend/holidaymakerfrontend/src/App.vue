@@ -9,7 +9,6 @@
     </div>
   </div>
   <router-view />
-  <flights/>
 </template>
 
 <script>

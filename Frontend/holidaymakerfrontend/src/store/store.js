@@ -193,7 +193,7 @@ export default createStore({
     },
 
     async fetchHotelListForReviews() {
-      await axios.get("http://localhost:3000/rest/findReviews/" + this.state.loggedInUser.id)
+      await axios.get("http://localhost:3000/rest/findReviews/")
         .then(response => {
           console.log(response.data)
           this.commit("setHotelListForReview", response.data)
@@ -453,7 +453,6 @@ export default createStore({
 
     getFavoriteList(state) {
       return state.favoriteList
-    },
     },
     getRoom(state){
       return state.room

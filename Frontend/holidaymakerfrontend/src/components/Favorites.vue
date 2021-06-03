@@ -2,7 +2,6 @@
   <div class="main-container">
     <div class="routes-container">
       <h3>My Favorites</h3>
-      <button @click="pushToBookings()">Bookings</button>
     </div>
     <div class="favoriteList-container">
       <div
@@ -49,9 +48,6 @@ export default {
   },
 
   methods: {
-    pushToBookings() {
-      this.$router.push("/myBookings")
-    },
 
     deleteFavorite(favoriteId) {
       if(confirm("Are you sure you want to delete this favorite?")) {
@@ -60,14 +56,6 @@ export default {
         location.reload()
       }
     },
-
-    /* async openFavorite(hotelName) {
-      this.$store.commit("setSearchPhrase", hotelName);
-      this.$store.dispatch("searchFor");
-      this.$router.push("/");
-      this.$root.onSearch();      
-    }, */
-
   },
 
   mounted() {
@@ -77,10 +65,6 @@ export default {
 </script>
 
 <style scoped>
-
-h3 {
-  font-size: 35px;
-}
 
 .favoriteList-container {
   border: 1px solid rgb(187, 184, 184);
