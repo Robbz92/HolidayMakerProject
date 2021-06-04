@@ -13,28 +13,7 @@
           <Card :card="hotel" :imageUrl="hotel.hotelImg" />
         </li>
       </ol>
-      <h3 v-if="cityList != ''"></h3>
-      <ol id="cityList">
-        <li
-          v-for="(city, index) in setCities"
-          :key="index"
-          @click="onClick(city.id)"
-        >
-          <Card :card="city" :imageUrl="city.hotelImg"/>
-        </li>
-      </ol>
-
-      <h3 v-if="countryList != ''"></h3>
-      <ol id="countryList">
-        <li
-          v-for="(country, index) in setCountries"
-          :key="index"
-          @click="onClick(country.id)"
-        >
-          <Card :card="country" :imageUrl="country.hotelImg" />
-        </li>
-      </ol>
-      <h3 v-if="hotelList == '' && cityList == '' && countryList == ''">
+      <h3 v-if="hotelList == ''">
         {{searchResultText}}
       </h3>
     </div>
@@ -74,32 +53,55 @@ export default {
 //Vi har distkuterat om vi skulle ha allt som en lista,
 //eller fortfarande ha dom som separata
   computed: {
-    setCountries() {
-      var countries = this.$store.getters.getCountries;
-      return countries;
-    },
-
-    setCities() {
-      var cities = this.$store.getters.getCities;
-      return cities;
-    },
-
     setHotels() {
+      var countries = this.$store.getters.getCountries;
+      var cities = this.$store.getters.getCities;
       var hotels = this.$store.getters.getHotels;
-      var newHotelList = [];
+
+      let newHotelList = []
+      let duplicateChecker = []
+
+      countries.forEach(hotel => {
+        console.log(hotel)
+        newHotelList.push(hotel)
+        duplicateChecker.push(hotel.id)
+      })
+
+      cities.forEach(hotel => {
+        if(duplicateChecker.includes(hotel.id)){
+          console.log("is already in list")
+        }
+        else{
+          newHotelList.push(hotel)
+          duplicateChecker.push(hotel.id)
+        }
+      })
+
+      hotels.forEach(hotel => {
+        if(duplicateChecker.includes(hotel.id)){
+          console.log("is already in list")
+        }
+        else{
+          newHotelList.push(hotel)
+        }
+      })
+
+      this.combineHotelLists(newHotelList)
+      
+      var filteredHotelList = [];
       //Kör en filtrering på en ny variabel
-      let filteredHotels = hotels.filter((hotel) => {
+      let filteredHotels = newHotelList.filter((hotel) => {
         if(this.filters.length > 0){
           this.filters.forEach(element => {
             //Sparar en variabel ifall hotellet redan är tillagd i listan
-            let x = newHotelList.find(y => y.name == hotel.name)
+            let x = filteredHotelList.find(y => y.name == hotel.name)
             //Kollar så att hotellet inte är empty, och ifall den är tillagd
             if(this.filterComfortsAndAttractions(hotel) != undefined){
               if(!x){
                 if(element) //ANVÄNDS ENDAST FÖR ATT ELEMENT SKA ANVÄNDAS
                   console.log()
 
-                newHotelList.push(this.filterComfortsAndAttractions(hotel))
+                filteredHotelList.push(this.filterComfortsAndAttractions(hotel))
               }
             }
             return hotel
@@ -109,12 +111,12 @@ export default {
       });
       //Ifall där finns filter
       if(this.filters.length > 0){
-        return newHotelList
+        return filteredHotelList
       }else{ //Eller inte
         if(filteredHotels)
           console.log()
-        newHotelList = hotels
-        return newHotelList
+        filteredHotelList = newHotelList
+        return filteredHotelList
       }
     },
   },
@@ -125,6 +127,10 @@ export default {
   */
 
   methods: {
+    async combineHotelLists(hotelList){
+      this.hotelList = hotelList
+    },
+
     filterComfortsAndAttractions(hotel){
       //Boolean som bestämmer ifall ett hotell finns med i båda
       //filtrerings listorna, i så fall return, annars är den empty
