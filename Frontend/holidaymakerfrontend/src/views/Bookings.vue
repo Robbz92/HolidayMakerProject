@@ -167,7 +167,6 @@ export default {
           bookings: bookingIDObject,
         };
         
-        console.log(BookRoomCredentials);
         await fetch("http://localhost:3000/rest/bookRoom", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

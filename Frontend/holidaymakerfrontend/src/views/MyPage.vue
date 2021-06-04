@@ -29,7 +29,6 @@ export default {
 
   methods:{
     toggleComponents(value){
-      console.log(value)
       this.showToggle = value
     },
   }

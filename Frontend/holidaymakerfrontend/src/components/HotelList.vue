@@ -152,17 +152,14 @@ export default {
 
     updateCountryList() {
       this.countryList = this.$store.getters.getCountries;
-      console.log(this.countryList);
     },
 
     updateCityList() {
       this.cityList = this.$store.getters.getCities;
-      console.log(this.cityList);
     },
 
     updateHotelList() {
       this.hotelList = this.$store.getters.getHotels;
-      console.log(this.hotelList);
     },
     viewHotel(id) {
       this.$store.commit("setChosenHotel", id);

@@ -96,7 +96,6 @@ export default {
       return this.$store.getters.getBookedRoom;
     },
     getPaymentState(){
-      console.log(this.$store.getters.getPaymentState)
       return this.$store.getters.getPaymentState;
     },
   },

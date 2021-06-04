@@ -36,10 +36,6 @@ export default {
     };
   },
 
-  mounted() {
-    console.log("mounted Login");
-  },
-
   methods: {
    /*
    Skapar login object och postar det till back end

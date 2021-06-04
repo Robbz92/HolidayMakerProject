@@ -174,7 +174,6 @@ export default {
     },
 
     showRoom(room) {
-      console.log(room);
       document.getElementsByClassName("room" + room)[0].style.display = "flex";
     },
 
