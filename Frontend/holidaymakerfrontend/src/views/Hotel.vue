@@ -61,6 +61,7 @@
         <date-picker
           id="fromDate"
           v-model="fromDate"
+            :lowerLimit= "fromDateLimit"
           language="en"
           type="date"
           format="YYYY-MM-DD"
@@ -72,6 +73,7 @@
         <date-picker
           id="toDate"
           v-model="toDate"
+            :lowerLimit="toDateLimit"
           language="en"
           type="date"
           format="YYYY-MM-DD"
@@ -140,6 +142,15 @@
 <script>
 import ShoppingList from "../components/ShoppingList.vue";
 import DatePicker from "vue3-datepicker";
+
+var today = new Date();
+
+function dateLimit() {
+  const limitDate = new Date();
+  limitDate.setDate(today.getDate() + 1);
+  return limitDate;
+}
+
 export default {
   data() {
     return {
@@ -147,6 +158,8 @@ export default {
       hotelName: "",
       fromDate: '',
       toDate: '',
+      fromDateLimit: new Date(),
+      toDateLimit: dateLimit(),
     };
   },
 

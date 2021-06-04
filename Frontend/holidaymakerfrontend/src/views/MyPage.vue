@@ -3,7 +3,7 @@
   <label id="BookTitle" @click="toggleComponents(true)">Bookings</label>
   <label id="FavTitle" @click="toggleComponents(false)">Favorites</label>
 </div>
-  <div>
+  <div class="bokFav-container">
     <MyBooking v-if="showToggle"/>
     <Favorites v-if="!showToggle"/>
   </div>
@@ -63,5 +63,10 @@ export default {
   #FavTitle:hover {
     color: white;
     transition: 0.2s ease;
+  }
+
+  .bokFav-container{
+    max-height: 70vh;
+    overflow: auto;
   }
 </style>
