@@ -1,7 +1,6 @@
 <template>
   <div class="main-container" v-if="getFavoriteList != ''">
     <div class="routes-container">
-      <h3>My Favorites</h3>
     </div>
     <div class="favoriteList-container">
       <div
