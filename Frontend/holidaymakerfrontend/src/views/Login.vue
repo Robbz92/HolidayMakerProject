@@ -68,7 +68,8 @@ export default {
       } catch {
         alert("Wrong credentials! Please check username or password.");
       }
-      this.$router.push("/");
+      //this.$router.push("/");
+      window.history.back();
     },
   },
 };
