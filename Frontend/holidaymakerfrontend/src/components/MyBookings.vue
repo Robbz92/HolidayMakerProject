@@ -62,7 +62,7 @@
               :fromMyBookings="false"
               :totalPrice="bookings.total_cost"
               :bookingID="bookings.id"
-              v-if="bookings.payment_state != 'Paid'"              
+              v-if="bookings.payment_state != 'Paid' && bookings.from_date >= currentDate()"              
             />
           </div>
         </li>
