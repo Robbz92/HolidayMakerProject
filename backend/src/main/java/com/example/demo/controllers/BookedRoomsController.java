@@ -23,7 +23,8 @@ public class BookedRoomsController {
     @PutMapping("/editBooking")
     public void editBookings(@RequestBody BookedRooms bookedRoomsObj){
         System.out.println(bookedRoomsObj);
-        bookedRoomService.editBooking(bookedRoomsObj);
+        System.err.println(bookedRoomsObj);
+        bookedRoomService.bookRoom(bookedRoomsObj);
 
     }
 }

@@ -349,8 +349,6 @@ export default createStore({
       })
     },
 
-  },
-
   getters: {
     getHotelListForReview(state){
       return state.hotelListReviews;

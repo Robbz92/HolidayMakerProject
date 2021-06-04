@@ -20,6 +20,11 @@ public class BookingService {
         return bookingRepo.findLatestID();
     }
 
+    public void updateBooking( Bookings bookingsObject){
+        System.err.println(bookingsObject);
+        bookingRepo.save(bookingsObject);
+    }
+
     public String deleteBooking(long id) {
         bookingRepo.deleteById(id);
         return "Booking has been removed";

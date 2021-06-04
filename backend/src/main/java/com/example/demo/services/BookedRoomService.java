@@ -19,9 +19,4 @@ public class BookedRoomService {
         bookedRoomRepo.save(bookedRoomsObj);
     }
 
-    public void editBooking(BookedRooms bookedRoomsObj) {
-
-        bookedRoomRepo.save(bookedRoomsObj);
-
-    }
 }

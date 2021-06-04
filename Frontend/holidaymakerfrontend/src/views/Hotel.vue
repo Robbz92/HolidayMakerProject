@@ -170,8 +170,7 @@ export default {
   methods: {
     addRoom(room) {
       this.roomList.push(room);
-      document.getElementsByClassName("room" + room.id)[0].style.display =
-        "none";
+      document.getElementsByClassName("room" + room.id)[0].style.display = "none";//adds a roomobject to the basket
     },
 
     showRoom(room) {
