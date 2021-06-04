@@ -1,22 +1,22 @@
 <template>
   <div class="shoppingList">
     <ul class="theLiost">
-      <li
-        class="roomItemList"
-        v-for="(roomItem, index) in updateRoomList"
-        :key="index"
+      <div v-if="!hotelCardStorage.length">
+        <li
+          class="roomItemList"
+          v-for="(roomItem, index) in updateRoomList"
+          :key="index"
+        >
+          {{ getHotel }} - {{ roomItem.type }}
+          <button class="removeBtn" @click="removeRoom(index, roomItem.id)">
+            x
+          </button>
+        </li>
+      </div>
 
-      >
-        <div v-if="hotelCardStorage.length">
-          <p>{{hotelCard}}</p>
-        </div>
-
-        {{ getHotel }} - {{ roomItem.type }}
-        <button class="removeBtn" @click="removeRoom(index, roomItem.id)">
-          x
-        </button>
-      </li>
-     
+      <div v-if="hotelCardStorage.length">
+        <p>{{ hotelCard }}</p>
+      </div>
     </ul>
     <button id="checkOutBtn" @click="bookRoom(roomList)" v-if="roomList != ''">
       Check out
@@ -37,15 +37,16 @@ export default {
   props: ["roomCard"],
 
   mounted() {
-   if(localStorage.hotelCard){
-     this.hotelCardStorage = localStorage.hotelCard;
-   }
+    //  this.beforeDestroy rensa storage..
+    if (localStorage.hotelCard) {
+      this.hotelCardStorage = localStorage.hotelCard;
+    }
   },
 
   watch: {
-    hotelCard(roomType){
-      localStorage.hotelCard = roomType
-    }
+    hotelCard(roomType) {
+      localStorage.hotelCard = roomType;
+    },
   },
 
   computed: {
@@ -61,8 +62,12 @@ export default {
       return this.$store.state.loggedInUser;
     },
 
-    hotelCard(){
+    hotelCard() {
       return this.hotelCardStorage;
+    },
+
+    beforeDestroy() {
+      return localStorage.removeItem("hotelCard");
     },
   },
   methods: {
@@ -72,11 +77,13 @@ export default {
     },
 
     bookRoom(room) {
-        if (this.loggedInUser == null) {
-          alert("Du måste logga in eller skapa ett konto innan du ska boka.");
-          
-          this.hotelCardStorage = this.$store.getters.getInformation[0].name + " " + room[0].type
+      if (this.loggedInUser == null) {
+        alert("Du måste logga in eller skapa ett konto innan du ska boka.");
+
+        this.hotelCardStorage =
+          this.$store.getters.getInformation[0].name + " " + room[0].type;
       } else {
+        this.beforeDestroy; // rensar local storage
         //Sparar för hotell id't
         this.$store.commit("setChosenRoom", room[0]);
         //Sparar ner listan med rum du valt, för att visa dom i "Booking"
