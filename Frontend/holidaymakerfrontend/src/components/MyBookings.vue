@@ -1,23 +1,26 @@
 <template>
   <div class="main-container" v-if="getAllMyBookings != ''">
     <h3 id="MyBookingsH3">My Bookings</h3>
-    <EditBooking
+     <EditBooking
       v-if="show"
       :fromDate="fromDate"
       :toDate="toDate"
-      :board="board"
-      :extra_bed_amount="extra_bed_amount"
-      :type="type"
       :total_cost="total_cost"
-      :room_img="room_img"
       :hotel_img="hotel_img"
       :name="name"
       :id="id"
+      :hotel_id="hotel_id"
+      :room="{
+        extra_bed_amount: extra_bed_amount,
+        type: type,
+        room_img: room_img,
+        board: board,
+      }"
     />
     <div class="bookings" v-if="!show">
       <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
         <li id="booking">
-          <div class="hotelPicture">
+          <div class="hotelPicture" @click="sendToHotel(bookings)">
             <h2>{{ bookings.name }}</h2>
             <img id="hotelPic" :src="bookings.hotel_img" />
           </div>
@@ -29,7 +32,7 @@
                 <th>To Date</th>
                 <th>Booked Rooms</th>
                 <th>Total Cost</th>
-                <th>Paymen Status:</th>
+                <th>Payment Status:</th>
               </tr>
               <tr>
                 <td>{{ bookings.address }}</td>
@@ -73,7 +76,8 @@
 
 <script>
 import Stripe from "../components/StripeCheckout.vue";
-import EditBooking from "../views/EditBooking.vue";
+import EditBooking from "../components/EditBooking.vue";
+
 export default {
   components: {
     EditBooking,
@@ -98,7 +102,7 @@ export default {
       room_img: "",
       total_cost: 0,
       id: "",
-      payment_state: "Not payed",
+      payment_state: "Not Paid",
     };
   },
 
@@ -114,12 +118,10 @@ export default {
   mounted() {
     this.$store.dispatch("fetchMyBookings");
     this.$store.dispatch("fetchHotelListForReviews");
-
-    console.log(this.getAllMyBookings)
   },
 
   methods: {
-    // ifall det inte är betalat sedan innan => betalning görs uppdatera payment_state = "Payed"
+    // ifall det inte är betalat sedan innan => betalning görs uppdatera payment_state = "Paid"
     // Metoden andropas från STRIPE
     updateBooking(bookingID) {
       this.$store.dispatch("UpdatePaymentState", bookingID);
@@ -156,19 +158,26 @@ export default {
 
       return bool;
     },
+
     sendFromDate(fromDate) {
       this.$store.commit("setFromDate", fromDate);
     },
+
+
     sendToDate(toDate) {
       this.$store.commit("setToDate", toDate);
     },
+
     sendBookingId(bookingId) {
       this.$store.dispatch("fetchClickedBooking", bookingId);
       this.$router.push("/review");
     },
 
-    editBooking(booking) {
+    async editBooking(booking) {
       this.payment_state = booking.payment_state;
+      this.$store.dispatch("fetchBookedRoom", booking.id);
+      await this.$store.dispatch("fetchClickedBooking", booking.id);
+
       this.fromDate = booking.from_date;
       this.toDate = booking.to_date;
       this.board = booking.board;
@@ -179,10 +188,14 @@ export default {
       this.room_img = booking.room_img;
       this.total_cost = booking.total_cost;
       this.id = booking.id;
-      this.$store.dispatch("fetchBookedRoom", booking.id);
-      this.$store.dispatch("fetchClickedBooking", booking.id);
       this.show = true;
+      this.hotel_id = booking.hotel_id;
     },
+
+    toggleShow(value) {
+      this.show = value;
+    },
+    
   },
 };
 </script>

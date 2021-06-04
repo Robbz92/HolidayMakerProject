@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div>
-      <bookRoom
+      <BookRoom
         v-for="(room, index) in getRoomsToBook"
         :key="index"
         class="perRoom"
@@ -18,10 +18,10 @@
 
 <script>
 import popup from "../components/Popup.vue";
-import bookRoom from "../components/bookRoom.vue";
+import BookRoom from "../components/BookRoom.vue";
 export default {
   components: {
-    bookRoom,
+    BookRoom,
     popup,
   },
 
@@ -121,7 +121,7 @@ export default {
     async makeBooking(isPayed) {
       
       // hanterar betalnings status
-      var paymentState = isPayed == true ? "Payed" : "Not Paid"
+      var paymentState = isPayed == true ? "Paid" : "Not Paid"
 
       var boardChoice = document.getElementById("board");
       this.boardResult = parseInt(

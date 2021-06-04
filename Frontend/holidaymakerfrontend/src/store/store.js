@@ -175,10 +175,10 @@ export default createStore({
       state.deleteFavorite = payload
     },
 
-    setHotelListForReview(state, payload){
+    setHotelListForReview(state, payload) {
       state.hotelListReviews = payload;
     },
-    setRoom(state, payload){
+    setRoom(state, payload) {
       state.room = payload
     }
 
@@ -224,16 +224,16 @@ export default createStore({
     },
 
     async fetchHotel() {
-      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/" 
-      + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.size)
+      await axios.get("http://localhost:3000/rest/getRoomOnDate/" + this.state.chosenHotel + "/"
+        + this.state.fromDate + "/" + this.state.toDate + "/" + this.state.size)
         .then(response => {
           this.commit("setRoomList", response.data)
         })
     },
 
     async fetchAllHotels() {
-      await axios.get("http://localhost:3000/rest/getAllHotels/"  + this.state.fromDate +
-      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
+      await axios.get("http://localhost:3000/rest/getAllHotels/" + this.state.fromDate +
+        "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
         .then(response => {
           this.commit("setHotelList", response.data)
         })
@@ -242,7 +242,7 @@ export default createStore({
     async fetchHotelByTemperature() {
       console.log(this.state.fromDate + "fromdate desde fetch")
       await axios.get("http://localhost:3000/rest/tempSearch/" + this.state.fromDate +
-      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room + "/" + this.state.searchedTemperature + "/" + this.state.temperatureRange)
+        "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room + "/" + this.state.searchedTemperature + "/" + this.state.temperatureRange)
         .then(response => {
           this.commit("setHotelList", response.data)
         })
@@ -271,19 +271,19 @@ export default createStore({
 
     async searchFor() {
       await axios.get("http://localhost:3000/rest/citySearch/" + this.state.searchPhrase + "/" + this.state.fromDate +
-      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
+        "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
         .then(response => {
           this.commit("setCityList", response.data)
         })
 
       await axios.get("http://localhost:3000/rest/countrySearch/" + this.state.searchPhrase + "/" + this.state.fromDate +
-      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
+        "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
         .then(response => {
           this.commit("setCountryList", response.data)
         })
 
       await axios.get("http://localhost:3000/rest/hotelSearch/" + this.state.searchPhrase + "/" + this.state.fromDate +
-      "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
+        "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room)
         .then(response => {
           this.commit("setHotelList", response.data)
         })
@@ -335,22 +335,23 @@ export default createStore({
 
     async fetchFavorites() {
       await axios.get("http://localhost:3000/api/auth/favorites")
-      .then(response => {
-        //console.log(response.data)
-        this.commit("setFavoriteList", response.data)
-      })
+        .then(response => {
+          //console.log(response.data)
+          this.commit("setFavoriteList", response.data)
+        })
     },
 
     async deleteFavorite(store, favoriteId) {
       await axios.delete("http://localhost:3000/api/auth/favorites/" + favoriteId)
-      .then(response => {
-        console.log(response.data)
-        this.commit("setDeleteFavorite", response.data)
-      })
+        .then(response => {
+          console.log(response.data)
+          this.commit("setDeleteFavorite", response.data)
+        })
     },
+  },
 
   getters: {
-    getHotelListForReview(state){
+    getHotelListForReview(state) {
       return state.hotelListReviews;
     },
     getBookings(state) {
@@ -436,7 +437,7 @@ export default createStore({
     getRoomsForEdit(state) {
       return state.getRoomsForEdit
     },
-    
+
     getBookedRoom(state) {
       return state.bookedRoom;
     },
@@ -452,7 +453,7 @@ export default createStore({
     getFavoriteList(state) {
       return state.favoriteList
     },
-    getRoom(state){
+    getRoom(state) {
       return state.room
     },
   },

@@ -31,6 +31,6 @@ public class BookingService {
     }
 
     public void updatePaymentState(long bookingsID){
-        bookingRepo.updatePayment("Payed", bookingsID);
+        bookingRepo.updatePayment("Paid", bookingsID);
     }
 }

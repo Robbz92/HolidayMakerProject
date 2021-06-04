@@ -14,19 +14,21 @@
               <th>From Date</th>
               <th>To Date</th>
               <th>New Total Cost</th>
+              <th>Payment Status</th>
             </tr>
             <tr>
               <td>{{total_cost}} SEK</td>
               <td>{{fromDate}}</td>
               <td>{{toDate}}</td>
               <td>{{newTotalPrice}}</td>
+              <td>{{paymentState}}</td>
             </tr>            
           </table>
         </div>
       </div>
       <div class="rooms-container">
         <h3 id="bookedRoomsH3">Booked Room(s)</h3>
-        <editRoom :room="theRoom" :dates="{fromDate:fromDate,toDate:toDate}" :price="theRoom.price" :index="index" v-for="(theRoom, index) in getBookedRooms" :key="index"/>  
+        <EditRoom :room="theRoom" :dates="{fromDate:fromDate,toDate:toDate}" :price="theRoom.price" :index="index" v-for="(theRoom, index) in getBookedRooms" :key="index"/>  
       </div>
       <div class="buttons">
         <button id="deleteBooking" @click="deleteBooking(id)">
@@ -40,7 +42,7 @@
 
 
 <script>
-import editRoom from "./editRoom.vue";
+import EditRoom from "./EditRoom.vue";
 
 export default {
   props: [
@@ -52,10 +54,10 @@ export default {
     "id",
     "hotel_id",
     "room",
+    "paymentState",
   ],
   data() {
     return {
-
       bookingsId: this.id,
       newFromDate: this.getFromDate,
       newToDate: this.getToDate,
@@ -63,8 +65,6 @@ export default {
       newTotalPrice: 0,
       chosenRoom: [],
       editRoomList:[],
-
-
       styleObject: {
         outline: "none",
         border: "none",
@@ -76,10 +76,9 @@ export default {
   },
   components: {
     // DatePicker,
-    editRoom,
+    EditRoom,
   },
   mounted(){
-    console.log(this.id)
     this.$store.commit("setChosenHotel" , this.hotel_id)
     this.$store.commit("setFromDate",this.fromDate) 
     this.$store.commit("setToDate" ,this.toDate)
@@ -96,6 +95,10 @@ export default {
     getBookedRooms() {
       return this.$store.getters.getBookedRoom;
     },
+    getPaymentState(){
+      console.log(this.$store.getters.getPaymentState)
+      return this.$store.getters.getPaymentState;
+    },
   },
   methods: {
     deleteBooking(id) {
@@ -105,10 +108,10 @@ export default {
         this.$router.push("/");
       }
     },
+
     updateRoomInEditRoomList(index, room){
       this.editRoomList[index]=room
       this.calculatePrice()
-
     },
 
     showFalse(){
@@ -152,14 +155,17 @@ export default {
         fromDate: this.fromDate,
         toDate: this.toDate,
         totalCost: this.newTotalPrice,
-        paymentState:"not payed",
+        paymentState:"Not Paid",
       }
        await fetch("http://localhost:3000/rest/updateBooking", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bookingsObject),
         });
+
+        location.reload()
     },
+
     getBookedRoomById(id){
       return this.$store.getters.getBookedRoom[id];
     },
