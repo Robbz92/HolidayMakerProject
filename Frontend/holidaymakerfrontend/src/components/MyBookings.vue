@@ -189,11 +189,11 @@ export default {
     },
   },
 
-  mounted() {
-    this.$store.dispatch("fetchMyBookings");
-    this.$store.dispatch("fetchHotelListForReviews");
-    this.renderOldBookings();
-    this.renderNewBookings();
+  async mounted() {
+    await this.$store.dispatch("fetchMyBookings");
+    await this.$store.dispatch("fetchHotelListForReviews");
+    await this.renderOldBookings();
+    await this.renderNewBookings();
   },
 
   methods: {

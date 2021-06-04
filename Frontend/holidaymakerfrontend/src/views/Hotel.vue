@@ -216,7 +216,11 @@ export default {
   },
 
   beforeMount() {
-    this.$store.dispatch("fetchFavorites");
+
+    if(this.$store.state.loggedInUser){
+      this.$store.dispatch("fetchFavorites");
+    }
+    
   },
 };
 </script>
