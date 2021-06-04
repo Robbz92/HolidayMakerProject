@@ -105,7 +105,7 @@ export default {
       if (confirm("Are you sure you want to delete the booking?")) {
         this.$store.dispatch("fetchDeleteBooking", id);
 
-        this.$router.push("/");
+        location.reload()
       }
     },
 

@@ -52,8 +52,7 @@ export default {
     deleteFavorite(favoriteId) {
       if(confirm("Are you sure you want to delete this favorite?")) {
         this.$store.dispatch("deleteFavorite", favoriteId);
-
-        location.reload()
+        this.$store.dispatch("fetchFavorites")
       }
     },
   },
