@@ -41,6 +41,10 @@ export default createStore({
     deleteFavorite: '',
     hotelListReviews: [],
     room: '', // sök funktionen
+    adults: 0,
+    children: 0,
+    childrenAges: [],
+    roomAmount: 0
   },
 
   mutations: {

@@ -43,13 +43,44 @@
               @click="addFavorite(info.id)"
               v-if="loggedInUser"
             >
-              <img src="../assets/heart-regular.svg" id="heart" v-if="!isFavorite"/>
+              <img
+                src="../assets/heart-regular.svg"
+                id="heart"
+                v-if="!isFavorite"
+              />
               <img src="../assets/heart-solid.svg" id="heart" v-else />
             </div>
           </li>
         </ul>
       </div>
     </div>
+    <!-- Datum för att ändra inne på hotel -->
+    <div class="date">
+      <div class="checkIn">
+        <h6>Check-in</h6>
+        <date-picker
+          id="fromDate"
+          v-model="fromDate"
+          language="en"
+          type="date"
+          format="YYYY-MM-DD"
+          :style="styleObject"
+        ></date-picker>
+      </div>
+      <div class="checkOut">
+        <h6>Check-out</h6>
+        <date-picker
+          id="toDate"
+          v-model="toDate"
+          language="en"
+          type="date"
+          format="YYYY-MM-DD"
+          :style="styleObject"
+        ></date-picker>
+        <button @click="setNewDates()">Search new dates</button>
+      </div>
+    </div>
+    <!-- Datum slutar -->
     <div id="allRooms">
       <h2>Rooms</h2>
       <h3 v-if="getRoomList.length == 0">
@@ -108,17 +139,20 @@
 
 <script>
 import ShoppingList from "../components/ShoppingList.vue";
-
+import DatePicker from "vue3-datepicker";
 export default {
   data() {
     return {
       roomList: [],
       hotelName: "",
+      fromDate: '',
+      toDate: '',
     };
   },
 
   components: {
     ShoppingList,
+    DatePicker,
   },
 
   computed: {
@@ -168,9 +202,37 @@ export default {
     },
   },
   methods: {
+    setNewDates(){
+      var d = new Date(this.fromDate),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      var newDate = [year, month, day].join("-");
+      this.$store.commit("setFromDate", newDate);
+
+      
+      d = new Date(this.toDate),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      newDate = [year, month, day].join("-");
+      this.$store.commit("setToDate", newDate);
+      
+      this.$store.dispatch("fetchHotel");
+    },
+
     addRoom(room) {
       this.roomList.push(room);
-      document.getElementsByClassName("room" + room.id)[0].style.display = "none";//adds a roomobject to the basket
+      document.getElementsByClassName("room" + room.id)[0].style.display =
+        "none"; //adds a roomobject to the basket
     },
 
     showRoom(room) {
@@ -218,7 +280,9 @@ export default {
 
   beforeMount() {
     this.$store.dispatch("fetchFavorites");
-  },
+    this.fromDate = new Date(this.$store.state.fromDate)
+    this.toDate = new Date(this.$store.state.toDate)
+  }
 };
 </script>
 
