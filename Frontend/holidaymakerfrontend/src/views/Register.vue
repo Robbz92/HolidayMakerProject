@@ -57,12 +57,12 @@ export default {
         email: this.email,
         password: this.password,
       };
-      await fetch("http://localhost:3000/api/rest/register", {
+      await fetch("http://localhost:3000/rest/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
       });
-      alert("registered succefully");
+      alert("Registered succefully");
 
       this.$router.push("/");
     },

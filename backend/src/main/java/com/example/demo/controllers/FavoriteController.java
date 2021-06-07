@@ -9,19 +9,19 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class FavoriteController {
 
     @Autowired
     private FavoriteService favoriteService;
 
-    @GetMapping("auth/favorites")
+    @GetMapping("/favorites")
     public List<Map> getMyFavorites(){return favoriteService.getMyFavorites();}
 
-    @PostMapping("auth/favorites")
+    @PostMapping("/favorites")
     public void saveFavorite(@RequestBody Favorite favorite){favoriteService.saveFavorite(favorite);}
 
-    @DeleteMapping("auth/favorites/{id}")
+    @DeleteMapping("/favorites/{id}")
     public void deleteFavorite(@PathVariable long id){favoriteService.deleteFavorite(id);}
 
 }

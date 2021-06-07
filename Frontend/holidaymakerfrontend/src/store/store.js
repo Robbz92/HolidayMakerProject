@@ -186,7 +186,7 @@ export default createStore({
 
   actions: {
     async UpdatePaymentState(store, bookingsID) {
-      await axios.put("http://localhost:3000/rest/updatePaymentState/" + bookingsID)
+      await axios.put("http://localhost:3000/auth/updatePaymentState/" + bookingsID)
         .then(response => {
           console.log(response.data)
         })
@@ -201,21 +201,21 @@ export default createStore({
 
 
     async fetchLatestBookingID() {
-      await axios.get("http://localhost:3000/rest/getLatestBookings/")
+      await axios.get("http://localhost:3000/auth/getLatestBookings/")
         .then(response => {
           this.commit("setBookingId", response.data)
         })
     },
 
     async fetchClickedBooking(store, bookingId) {
-      await axios.get("http://localhost:3000/api/rest/bookingById/" + bookingId)
+      await axios.get("http://localhost:3000/auth/bookingById/" + bookingId)
         .then(response => {
           this.commit("setClickedBooking", response.data)
         })
     },
 
     async fetchMyBookings() {
-      await axios.get("http://localhost:3000/api/rest/allMyBooknings")
+      await axios.get("http://localhost:3000/auth/allMyBooknings")
         .then(response => {
           this.commit("setMyBookings", response.data)
         })
@@ -315,28 +315,28 @@ export default createStore({
     },
 
     async fetchDeleteBooking(store, bookingId) {
-      await axios.delete("http://localhost:3000/rest/deleteBooking/" + bookingId)
+      await axios.delete("http://localhost:3000/auth/deleteBooking/" + bookingId)
         .then(response => {
           this.commit("setDeleteBooking", response.data)
         })
     },
 
     async fetchBookedRoom(store, bookingId) {
-      await axios.get("http://localhost:3000/api/rest/bookedRoomsById/" + bookingId)
+      await axios.get("http://localhost:3000/auth/bookedRoomsById/" + bookingId)
         .then(response => {
           this.commit("setBookedRoom", response.data)
         })
     },
 
     async fetchFavorites() {
-      await axios.get("http://localhost:3000/api/auth/favorites")
+      await axios.get("http://localhost:3000/auth/favorites")
         .then(response => {
           this.commit("setFavoriteList", response.data)
         })
     },
 
     async deleteFavorite(store, favoriteId) {
-      await axios.delete("http://localhost:3000/api/auth/favorites/" + favoriteId)
+      await axios.delete("http://localhost:3000/auth/favorites/" + favoriteId)
         .then(response => {
           this.commit("setDeleteFavorite", response.data)
         })

@@ -75,7 +75,7 @@ export default {
         score: this.score,
         bookingId: bookingID,
       };
-      await fetch("http://localhost:3000/api/rest/newReview", {
+      await fetch("http://localhost:3000/auth/newReview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReview),

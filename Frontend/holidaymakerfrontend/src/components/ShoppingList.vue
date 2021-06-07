@@ -42,7 +42,7 @@ export default {
 
     bookRoom(room){
        if (this.loggedInUser == null) {
-        alert("Du måste logga in eller skapa ett konto innan du ska boka.");
+        alert("You have to be logged in or create an account if you wish to book.");
       } 
       else{
         //Sparar för hotell id't

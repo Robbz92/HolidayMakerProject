@@ -37,7 +37,7 @@ export default {
   },
 
   async mounted() {
-    let user = await fetch("/api/auth/whoami");
+    let user = await fetch("/rest/whoami");
     try {
       user = await user.json();
       this.$store.commit("setLoggedInUser", user);

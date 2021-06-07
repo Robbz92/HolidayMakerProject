@@ -57,7 +57,7 @@ export default {
     /*
     kollar vem/om som är inloggad
     */
-      let user = await fetch("/api/auth/whoami");
+      let user = await fetch("/rest/whoami");
       try {
         user = await user.json();
         this.$store.commit("setLoggedInUser", user);
