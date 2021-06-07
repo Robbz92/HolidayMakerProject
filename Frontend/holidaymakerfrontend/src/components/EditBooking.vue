@@ -42,7 +42,7 @@
 
 
 <script>
-import EditRoom from "./editRoom.vue";
+import EditRoom from "./EditRoom.vue";
 
 export default {
   props: [

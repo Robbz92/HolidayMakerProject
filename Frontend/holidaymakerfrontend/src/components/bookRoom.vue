@@ -57,7 +57,6 @@ export default {
 
   data() {
     return {
-      numberOfDays: 0,
       roomPrice: 0,
       newPrice: 0,
       extraBed: false,
