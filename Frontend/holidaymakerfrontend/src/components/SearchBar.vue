@@ -72,7 +72,7 @@
           <div id="children">
             <li v-for="child in Number(children)" :key="child">
               Age of child: {{ child }}
-              <select id="childAge" v-model="childrenAges[child]" @change="caller">
+              <select id="childAge" v-model="childrenAges[child]">
                 <option v-for="(age, index) in cuantity" :key="index">
                   {{ age }}
                 </option>
@@ -144,7 +144,6 @@ export default {
       adults: 1,
       children: 0,
       childrenAges: [],
-      age: 0,
       show: false,
       cuantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 
@@ -170,10 +169,6 @@ export default {
   },
 
   methods: {
-    caller(){
-      console.log(this.childrenAges)
-    },
-
     searchFor(phrase) {
       this.$store.commit("setSearchPhrase", phrase);
       
@@ -251,7 +246,6 @@ export default {
 
     sendRoom(room){
       this.$store.commit("setRoom", room);
-     
     },
     
     showAll() {
