@@ -4,43 +4,34 @@ import axios from 'axios';
 
 export default createStore({
   state: {
-    countryList: [],
-    cityList: [],
-    hotelList: [],
-    searchPhrase: '',
-    email: String,
-    password: String,
-    loggedInUser: null,
-    firstName: String,
-    lastName: String,
+    countryList: [],            //Används för att fetcha alla hotell i ett land
+    cityList: [],                  //Används för att fetcha alla hotell i en stand
+    hotelList: [],                //Alla hotell som matchar sökning + ihoplagda land och stad
+    searchPhrase: '',          //Vad du sökt på, om du söker med text
+    loggedInUser: null,    //Hämtar den nuvarande användaren
     reviewList: String,
     information: String,
     temperature: String,
     attractions: String,
     comforts: String,
-    price: [], // används ej?
-    fromDate: '', // sök funktionen
-    toDate: '', // sök funktionen
+    fromDate: '',                // sök funktionen
+    toDate: '',                    // sök funktionen
     numberOfDays: '',
-    chosenHotel: '', // för att hämta lediga rum
+    chosenHotel: '',           // för att hämta lediga rum
     roomList: [],
-    hasSearched: false,
-    chosenRoom: "", // väljer ett rum under bokningen
+    hasSearched: false,    //Kollar vart searchbaren ska vara på skärmen, för att inte täcka hotell
+    chosenRoom: "",       // väljer ett rum under bokningen
     roomsToBook: [],
     bookingId: 0,
-    size: 1,
+    size: 1,                       //sökfunktionen, antalet personer
     myBookings: [],
     clickedBooking: '',
-    deleteBooking: '',
-    searchedTemperature: '',
-    filterAmmount: 0,
-    roomListForEdit: [],
+    searchedTemperature: '',  //Vad du sökt på, om du söker efter temperatur
+    filterAmmount: 0,   //Hur många filter du använder
     bookedRoom: '',
     favoriteList: [],
-    favoriteId: '',
-    deleteFavorite: '',
     hotelListReviews: [],
-    room: '', // sök funktionen
+    room: '',                     //sökfunktionen, antalet rum
   },
 
   mutations: {
@@ -123,9 +114,6 @@ export default createStore({
     setLoggedInUser(state, user) {
       state.loggedInUser = user;
     },
-    setRooms(state, payload) { // används ej?
-      state.price = payload;
-    },
 
     setFromDate(state, payload) {
       state.fromDate = payload
@@ -147,10 +135,6 @@ export default createStore({
       state.deleteBooking = payload
     },
 
-    setRoomListForEdit(state, payload) {
-      state.roomListForEdit = payload
-    },
-
     setBookedRoom(state, payload) {
       state.bookedRoom = payload;
     },
@@ -169,10 +153,6 @@ export default createStore({
 
     setFavoriteId(state, payload) {
       state.favoriteId = payload
-    },
-
-    setDeleteFavorite(state, payload) {
-      state.deleteFavorite = payload
     },
 
     setHotelListForReview(state, payload) {
@@ -321,7 +301,6 @@ export default createStore({
       await axios.delete("http://localhost:3000/rest/deleteBooking/" + bookingId)
         .then(response => {
           console.log(response.data)
-          this.commit("setDeleteBooking", response.data)
         })
     },
 
@@ -345,7 +324,6 @@ export default createStore({
       await axios.delete("http://localhost:3000/api/auth/favorites/" + favoriteId)
         .then(response => {
           console.log(response.data)
-          this.commit("setDeleteFavorite", response.data)
         })
     },
   },
@@ -354,6 +332,7 @@ export default createStore({
     getHotelListForReview(state) {
       return state.hotelListReviews;
     },
+
     getBookings(state) {
       return state.bookings;
     },
@@ -428,14 +407,6 @@ export default createStore({
 
     getTempSearch(state) {
       return state.searchedTemperature
-    },
-
-    getDeleteBooking(state) {
-      return state.deleteBooking
-    },
-
-    getRoomsForEdit(state) {
-      return state.getRoomsForEdit
     },
 
     getBookedRoom(state) {
