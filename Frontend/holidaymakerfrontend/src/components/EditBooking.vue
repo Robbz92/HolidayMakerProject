@@ -96,7 +96,6 @@ export default {
       return this.$store.getters.getBookedRoom;
     },
     getPaymentState(){
-      console.log(this.$store.getters.getPaymentState)
       return this.$store.getters.getPaymentState;
     },
   },
@@ -142,7 +141,7 @@ export default {
          };
 
     
-       await fetch("http://localhost:3000/rest/editBooking", {
+       await fetch("http://localhost:3000/auth/editBooking", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(editRoomObject),
@@ -157,7 +156,7 @@ export default {
         totalCost: this.newTotalPrice,
         paymentState:"Not Paid",
       }
-       await fetch("http://localhost:3000/rest/updateBooking", {
+       await fetch("http://localhost:3000/auth/updateBooking", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bookingsObject),

@@ -320,7 +320,6 @@ export default {
     },
 
     showRoom(room) {
-      console.log(room);
       document.getElementsByClassName("room" + room)[0].style.display = "flex";
     },
 
@@ -351,7 +350,7 @@ export default {
       if (favList.includes(this.hotelName)) {
         alert("You already have this as a favorite.");
       } else {
-        fetch("http://localhost:3000/api/auth/favorites", {
+        fetch("http://localhost:3000/auth/favorites", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(favoriteCredentials),
@@ -367,7 +366,11 @@ export default {
   },
 
   beforeMount() {
-    this.$store.dispatch("fetchFavorites");
+
+    if(this.$store.state.loggedInUser){
+      this.$store.dispatch("fetchFavorites");
+    }
+    
     this.fromDate = new Date(this.$store.state.fromDate)
     this.toDate = new Date(this.$store.state.toDate)
   },

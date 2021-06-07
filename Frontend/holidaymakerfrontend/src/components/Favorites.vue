@@ -1,14 +1,13 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" v-if="getFavoriteList != ''">
     <div class="routes-container">
-      <h3>My Favorites</h3>
     </div>
     <div class="favoriteList-container">
       <div
         class="favorite"
         v-for="(favorite, index) in getFavoriteList"
         :key="index"
-      >
+      >      
         <div class="name_and_img">
           <h4>{{ favorite.name }}</h4>
           <img :src="favorite.hotel_img" />
@@ -36,6 +35,9 @@
       </div>
     </div>
   </div>
+  <div class="noFavorites" v-else>
+        <h3>You have no favorites</h3>
+      </div>
 </template>
 
 <script>

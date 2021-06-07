@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/auth")
 public class BookedRoomsController {
     @Autowired
     private BookedRoomService bookedRoomService;

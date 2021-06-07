@@ -25,7 +25,8 @@ public interface UserRepo extends JpaRepository<User,Long> {
             "            INNER JOIN room_types ON room_types.id = rooms.room_type_id\n" +
             "            INNER JOIN hotels ON bookings.hotel_id = hotels.id\n" +
             "            WHERE users.id = ?\n" +
-            "            GROUP BY bookings.id",nativeQuery = true )
+            "            GROUP BY bookings.id\n" +
+            "            ORDER BY booked_rooms.from_date DESC",nativeQuery = true )
     List<Map> getAllMyBookings(long userId);
 
 

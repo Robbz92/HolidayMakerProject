@@ -150,7 +150,6 @@ export default {
     },
     
     resetFilter(){
-      console.log(this.checkedFilters)
       this.checkedFilters = []
       this.$store.commit("setFilterAmmount", 0)
       this.$parent.onFilter('')

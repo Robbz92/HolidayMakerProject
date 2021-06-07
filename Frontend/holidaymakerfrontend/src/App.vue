@@ -31,14 +31,13 @@ export default {
       fetch("/logout", { mode: "no-cors" });
 
       this.$store.commit("setLoggedInUser", null);
-      this.$router.push("/");
-      location.reload()
       alert("You have logged out! Have fun on your holiday!");
+      this.$router.push("/");
     },
   },
 
   async mounted() {
-    let user = await fetch("/api/auth/whoami");
+    let user = await fetch("/rest/whoami");
     try {
       user = await user.json();
       this.$store.commit("setLoggedInUser", user);

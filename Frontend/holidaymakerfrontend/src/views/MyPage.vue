@@ -1,72 +1,85 @@
 <template>
-<div id="Selectors">
-  <label id="BookTitle" @click="toggleComponents(true)">Bookings</label>
-  <label id="FavTitle" @click="toggleComponents(false)">Favorites</label>
-</div>
-  <div class="bokFav-container">
-    <MyBooking v-if="showToggle"/>
-    <Favorites v-if="!showToggle"/>
+  <div class="main-container">
+    <div id="Selectors">
+      <label id="BookTitle" @click="toggleComponents(true)">Bookings</label>
+      <label id="FavTitle" @click="toggleComponents(false)">Favorites</label>
+    </div>
+    <div class="bokFav-container">
+      <MyBooking v-if="showToggle" />
+      <Favorites v-if="!showToggle" />
+    </div>
   </div>
 </template>
 
 <script>
-import MyBooking from "../components/MyBookings.vue"
-import Favorites from "../components/Favorites.vue"
+import MyBooking from "../components/MyBookings.vue";
+import Favorites from "../components/Favorites.vue";
 
 export default {
   name: "MyBookings",
 
   components: {
     MyBooking,
-    Favorites
+    Favorites,
   },
 
-  data(){
-    return{
+  data() {
+    return {
       showToggle: true,
-    }
+    };
   },
 
-  methods:{
-    toggleComponents(value){
-      console.log(value)
-      this.showToggle = value
+  methods: {
+    toggleComponents(value) {
+      this.showToggle = value;
+      if (value) {
+        document.getElementById("FavTitle").style.color = "#2c3e50";
+        document.getElementById("BookTitle").style.color = "white";
+      } else {
+        document.getElementById("BookTitle").style.color = "#2c3e50";
+        document.getElementById("FavTitle").style.color = "white";
+      }
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
-  #Selectors{
-    font-size: 35px;
-    display: flex;
-    justify-content: center;
-  }
-  #Selectors > label{
-    margin: 50px;
-    font-weight: 600;
-  }
 
-  #BookTitle {
-    cursor: pointer;
-  }
+#Selectors {
+  font-size: 35px;
+  display: flex;
+  justify-content: center;
+}
+#Selectors > label {
+  margin: 50px;
+  font-weight: 600;
+}
 
-  #BookTitle:hover {
-    color: white;
-    transition: 0.2s ease;
-  }
+.bokFav-container {
+  max-height: 78vh;
+  overflow: auto;
+}
 
-  #FavTitle {
-    cursor: pointer;
-  }
+::-webkit-scrollbar {
+  display: none;
+}
 
-  #FavTitle:hover {
-    color: white;
-    transition: 0.2s ease;
-  }
+#BookTitle {
+  cursor: pointer;
+}
 
-  .bokFav-container{
-    max-height: 70vh;
-    overflow: auto;
-  }
+#BookTitle:hover {
+  color: white !important;
+  transition: 0.2s ease !important;
+}
+
+#FavTitle {
+  cursor: pointer;
+}
+
+#FavTitle:hover {
+  color: white !important;
+  transition: 0.2s ease !important;
+}
 </style>

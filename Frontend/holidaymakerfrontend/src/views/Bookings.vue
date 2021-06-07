@@ -138,7 +138,7 @@ export default {
       };
 
       console.log(bookingcredentials);
-      await fetch("http://localhost:3000/rest/makeBooking", {
+      await fetch("http://localhost:3000/auth/makeBooking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingcredentials),
@@ -167,8 +167,7 @@ export default {
           bookings: bookingIDObject,
         };
         
-        console.log(BookRoomCredentials);
-        await fetch("http://localhost:3000/rest/bookRoom", {
+        await fetch("http://localhost:3000/auth/bookRoom", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(BookRoomCredentials),
