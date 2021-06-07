@@ -18,7 +18,7 @@
 
 <script>
 import popup from "../components/Popup.vue";
-import BookRoom from "../components/BookRoom.vue";
+import BookRoom from "../components/bookRoom.vue";
 export default {
   components: {
     BookRoom,

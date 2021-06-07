@@ -24,7 +24,7 @@
       </div>
 
       <div class="pay">
-        <p>Total price: {{ totalCost }} SEK</p>
+        <p>Total price: {{ totalCost }}:-</p>
 
         <div class="payBtn">
           <Stripe id="btn" :fromMyBookings="true" :totalPrice="totalCost" />

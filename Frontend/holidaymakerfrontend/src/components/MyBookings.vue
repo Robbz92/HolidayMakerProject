@@ -31,7 +31,7 @@
                 <th>From Date</th>
                 <th>To Date</th>
                 <th>Booked Rooms</th>
-                <th>Total Cost</th>
+                <th>Total Price</th>
                 <th>Payment Status:</th>
               </tr>
               <tr>
@@ -39,7 +39,7 @@
                 <td>{{ bookings.from_date }}</td>
                 <td>{{ bookings.to_date }}</td>
                 <td>{{ bookings.BookedRooms }}</td>
-                <td>{{ bookings.total_cost }}</td>
+                <td>{{ bookings.total_cost }}:-</td>
                 <td>{{ bookings.payment_state }}</td>
               </tr>
             </table>

@@ -10,17 +10,17 @@
         <div class="oldText">
           <table>
             <tr>
-              <th>Old Cost</th>
               <th>From Date</th>
               <th>To Date</th>
-              <th>New Total Cost</th>
+              <th>Old Price</th>
+              <th>New Total Price</th>
               <th>Payment Status</th>
             </tr>
             <tr>
-              <td>{{total_cost}} SEK</td>
               <td>{{fromDate}}</td>
               <td>{{toDate}}</td>
-              <td>{{newTotalPrice}}</td>
+              <td>{{total_cost}}:-</td>
+              <td>{{newTotalPrice}}:-</td>
               <td>{{paymentState}}</td>
             </tr>            
           </table>
@@ -42,7 +42,7 @@
 
 
 <script>
-import EditRoom from "./EditRoom.vue";
+import EditRoom from "./editRoom.vue";
 
 export default {
   props: [
