@@ -76,7 +76,10 @@ export default {
       return this.$store.getters.getRoomsToBook;
     },
   },
-
+  
+  mounted(){
+    console.log(this.$store.getters.getRoomsToBook)
+  },
   methods: {
     clickPopup(boolean) {
       if (!this.checkForDuplicates()) {

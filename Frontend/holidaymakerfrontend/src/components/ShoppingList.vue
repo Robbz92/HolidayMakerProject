@@ -1,26 +1,25 @@
 <template>
   <div class="shoppingList">
-    <ul class="theLiost">
-      <div v-if="!hotelCardStorage.length">
-        <li
-          class="roomItemList"
-          v-for="(roomItem, index) in updateRoomList"
-          :key="index"
-        >
-          {{ getHotel }} - {{ roomItem.type }}
-          <button class="removeBtn" @click="removeRoom(index, roomItem.id)">
-            x
-          </button>
-        </li>
+    <div v-if="getStorage && loggedInUser">
+      <div v-for="(item, index) in getStorage" :key="index">
+        {{ getHotel }} - {{ item.type }}
       </div>
 
-      <div v-if="hotelCardStorage.length">
-        <p>{{ hotelCard }}</p>
-      </div>
+    </div>
+
+    <ul class="theLiost">
+      <li
+        class="roomItemList"
+        v-for="(roomItem, index) in updateRoomList"
+        :key="index"
+      >
+        {{ getHotel }} - {{ roomItem.type }}
+        <button class="removeBtn" @click="removeRoom(index, roomItem.id)">
+          x
+        </button>
+      </li>
     </ul>
-    <button id="checkOutBtn" @click="bookRoom(roomList)" v-if="roomList != ''">
-      Check out
-    </button>
+    <button id="checkOutBtn" @click="bookRoom(roomList)">Check out</button>
   </div>
 </template>
 
@@ -30,24 +29,10 @@ export default {
   data() {
     return {
       roomList: this.roomCard,
-      hotelCardStorage: "",
     };
   },
 
   props: ["roomCard"],
-
-  mounted() {
-    //  this.beforeDestroy rensa storage..
-    if (localStorage.hotelCard) {
-      this.hotelCardStorage = localStorage.hotelCard;
-    }
-  },
-
-  watch: {
-    hotelCard(roomType) {
-      localStorage.hotelCard = roomType;
-    },
-  },
 
   computed: {
     updateRoomList() {
@@ -62,33 +47,47 @@ export default {
       return this.$store.state.loggedInUser;
     },
 
-    hotelCard() {
-      return this.hotelCardStorage;
-    },
-
-    beforeDestroy() {
-      return localStorage.removeItem("hotelCard");
+    getStorage() {
+      return JSON.parse(localStorage.getItem("localStorageRoom"));
     },
   },
+
+
   methods: {
     removeRoom(index, roomItemID) {
       this.roomList.splice(index, 1);
+      
+      // TODO: ta bort från local storage...
+      localStorage.setItem("localStorageRoom", JSON.stringify(this.roomList));
+
       this.$parent.showRoom(roomItemID);
     },
 
     bookRoom(room) {
+      console.log(JSON.parse(localStorage.getItem("localStorageRoom")));
       if (this.loggedInUser == null) {
         alert("Du måste logga in eller skapa ett konto innan du ska boka.");
-
-        this.hotelCardStorage =
-          this.$store.getters.getInformation[0].name + " " + room[0].type;
       } else {
-        this.beforeDestroy; // rensar local storage
-        //Sparar för hotell id't
-        this.$store.commit("setChosenRoom", room[0]);
-        //Sparar ner listan med rum du valt, för att visa dom i "Booking"
-        this.$store.commit("setRoomsToBook", room);
-        this.$router.push("/bookings/");
+        if (localStorage.length > 0) {
+          //Sparar för hotell id't
+          this.$store.commit(
+            "setChosenRoom",
+            JSON.parse(localStorage.getItem("localStorageRoom"))[0]
+          );
+          //Sparar ner listan med rum du valt, för att visa dom i "Booking"
+          this.$store.commit(
+            "setRoomsToBook",
+            JSON.parse(localStorage.getItem("localStorageRoom"))
+          );
+          this.$router.push("/bookings/");
+          //TODO: töm localStorage i Home.vue i mounted.
+        } else {
+          //Sparar för hotell id't
+          this.$store.commit("setChosenRoom", room[0]);
+          //Sparar ner listan med rum du valt, för att visa dom i "Booking"
+          this.$store.commit("setRoomsToBook", room);
+          this.$router.push("/bookings/");
+        }
       }
     },
   },
