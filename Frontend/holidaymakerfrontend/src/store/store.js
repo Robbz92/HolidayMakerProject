@@ -31,7 +31,11 @@ export default createStore({
     bookedRoom: '',
     favoriteList: [],
     hotelListReviews: [],
-    room: '',                     //sökfunktionen, antalet rum
+    room: '', // sök funktionen
+    adults: 0,
+    children: 0,
+    childrenAges: [],
+    roomAmount: 0
   },
 
   mutations: {

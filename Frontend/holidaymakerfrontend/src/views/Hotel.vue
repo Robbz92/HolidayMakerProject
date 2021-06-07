@@ -43,13 +43,95 @@
               @click="addFavorite(info.id)"
               v-if="loggedInUser"
             >
-              <img src="../assets/heart-regular.svg" id="heart" v-if="!isFavorite"/>
+              <img
+                src="../assets/heart-regular.svg"
+                id="heart"
+                v-if="!isFavorite"
+              />
               <img src="../assets/heart-solid.svg" id="heart" v-else />
             </div>
           </li>
         </ul>
       </div>
     </div>
+    <!-- People container, för att ändra antalet personer i bokningen -->
+      <div class="groupAdults">
+        <div class="label-container">
+          <h6>People</h6>
+          <div class="label" @click="showAll()">
+            <label>Adults: {{ adults }} - Children: {{ children }}</label>
+          </div>
+        </div>
+        <div id="ppl-list" v-if="show">
+          <div id="adultChildren">
+            <li>
+              Adults:
+              <select id="person" v-model="adults">
+                <option v-for="(person, index) in cuantity" :key="index">
+                  {{ person }}
+                </option>
+              </select>
+            </li>
+            <li>
+              Children:
+              <select id="person" v-model="children">
+                <option v-for="(children, index) in cuantity" :key="index">
+                  {{ children }}
+                </option>
+              </select>
+            </li>
+          </div>
+
+          <div id="children">
+            <li v-for="child in Number(children)" :key="child">
+              Age of child: {{ child }}
+              <select id="childAge" v-model="childrenAges[child]">
+                <option v-for="(age, index) in cuantity" :key="index">
+                  {{ age }}
+                </option>
+              </select>
+            </li>
+          </div>
+        </div>
+      </div>
+      <!-- Ändra antalet rum  -->
+      <div class="rooms">
+        <h6>Rooms</h6>
+        <select id="room" v-model="room">
+          <option v-for="(room, index) in cuantity" :key="index">
+            {{ room }}
+          </option>
+        </select>
+      </div>
+    <!-- Datum för att ändra inne på hotel -->
+    <div class="date">
+      <div class="checkIn">
+        <h6>Check-in</h6>
+        <date-picker
+          id="fromDate"
+          v-model="fromDate"
+            :lowerLimit= "fromDateLimit"
+          language="en"
+          type="date"
+          format="YYYY-MM-DD"
+          :style="styleObject"
+        ></date-picker>
+      </div>
+      <div class="checkOut">
+        <h6>Check-out</h6>
+        <date-picker
+          id="toDate"
+          v-model="toDate"
+            :lowerLimit="toDateLimit"
+          language="en"
+          type="date"
+          format="YYYY-MM-DD"
+          :style="styleObject"
+        ></date-picker>
+        <button @click="updateSearch()">Search new dates</button>
+      </div>
+    </div>
+    <!-- Datum slutar -->
     <div id="allRooms">
       <h2>Rooms</h2>
       <h3 v-if="getRoomList.length == 0">
@@ -108,17 +190,37 @@
 
 <script>
 import ShoppingList from "../components/ShoppingList.vue";
+import DatePicker from "vue3-datepicker";
+
+var today = new Date();
+
+function dateLimit() {
+  const limitDate = new Date();
+  limitDate.setDate(today.getDate() + 1);
+  return limitDate;
+}
 
 export default {
   data() {
     return {
       roomList: [],
       hotelName: "",
+      fromDate: '',
+      toDate: '',
+      fromDateLimit: new Date(),
+      toDateLimit: dateLimit(),
+      room: 1,
+      adults: 1,
+      children: 0,
+      childrenAges: [],
+      show: false,
+      cuantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     };
   },
 
   components: {
     ShoppingList,
+    DatePicker,
   },
 
   computed: {
@@ -168,9 +270,53 @@ export default {
     },
   },
   methods: {
+    updateSearch(){
+      this.sendDateSearch()
+      this.sendSizeSearch()
+    },
+
+    sendDateSearch(){
+      var d = new Date(this.fromDate),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      var newDate = [year, month, day].join("-");
+      this.$store.commit("setFromDate", newDate);
+
+      
+      d = new Date(this.toDate),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      newDate = [year, month, day].join("-");
+      this.$store.commit("setToDate", newDate);
+      
+      this.$store.dispatch("fetchHotel");
+    },
+
+    sendSizeSearch(){
+      this.$store.state.roomAmount = this.room
+      this.$store.state.adults = this.adults
+      this.$store.state.children = this.children
+      this.$store.state.childrenAges = this.childrenAges
+
+      var person = Number(this.adults) + Number(this.children);
+      var size = person / this.room;
+      this.$store.commit("setSize", size);
+    },
+
     addRoom(room) {
       this.roomList.push(room);
-      document.getElementsByClassName("room" + room.id)[0].style.display = "none";//adds a roomobject to the basket
+      document.getElementsByClassName("room" + room.id)[0].style.display =
+        "none"; //adds a roomobject to the basket
     },
 
     showRoom(room) {
@@ -214,11 +360,35 @@ export default {
         this.$store.dispatch("fetchFavorites");
       }
     },
+    
+    showAll() {
+      this.show = !this.show;
+    },
   },
 
   beforeMount() {
     this.$store.dispatch("fetchFavorites");
+    this.fromDate = new Date(this.$store.state.fromDate)
+    this.toDate = new Date(this.$store.state.toDate)
   },
+
+  async mounted(){
+    if(this.$store.state.adults != 0){
+      this.adults = this.$store.state.adults
+    }
+
+    if(this.$store.state.children != 0){
+      this.children = this.$store.state.children
+    }
+
+    if(this.$store.state.roomAmount != 0){
+      this.room = this.$store.state.roomAmount
+    }
+
+    if(this.$store.state.childrenAges != ''){
+      this.childrenAges = this.$store.state.childrenAges
+    }
+  }
 };
 </script>
 
@@ -384,5 +554,60 @@ ul {
   cursor: pointer;
   filter: invert(1);
   transition: 0.2s ease;
+}
+
+.label {
+  margin: 0 auto;
+  background-color: white;
+  margin-bottom: 0.8em;
+  height: 1.43em;
+  border: none;
+  width: 200px;
+  border-radius: 2px;
+  display: flex;
+}
+
+.label label:hover {
+  cursor: pointer;
+}
+
+.label label {
+  font-family: inherit;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5px;
+}
+
+#ppl-list {
+  z-index: 5;
+  display: block;
+  position: absolute;
+  top: 47.6%;
+  right: 17%;
+  background-color: white;
+  border-radius: 0 0 5px 5px;
+}
+
+#adultChildren{
+  display: flex;
+  padding: 10px;
+  outline: none;
+}
+
+#person {
+  outline: none;
+}
+
+#childAge {
+  margin: 5px;
+  margin-right: 10px;
+  outline: none;
+}
+
+li {
+  list-style: none;
+  outline: none;
 }
 </style>
