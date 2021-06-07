@@ -92,10 +92,11 @@ export default {
         if(this.filters.length > 0){
           this.filters.forEach(element => {
             //Sparar en variabel ifall hotellet redan är tillagd i listan
-            let x = newHotelList.find(y => y.name == hotel.name)
+            let hotelToCheck = newHotelList.find(hotelToCompareAgainst => 
+              hotelToCompareAgainst.name == hotel.name)
             //Kollar så att hotellet inte är empty, och ifall den är tillagd
             if(this.filterComfortsAndAttractions(hotel) != undefined){
-              if(!x){
+              if(!hotelToCheck){
                 if(element) //ANVÄNDS ENDAST FÖR ATT ELEMENT SKA ANVÄNDAS
                   console.log()
 
@@ -204,8 +205,8 @@ export default {
       Animations funktion
       */
     mounted(){
-      var x = this.$store.getters.getHasSearched
-      if(x == true){
+      var hasSearched = this.$store.getters.getHasSearched
+      if(hasSearched == true){
         document.getElementById("forAnimationOnly").style.top = "7.5vh"
       }
     }
