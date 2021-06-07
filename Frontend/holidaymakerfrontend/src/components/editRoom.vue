@@ -5,6 +5,16 @@
         <img id="roomPic" :src="room.room_img" />
       </div>
       <div class="room-text">
+        <select
+          v-model="board"
+          id="boardChoice"
+          @change="calculatePrice()"
+        >
+          <option value="1">All inclusive {{Math.round(chosenRoom.price * 0.2) * numberOfDays}}:-</option>
+          <option value="2">Full pension {{Math.round(chosenRoom.price * 0.15) * numberOfDays}}:-</option>
+          <option value="3">Half pension {{Math.round(chosenRoom.price * 0.1) * numberOfDays}}:-</option>
+          <option value="4">DIY 0:-</option>
+        </select>
         <select v-model="chosenRoom" @change="calculatePrice()">
             <option :value="room" selected>
                 {{getBookedRooms.type}} {{getBookedRooms.price}}:-
@@ -17,16 +27,6 @@
             {{ roomsForEdit.type }} {{ roomsForEdit.price }}:-
 
           </option>
-        </select>
-        <select
-          v-model="board"
-          id="boardChoice"
-          @change="calculatePrice()"
-        >
-          <option value="1">All inclusive</option>
-          <option value="2">Full pension</option>
-          <option value="3">Half pension</option>
-          <option value="4">DIY</option>
         </select>
         <label> Would you like an extra bed? </label>
         <input
@@ -56,6 +56,7 @@ export default {
       chosenRoom: this.room,
       roomId: "",
       bookedRoomId:"",
+      numberOfDays: 0,
     }
   },
 

@@ -9,10 +9,10 @@
         @change="calculatePrice()"
         v-model="board"
       >
-        <option value="1">All inclusive</option>
-        <option value="2">Full pension</option>
-        <option value="3">Half pension</option>
-        <option value="4">DIY</option>
+        <option value="1">All inclusive {{Math.round(chosenRoom.price * 0.2) * numberOfDays}}:-</option>
+        <option value="2">Full pension {{Math.round(chosenRoom.price * 0.15 * numberOfDays)}}:-</option>
+        <option value="3">Half pension {{Math.round(chosenRoom.price * 0.1 * numberOfDays)}}:-</option>
+        <option value="4">DIY 0:-</option>
       </select>
     </div>
     <div class="room" id="room">
@@ -57,6 +57,7 @@ export default {
 
   data() {
     return {
+      numberOfDays: 0,
       roomPrice: 0,
       newPrice: 0,
       extraBed: false,
