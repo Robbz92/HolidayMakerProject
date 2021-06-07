@@ -7,14 +7,14 @@
       <div class="room-text">
         <select v-model="chosenRoom" @change="calculatePrice()">
             <option :value="room" selected>
-                {{getBookedRooms.type}} {{getBookedRooms.price}}
+                {{getBookedRooms.type}} {{getBookedRooms.price}}:-
             </option>
           <option
             :value="roomsForEdit"
             v-for="(roomsForEdit, index) in getAllRooms"
             :key="index"
           >
-            {{ roomsForEdit.type }} {{ roomsForEdit.price }}
+            {{ roomsForEdit.type }} {{ roomsForEdit.price }}:-
 
           </option>
         </select>
@@ -36,7 +36,7 @@
           :checked="checked"
           @change="calculatePrice()"
         />
-        <p>Room price: {{ newTotalPrice }}kr</p>
+        <p>Room price: {{ newTotalPrice }}:-</p>
       </div>
     </li>
   </div>

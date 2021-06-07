@@ -29,11 +29,11 @@
           :key="index"
           :value="roomItem"
         >
-          {{ roomItem.type }} {{ roomItem.price }} kr
+          {{ roomItem.type }} {{ roomItem.price }}:-
         </option>
       </select>
       <div class="totalCost">
-        <p>Room cost: {{ newPrice }} kr</p>
+        <p>Room price: {{ newPrice }}:- for {{numberOfDays}} days</p>
       </div>
     </div>
 
@@ -62,6 +62,7 @@ export default {
       extraBed: false,
       board: 1,
       chosenRoom: this.room, //chosenRoom är rummet som är valt i drop down menyn, var tvungen att ha den som en separat variabel för att kunna ändra dynamiskt vilket val som är gjort
+      numberOfDays: 0,
     };
   },
 
@@ -93,10 +94,8 @@ export default {
       let bedMultiplier = 1;
       if (this.extraBed) bedMultiplier = 1.05;
 
-      let numberOfDays = this.$store.getters.getNumberOfDays;
-
       let calculatedPrice = Math.round(
-        this.chosenRoom.price * boardMultiplier * bedMultiplier * numberOfDays
+        this.chosenRoom.price * boardMultiplier * bedMultiplier * this.numberOfDays
       );
 
       this.newPrice = calculatedPrice;
@@ -115,14 +114,14 @@ export default {
       // parent är bookings rad 89,
       this.$parent.fillBookingArray(this.index, object)
     },
-
-    getNumberOfDays() {
-      return this.$store.getters.getNumberOfDays;
-    },
   },
 
   mounted() {
     this.calculatePrice();
   },
+
+  beforeMount(){
+    this.numberOfDays = this.$store.getters.getNumberOfDays;
+  }
 };
 </script>
