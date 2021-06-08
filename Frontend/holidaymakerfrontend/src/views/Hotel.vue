@@ -114,7 +114,7 @@ export default {
     return {
       roomList: [],
       hotelName: "",
-      hotelCardStorage: [],
+
     };
   },
 

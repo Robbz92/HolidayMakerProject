@@ -1,5 +1,5 @@
 <template>
-  <div class="shoppingList">
+  <div class="shoppingList"  v-if="roomList !=0 || getStorage !=null">
     <div v-if="getStorage && loggedInUser">
       <div v-for="(item, index) in getStorage" :key="index">
         {{ getHotel }} - {{ item.type }}
@@ -7,7 +7,7 @@
 
     </div>
 
-    <ul class="theLiost">
+    <ul class="theList">
       <li
         class="roomItemList"
         v-for="(roomItem, index) in updateRoomList"
@@ -106,7 +106,7 @@ export default {
   box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
-.theLiost {
+.theList {
   padding-left: 0;
 }
 
@@ -120,6 +120,7 @@ export default {
 #checkOutBtn {
   margin: 5px;
   margin-top: 30px;
+  
 }
 
 .removeBtn {
