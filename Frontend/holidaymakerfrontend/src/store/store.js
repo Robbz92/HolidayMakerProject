@@ -4,38 +4,38 @@ import axios from 'axios';
 
 export default createStore({
   state: {
-    countryList: [],            //Används för att fetcha alla hotell i ett land
-    cityList: [],                  //Används för att fetcha alla hotell i en stand
-    hotelList: [],                //Alla hotell som matchar sökning + ihoplagda land och stad
-    searchPhrase: '',          //Vad du sökt på, om du söker med text
-    loggedInUser: null,    //Hämtar den nuvarande användaren
-    reviewList: String,
-    information: String,
-    temperature: String,
-    attractions: String,
-    comforts: String,
-    fromDate: '',                // sök funktionen
-    toDate: '',                    // sök funktionen
-    numberOfDays: '',
-    chosenHotel: '',           // för att hämta lediga rum
-    roomList: [],
-    hasSearched: false,    //Kollar vart searchbaren ska vara på skärmen, för att inte täcka hotell
-    chosenRoom: "",       // väljer ett rum under bokningen
-    roomsToBook: [],
-    bookingId: 0,
-    size: 1,                       //sökfunktionen, antalet personer
-    myBookings: [],
-    clickedBooking: '',
+    countryList: [],               // Används för att fetcha alla hotell i ett land
+    cityList: [],                     // Används för att fetcha alla hotell i en stand
+    hotelList: [],                   // Alla hotell som matchar sökning + ihoplagda land och stad
+    searchPhrase: '',             // Vad du sökt på, om du söker med text
+    loggedInUser: null,       // Hämtar den nuvarande användaren
+    reviewList: String,        // Hämtar alla reviews på ett hotell
+    information: String,      // Hämtar all info från valt hotell
+    temperature: String,      // Hämtar temperaturen, staden och landet hotellet ligger i
+    attractions: String,        // Alla attractions på ett hotell
+    comforts: String,          // Alla comforts på ett hotell
+    fromDate: '',                 // sök funktionen
+    toDate: '',                     // sök funktionen
+    numberOfDays: '',       // Sparar ner hur lång din bokning ska vara
+    chosenHotel: '',           // För att hämta lediga rum
+    roomList: [],               // Används vid Edit av rum på bokning
+    hasSearched: false,    // Kollar vart searchbaren ska vara på skärmen, för att inte täcka hotell
+    chosenRoom: "",       // Väljer ett rum under bokningen
+    roomsToBook: [],      // Rummen som ska skickas till bokningen
+    bookingId: 0,             // ID på bokning
+    size: 1,                       // Sökfunktionen, antalet personer
+    myBookings: [],        // Alla bokningar på en användare
+    clickedBooking: '',    // ID på bokningen du markerat
     searchedTemperature: '',  //Vad du sökt på, om du söker efter temperatur
-    filterAmmount: 0,   //Hur många filter du använder
-    bookedRoom: '',
-    favoriteList: [],
-    hotelListReviews: [],
-    room: '', // sök funktionen
-    adults: 0,
-    children: 0,
-    childrenAges: [],
-    roomAmount: 0
+    filterAmmount: 0,     //Hur många filter du använder
+    bookedRoom: '',          // Varje rum du har på en booking sen innan, används vid edit
+    favoriteList: [],           // Listan på alla dina favorithotell
+    hotelListReviews: [], // Används för att kolla om du redan gjort en review på ett hotell
+    room: '',                     // sparas för sök funktionen
+    adults: 0,                   // ~||~
+    children: 0,               // ~||~
+    childrenAges: [],      // ~||~
+    roomAmount: 0       // ~||~
   },
 
   mutations: {
