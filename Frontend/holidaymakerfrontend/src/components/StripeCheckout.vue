@@ -33,7 +33,7 @@ export default {
             lineItems: [
                 {
                     //The ID for said product
-                    price: 'price_1Isny4Fc0ZEqxGhpxKl5IZgV',
+                    price: 'price_1J01ncFc0ZEqxGhpUO6Btfmj',
                     //Using quantity instead of price, for simplicity
                     quantity: this.totalPrice
                 },
