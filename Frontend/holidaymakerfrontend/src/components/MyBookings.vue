@@ -65,8 +65,12 @@
       </ul>
     </div>
     <div class="bookings" v-if="!show">
-      <ul v-for="(oldBooking, index) in oldBookings" :key="index" id="oldBookings">
-        <h3>Previous bookings</h3>
+      <h3>Previous bookings</h3>
+      <ul
+        v-for="(oldBooking, index) in oldBookings"
+        :key="index"
+        id="oldBookings"
+      >
         <li id="booking">
           <div class="hotelPicture" @click="sendToHotel(bookings)">
             <h2>{{ oldBooking.name }}</h2>
@@ -94,7 +98,7 @@
           </div>
           <div class="buttons-container">
             <button
-              v-if="checkIfReviewed(oldBooking.hotel_id, index)"
+              v-if="checkIfReviewed(oldBooking.id, index)"
               @click="sendBookingId(oldBooking.id)"
             >
               Review
@@ -185,16 +189,15 @@ export default {
     },
 
     checkIfReviewed(hotelId, index) {
-      let bool = false;
-
+      let bool = true;
       // kollar ifall vi inte redan har gjort en review samt att vi har kommit hem från resan.
       if (
-        !this.$store.getters.getHotelListForReview.includes(hotelId) &&
-        this.getAllMyBookings[index].to_date <= this.currentDate()
+        this.$store.getters.getHotelListForReview.includes(hotelId) &&
+        this.oldBookings[index].to_date <= this.currentDate()
       ) {
-        bool = true;
-      } else {
         bool = false;
+      } else {
+        bool = true;
       }
 
       return bool;
@@ -300,7 +303,7 @@ export default {
   overflow: hidden;
 }
 
-h3{
+h3 {
   font-size: 25px;
 }
 
@@ -317,12 +320,12 @@ h4 {
 
 .buttons-container {
   display: flex;
+  flex-direction: column;
 }
 
 .buttons-container button {
-  width: 75px;
+  width: 100px;
   height: 40px;
-  margin-top: 63px;
-  margin-right: 10px;
+  margin: 1em;
 }
 </style>
