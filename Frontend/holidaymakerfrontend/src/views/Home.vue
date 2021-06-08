@@ -32,7 +32,9 @@ export default {
     computed:{
       gotClicked(){
         return this.$store.getters.getHasSearched
-      }
+      },
+
+      
     },
 
     methods:{
@@ -65,6 +67,8 @@ export default {
           e.style.top = "3%";
           document.getElementById("headline").style.display="none";
       }
+
+      localStorage.clear();
     }
   
 };

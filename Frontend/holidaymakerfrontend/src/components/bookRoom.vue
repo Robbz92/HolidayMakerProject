@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label id="roomName">{{ room.name }}</label>
+    <label id="roomName"></label>
     <div class="board">
       <p>Choose board</p>
       <select

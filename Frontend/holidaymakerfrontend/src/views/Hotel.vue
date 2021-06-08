@@ -114,6 +114,7 @@ export default {
     return {
       roomList: [],
       hotelName: "",
+
     };
   },
 
@@ -169,8 +170,11 @@ export default {
   },
   methods: {
     addRoom(room) {
+  
       this.roomList.push(room);
+      localStorage.setItem("localStorageRoom",JSON.stringify(this.roomList));
       document.getElementsByClassName("room" + room.id)[0].style.display = "none";//adds a roomobject to the basket
+     
     },
 
     showRoom(room) {

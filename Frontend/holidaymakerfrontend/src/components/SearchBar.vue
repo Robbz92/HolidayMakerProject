@@ -169,7 +169,7 @@ export default {
   methods: {
     searchFor(phrase) {
       this.$store.commit("setSearchPhrase", phrase);
-      document.getElementById('searchBar').value='';
+      //document.getElementById('searchBar').value='';
       
       //Ifall du använder en searchphrase
       if (this.searchPhrase.length > 0) {
