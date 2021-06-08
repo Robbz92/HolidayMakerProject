@@ -38,8 +38,14 @@ public class UserService {
     skickar informationen vidare till MyUserDetailService
      */
     public User register (User user){
-
-        return detailService.registerUser(user);
+        if(userRepo.findByEmail(user.getEmail()) != null) {
+            System.err.println("User already exists with that email");
+            return new User();
+        }
+        else {
+            System.out.println("User created!");
+            return detailService.registerUser(user);
+        }
     }
     /*
     kollar i repot på email vem som är inloggad

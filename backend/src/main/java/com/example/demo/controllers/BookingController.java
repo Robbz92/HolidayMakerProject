@@ -11,7 +11,7 @@ import java.util.List;
  * @author Robin Persson,
  */
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/auth")
 public class BookingController {
     @Autowired
     private BookingService bookingService;

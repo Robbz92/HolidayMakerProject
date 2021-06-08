@@ -4,43 +4,38 @@ import axios from 'axios';
 
 export default createStore({
   state: {
-    countryList: [],
-    cityList: [],
-    hotelList: [],
-    searchPhrase: '',
-    email: String,
-    password: String,
-    loggedInUser: null,
-    firstName: String,
-    lastName: String,
-    reviewList: String,
-    information: String,
-    temperature: String,
-    attractions: String,
-    comforts: String,
-    price: [], // används ej?
-    fromDate: '', // sök funktionen
-    toDate: '', // sök funktionen
-    numberOfDays: '',
-    chosenHotel: '', // för att hämta lediga rum
-    roomList: [],
-    hasSearched: false,
-    chosenRoom: "", // väljer ett rum under bokningen
-    roomsToBook: [],
-    bookingId: 0,
-    size: 1,
-    myBookings: [],
-    clickedBooking: '',
-    deleteBooking: '',
-    searchedTemperature: '',
-    filterAmmount: 0,
-    roomListForEdit: [],
-    bookedRoom: '',
-    favoriteList: [],
-    favoriteId: '',
-    deleteFavorite: '',
-    hotelListReviews: [],
-    room: '', // sök funktionen
+    countryList: [],               // Används för att fetcha alla hotell i ett land
+    cityList: [],                     // Används för att fetcha alla hotell i en stand
+    hotelList: [],                   // Alla hotell som matchar sökning + ihoplagda land och stad
+    searchPhrase: '',             // Vad du sökt på, om du söker med text
+    loggedInUser: null,       // Hämtar den nuvarande användaren
+    reviewList: String,        // Hämtar alla reviews på ett hotell
+    information: String,      // Hämtar all info från valt hotell
+    temperature: String,      // Hämtar temperaturen, staden och landet hotellet ligger i
+    attractions: String,        // Alla attractions på ett hotell
+    comforts: String,          // Alla comforts på ett hotell
+    fromDate: '',                 // sök funktionen
+    toDate: '',                     // sök funktionen
+    numberOfDays: '',       // Sparar ner hur lång din bokning ska vara
+    chosenHotel: '',           // För att hämta lediga rum
+    roomList: [],               // Används vid Edit av rum på bokning
+    hasSearched: false,    // Kollar vart searchbaren ska vara på skärmen, för att inte täcka hotell
+    chosenRoom: "",       // Väljer ett rum under bokningen
+    roomsToBook: [],      // Rummen som ska skickas till bokningen
+    bookingId: 0,             // ID på bokning
+    size: 1,                       // Sökfunktionen, antalet personer
+    myBookings: [],        // Alla bokningar på en användare
+    clickedBooking: '',    // ID på bokningen du markerat
+    searchedTemperature: '',  //Vad du sökt på, om du söker efter temperatur
+    filterAmmount: 0,     //Hur många filter du använder
+    bookedRoom: '',          // Varje rum du har på en booking sen innan, används vid edit
+    favoriteList: [],           // Listan på alla dina favorithotell
+    hotelListReviews: [], // Används för att kolla om du redan gjort en review på ett hotell
+    room: '',                     // sparas för sök funktionen
+    adults: 0,                   // ~||~
+    children: 0,               // ~||~
+    childrenAges: [],      // ~||~
+    roomAmount: 0       // ~||~
   },
 
   mutations: {
@@ -123,9 +118,6 @@ export default createStore({
     setLoggedInUser(state, user) {
       state.loggedInUser = user;
     },
-    setRooms(state, payload) { // används ej?
-      state.price = payload;
-    },
 
     setFromDate(state, payload) {
       state.fromDate = payload
@@ -145,10 +137,6 @@ export default createStore({
 
     setDeleteBooking(state, payload) {
       state.deleteBooking = payload
-    },
-
-    setRoomListForEdit(state, payload) {
-      state.roomListForEdit = payload
     },
 
     setBookedRoom(state, payload) {
@@ -171,10 +159,6 @@ export default createStore({
       state.favoriteId = payload
     },
 
-    setDeleteFavorite(state, payload) {
-      state.deleteFavorite = payload
-    },
-
     setHotelListForReview(state, payload) {
       state.hotelListReviews = payload;
     },
@@ -186,7 +170,7 @@ export default createStore({
 
   actions: {
     async UpdatePaymentState(store, bookingsID) {
-      await axios.put("http://localhost:3000/rest/updatePaymentState/" + bookingsID)
+      await axios.put("http://localhost:3000/auth/updatePaymentState/" + bookingsID)
         .then(response => {
           console.log(response.data)
         })
@@ -195,30 +179,28 @@ export default createStore({
     async fetchHotelListForReviews() {
       await axios.get("http://localhost:3000/rest/findReviews/")
         .then(response => {
-          console.log(response.data)
           this.commit("setHotelListForReview", response.data)
         })
     },
 
 
     async fetchLatestBookingID() {
-      await axios.get("http://localhost:3000/rest/getLatestBookings/")
+      await axios.get("http://localhost:3000/auth/getLatestBookings/")
         .then(response => {
           this.commit("setBookingId", response.data)
         })
     },
 
     async fetchClickedBooking(store, bookingId) {
-      await axios.get("http://localhost:3000/api/rest/bookingById/" + bookingId)
+      await axios.get("http://localhost:3000/auth/bookingById/" + bookingId)
         .then(response => {
           this.commit("setClickedBooking", response.data)
         })
     },
 
     async fetchMyBookings() {
-      await axios.get("http://localhost:3000/api/rest/allMyBooknings")
+      await axios.get("http://localhost:3000/auth/allMyBooknings")
         .then(response => {
-          console.log(response.data)
           this.commit("setMyBookings", response.data)
         })
     },
@@ -240,7 +222,6 @@ export default createStore({
     },
 
     async fetchHotelByTemperature() {
-      console.log(this.state.fromDate + "fromdate desde fetch")
       await axios.get("http://localhost:3000/rest/tempSearch/" + this.state.fromDate +
         "/" + this.state.toDate + "/" + this.state.size + "/" + this.state.room + "/" + this.state.searchedTemperature + "/" + this.state.temperatureRange)
         .then(response => {
@@ -318,34 +299,30 @@ export default createStore({
     },
 
     async fetchDeleteBooking(store, bookingId) {
-      await axios.delete("http://localhost:3000/rest/deleteBooking/" + bookingId)
+      await axios.delete("http://localhost:3000/auth/deleteBooking/" + bookingId)
         .then(response => {
           console.log(response.data)
-          this.commit("setDeleteBooking", response.data)
         })
     },
 
     async fetchBookedRoom(store, bookingId) {
-      await axios.get("http://localhost:3000/api/rest/bookedRoomsById/" + bookingId)
+      await axios.get("http://localhost:3000/auth/bookedRoomsById/" + bookingId)
         .then(response => {
-          console.log(response.data)
           this.commit("setBookedRoom", response.data)
         })
     },
 
     async fetchFavorites() {
-      await axios.get("http://localhost:3000/api/auth/favorites")
+      await axios.get("http://localhost:3000/auth/favorites")
         .then(response => {
-          //console.log(response.data)
           this.commit("setFavoriteList", response.data)
         })
     },
 
     async deleteFavorite(store, favoriteId) {
-      await axios.delete("http://localhost:3000/api/auth/favorites/" + favoriteId)
+      await axios.delete("http://localhost:3000/auth/favorites/" + favoriteId)
         .then(response => {
           console.log(response.data)
-          this.commit("setDeleteFavorite", response.data)
         })
     },
   },
@@ -354,6 +331,7 @@ export default createStore({
     getHotelListForReview(state) {
       return state.hotelListReviews;
     },
+
     getBookings(state) {
       return state.bookings;
     },
@@ -428,14 +406,6 @@ export default createStore({
 
     getTempSearch(state) {
       return state.searchedTemperature
-    },
-
-    getDeleteBooking(state) {
-      return state.deleteBooking
-    },
-
-    getRoomsForEdit(state) {
-      return state.getRoomsForEdit
     },
 
     getBookedRoom(state) {

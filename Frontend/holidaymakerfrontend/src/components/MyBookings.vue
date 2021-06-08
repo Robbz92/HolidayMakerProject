@@ -1,7 +1,6 @@
 <template>
   <div class="main-container" v-if="getAllMyBookings != ''">
-    <h3 id="MyBookingsH3">My Bookings</h3>
-     <EditBooking
+    <EditBooking
       v-if="show"
       :fromDate="fromDate"
       :toDate="toDate"
@@ -18,11 +17,12 @@
       }"
     />
     <div class="bookings" v-if="!show">
-      <ul v-for="(bookings, index) in getAllMyBookings" :key="index">
+      <h3>Upcoming bookings</h3>
+      <ul v-for="(newBooking, index) in newBookings" :key="index">
         <li id="booking">
-          <div class="hotelPicture" @click="sendToHotel(bookings)">
-            <h2>{{ bookings.name }}</h2>
-            <img id="hotelPic" :src="bookings.hotel_img" />
+          <div class="hotelPicture" @click="sendToHotel(newBooking)">
+            <h2>{{ newBooking.name }}</h2>
+            <img id="hotelPic" :src="newBooking.hotel_img" />
           </div>
           <div class="booking-text">
             <table>
@@ -31,39 +31,74 @@
                 <th>From Date</th>
                 <th>To Date</th>
                 <th>Booked Rooms</th>
-                <th>Total Cost</th>
+                <th>Total Price</th>
                 <th>Payment Status:</th>
               </tr>
               <tr>
-                <td>{{ bookings.address }}</td>
-                <td>{{ bookings.from_date }}</td>
-                <td>{{ bookings.to_date }}</td>
-                <td>{{ bookings.BookedRooms }}</td>
-                <td>{{ bookings.total_cost }}</td>
-                <td>{{ bookings.payment_state }}</td>
+                <td>{{ newBooking.address }}</td>
+                <td>{{ newBooking.from_date }}</td>
+                <td>{{ newBooking.to_date }}</td>
+                <td>{{ newBooking.BookedRooms }}</td>
+                <td>{{ newBooking.total_cost }}:-</td>
+                <td>{{ newBooking.payment_state }}</td>
               </tr>
             </table>
           </div>
           <div class="buttons-container">
             <button
-              v-if="checkIfReviewed(bookings.hotel_id, index)"
-              @click="sendBookingId(bookings.id)"
-            >
-              Review
-            </button>
-            <button
-              v-if="checkIfOutOfDate(index, bookings.payment_state)"
-              @click="editBooking(bookings)"
+              v-if="checkIfOutOfDate(index, newBooking.payment_state)"
+              @click="editBooking(newBooking)"
             >
               Edit
             </button>
-
             <Stripe
               :fromMyBookings="false"
-              :totalPrice="bookings.total_cost"
-              :bookingID="bookings.id"
-              v-if="bookings.payment_state != 'Paid' && bookings.from_date >= currentDate()"              
+              :totalPrice="newBooking.total_cost"
+              :bookingID="newBooking.id"
+              v-if="
+                newBooking.payment_state != 'Paid' &&
+                newBooking.from_date >= currentDate()
+              "
             />
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="bookings" v-if="!show">
+      <ul v-for="(oldBooking, index) in oldBookings" :key="index" id="oldBookings">
+        <h3>Previous bookings</h3>
+        <li id="booking">
+          <div class="hotelPicture" @click="sendToHotel(bookings)">
+            <h2>{{ oldBooking.name }}</h2>
+            <img id="hotelPic" :src="oldBooking.hotel_img" />
+          </div>
+          <div class="booking-text">
+            <table>
+              <tr>
+                <th>Address</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Booked Rooms</th>
+                <th>Total Price</th>
+                <th>Payment Status:</th>
+              </tr>
+              <tr>
+                <td>{{ oldBooking.address }}</td>
+                <td>{{ oldBooking.from_date }}</td>
+                <td>{{ oldBooking.to_date }}</td>
+                <td>{{ oldBooking.BookedRooms }}</td>
+                <td>{{ oldBooking.total_cost }}:-</td>
+                <td>{{ oldBooking.payment_state }}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="buttons-container">
+            <button
+              v-if="checkIfReviewed(oldBooking.hotel_id, index)"
+              @click="sendBookingId(oldBooking.id)"
+            >
+              Review
+            </button>
           </div>
         </li>
       </ul>
@@ -103,6 +138,8 @@ export default {
       total_cost: 0,
       id: "",
       payment_state: "Not Paid",
+      oldBookings: [],
+      newBookings: [],
     };
   },
 
@@ -115,9 +152,11 @@ export default {
     },
   },
 
-  mounted() {
-    this.$store.dispatch("fetchMyBookings");
-    this.$store.dispatch("fetchHotelListForReviews");
+  async mounted() {
+    await this.$store.dispatch("fetchMyBookings");
+    await this.$store.dispatch("fetchHotelListForReviews");
+    await this.renderOldBookings();
+    await this.renderNewBookings();
   },
 
   methods: {
@@ -128,11 +167,13 @@ export default {
     },
 
     checkIfOutOfDate(index, payment) {
-      
       // kollar om datumet har gått ut, såfall ska man inte kunna editera något.
-      if (this.getAllMyBookings[index].from_date >= this.currentDate() && payment === "Not Paid") {
-        return true;      
-        }else {
+      if (
+        this.getAllMyBookings[index].from_date >= this.currentDate() &&
+        payment === "Not Paid"
+      ) {
+        return true;
+      } else {
         return false;
       }
     },
@@ -162,7 +203,6 @@ export default {
     sendFromDate(fromDate) {
       this.$store.commit("setFromDate", fromDate);
     },
-
 
     sendToDate(toDate) {
       this.$store.commit("setToDate", toDate);
@@ -195,7 +235,26 @@ export default {
     toggleShow(value) {
       this.show = value;
     },
-    
+
+    renderOldBookings() {
+      let allBookings = this.$store.getters.getMyBookings;
+
+      for (let i = 0; i < allBookings.length; i++) {
+        if (allBookings[i].to_date < this.currentDate()) {
+          this.oldBookings.push(allBookings[i]);
+        }
+      }
+    },
+
+    renderNewBookings() {
+      let allBookings = this.$store.getters.getMyBookings;
+
+      for (let i = 0; i < allBookings.length; i++) {
+        if (allBookings[i].from_date >= this.currentDate()) {
+          this.newBookings.push(allBookings[i]);
+        }
+      }
+    },
   },
 };
 </script>
@@ -239,6 +298,10 @@ export default {
   width: 300px;
   height: auto;
   overflow: hidden;
+}
+
+h3{
+  font-size: 25px;
 }
 
 p,

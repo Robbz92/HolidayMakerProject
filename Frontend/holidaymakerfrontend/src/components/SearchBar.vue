@@ -72,7 +72,7 @@
           <div id="children">
             <li v-for="child in Number(children)" :key="child">
               Age of child: {{ child }}
-              <select id="childAge">
+              <select id="childAge" v-model="childrenAges[child]">
                 <option v-for="(age, index) in cuantity" :key="index">
                   {{ age }}
                 </option>
@@ -143,7 +143,7 @@ export default {
       room: 1,
       adults: 1,
       children: 0,
-      age: 0,
+      childrenAges: [],
       show: false,
       cuantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 
@@ -157,11 +157,13 @@ export default {
         fontFamily: "inherit",
       },
       searchPhrase: "",
-      fromDate: today, // Lägger in dagens datum som standardvärde i kalendern
-      toDate: addDays(), // Lägger in 7 dagar framåt från dagens datum som standardvärde i kalendern
+      fromDate: '', // Lägger in dagens datum som standardvärde i kalendern
+      toDateExists: false,
+      toDate: '', // Lägger in 7 dagar framåt från dagens datum som standardvärde i kalendern
       numberOfDays: 0,
       temp: 0,
       toDateLimit: dateLimit(),
+      fromDateExists: false,
       fromDateLimit: new Date(),
     };
   },
@@ -169,7 +171,6 @@ export default {
   methods: {
     searchFor(phrase) {
       this.$store.commit("setSearchPhrase", phrase);
-      //document.getElementById('searchBar').value='';
       
       //Ifall du använder en searchphrase
       if (this.searchPhrase.length > 0) {
@@ -233,14 +234,18 @@ export default {
     },
 
     sendSize(room, adults, children) {
+      this.$store.state.roomAmount = room
+      this.$store.state.adults = adults
+      this.$store.state.children = children
+      this.$store.state.childrenAges = this.childrenAges
+
       var person = Number(adults) + Number(children);
       var size = person / room;
       this.$store.commit("setSize", size);
-      
     },
+
     sendRoom(room){
       this.$store.commit("setRoom", room);
-     
     },
     
     showAll() {
@@ -284,6 +289,49 @@ export default {
       }
     },
   },
+
+  beforeMount(){
+    if(this.$store.state.toDate != ''){
+      this.toDateExists = true
+    }
+    if(this.$store.state.fromDate != ''){
+      this.fromDateExists = true
+    }
+  },
+
+  async mounted(){
+    if(this.toDateExists){
+      this.toDate = new Date(this.$store.state.toDate)
+    }else{
+      this.toDate = addDays()
+    }
+
+    if(this.fromDateExists){
+      this.fromDate = new Date(this.$store.state.fromDate)
+    }else{
+      this.fromDate = new Date()
+    }
+
+    if(this.$store.state.searchPhrase != ''){
+      this.searchPhrase = this.$store.state.searchPhrase
+    }
+
+    if(this.$store.state.adults != 0){
+      this.adults = this.$store.state.adults
+    }
+
+    if(this.$store.state.children != 0){
+      this.children = this.$store.state.children
+    }
+
+    if(this.$store.state.roomAmount != 0){
+      this.room = this.$store.state.roomAmount
+    }
+
+    if(this.$store.state.childrenAges != ''){
+      this.childrenAges = this.$store.state.childrenAges
+    }
+  }
 };
 </script>
 
