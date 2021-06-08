@@ -130,6 +130,7 @@ export default {
   methods: {
     async combineHotelLists(hotelList){
       this.hotelList = hotelList
+      this.$store.commit("setHotelList", hotelList)
     },
 
     filterComfortsAndAttractions(hotel){
@@ -219,7 +220,7 @@ export default {
 <style scoped>
 
 #hotelList {
-  margin-top: 100px;
+  margin-top: -30px;
   margin-bottom: 10%;
 }
 
@@ -232,7 +233,7 @@ export default {
   overflow-x: hidden;
   width: 82.5vw;
   margin: auto;
-  margin-top: 12vh;
+  margin-top: 14vh;
   padding: 0;
   transition: top .5s;
 }

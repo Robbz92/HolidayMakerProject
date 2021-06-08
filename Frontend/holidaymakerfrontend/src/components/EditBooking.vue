@@ -1,5 +1,7 @@
 <template>
-<div id="backButton" @click="showFalse"><label id="returnButtonText">Return</label></div>
+  <div id="backButton" @click="showFalse">
+    <label id="returnButtonText">Return</label>
+  </div>
   <div class="main-container">
     <div class="hotel-container">
       <div class="old-container">
@@ -17,18 +19,26 @@
               <th>Payment Status</th>
             </tr>
             <tr>
-              <td>{{fromDate}}</td>
-              <td>{{toDate}}</td>
-              <td>{{total_cost}}:-</td>
-              <td>{{newTotalPrice}}:-</td>
-              <td>{{paymentState}}</td>
-            </tr>            
+              <td>{{ fromDate }}</td>
+              <td>{{ toDate }}</td>
+              <td>{{ total_cost }}:-</td>
+              <td>{{ newTotalPrice }}:-</td>
+              <td>{{ paymentState }}</td>
+            </tr>
           </table>
         </div>
       </div>
+      <h3 id="bookedRoomsH3">Booked Room(s)</h3>
       <div class="rooms-container">
-        <h3 id="bookedRoomsH3">Booked Room(s)</h3>
-        <EditRoom :room="theRoom" :dates="{fromDate:fromDate,toDate:toDate}" :price="theRoom.price" :index="index" v-for="(theRoom, index) in getBookedRooms" :key="index"/>  
+        <EditRoom
+          :room="theRoom"
+          :dates="{ fromDate: fromDate, toDate: toDate }"
+          :price="theRoom.price"
+          :index="index"
+          v-for="(theRoom, index) in getBookedRooms"
+          :key="index"
+          id="roomFlexList"
+        />
       </div>
       <div class="buttons">
         <button id="deleteBooking" @click="deleteBooking(id)">
@@ -64,7 +74,7 @@ export default {
       numberOfDays: 0,
       newTotalPrice: 0,
       chosenRoom: [],
-      editRoomList:[],
+      editRoomList: [],
       styleObject: {
         outline: "none",
         border: "none",
@@ -78,10 +88,10 @@ export default {
     // DatePicker,
     EditRoom,
   },
-  mounted(){
-    this.$store.commit("setChosenHotel" , this.hotel_id)
-    this.$store.commit("setFromDate",this.fromDate) 
-    this.$store.commit("setToDate" ,this.toDate)
+  mounted() {
+    this.$store.commit("setChosenHotel", this.hotel_id);
+    this.$store.commit("setFromDate", this.fromDate);
+    this.$store.commit("setToDate", this.toDate);
     this.$store.dispatch("fetchHotel");
   },
 
@@ -95,7 +105,7 @@ export default {
     getBookedRooms() {
       return this.$store.getters.getBookedRoom;
     },
-    getPaymentState(){
+    getPaymentState() {
       return this.$store.getters.getPaymentState;
     },
   },
@@ -104,49 +114,48 @@ export default {
       if (confirm("Are you sure you want to delete the booking?")) {
         this.$store.dispatch("fetchDeleteBooking", id);
 
-        location.reload()
+        location.reload();
       }
     },
 
-    updateRoomInEditRoomList(index, room){
-      this.editRoomList[index]=room
-      this.calculatePrice()
+    updateRoomInEditRoomList(index, room) {
+      this.editRoomList[index] = room;
+      this.calculatePrice();
     },
 
-    showFalse(){
-      this.$parent.toggleShow(false)
+    showFalse() {
+      this.$parent.toggleShow(false);
     },
 
-    calculatePrice(){
-      let newPrice =0;
-      this.editRoomList.forEach(roomInList =>{
-      newPrice +=roomInList.roomCalculatedPrice
+    calculatePrice() {
+      let newPrice = 0;
+      this.editRoomList.forEach((roomInList) => {
+        newPrice += roomInList.roomCalculatedPrice;
       });
-      this.newTotalPrice=newPrice;
+      this.newTotalPrice = newPrice;
     },
 
-     async saveBooking() { 
-         let bookingsIdObject = {
+    async saveBooking() {
+      let bookingsIdObject = {
         id: this.id,
       };
-      for (let i = 0; i < this.editRoomList.length; i++){
-         let editRoomObject= {
-        roomsId: this.editRoomList[i].roomsId,
-        board: this.editRoomList[i].board,
-        fromDate: this.fromDate,
-        toDate: this.toDate,
-        id: this.editRoomList[i].bookedRoomId,
-        extraBedAmount: this.editRoomList[i].extraBed,
-        bookings: bookingsIdObject,
-         };
+      for (let i = 0; i < this.editRoomList.length; i++) {
+        let editRoomObject = {
+          roomsId: this.editRoomList[i].roomsId,
+          board: this.editRoomList[i].board,
+          fromDate: this.fromDate,
+          toDate: this.toDate,
+          id: this.editRoomList[i].bookedRoomId,
+          extraBedAmount: this.editRoomList[i].extraBed,
+          bookings: bookingsIdObject,
+        };
 
-    
-       await fetch("http://localhost:3000/auth/editBooking", {
+        await fetch("http://localhost:3000/auth/editBooking", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(editRoomObject),
         });
-       }
+      }
       let bookingsObject = {
         id: this.id,
         userId: this.$store.state.loggedInUser.id,
@@ -154,18 +163,18 @@ export default {
         fromDate: this.fromDate,
         toDate: this.toDate,
         totalCost: this.newTotalPrice,
-        paymentState:"Not Paid",
-      }
-       await fetch("http://localhost:3000/auth/updateBooking", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(bookingsObject),
-        });
+        paymentState: "Not Paid",
+      };
+      await fetch("http://localhost:3000/auth/updateBooking", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingsObject),
+      });
 
-        location.reload()
+      location.reload();
     },
 
-    getBookedRoomById(id){
+    getBookedRoomById(id) {
       return this.$store.getters.getBookedRoom[id];
     },
   },
@@ -173,25 +182,25 @@ export default {
 </script>
 
 <style scoped>
-#backButton{
+#backButton {
   width: 8vw;
   height: 6vh;
-  background-color: rgba(255, 255, 255, .3);
+  background-color: rgba(255, 255, 255, 0.3);
   position: absolute;
-  top: 25.3vh;
+  top: 23.8vh;
   right: 5vw;
   z-index: 5;
   border-radius: 5px;
   font-size: larger;
 }
 
-#returnButtonText{
+#returnButtonText {
   display: block;
   margin: 18px auto;
 }
 
 .main-container {
-  backdrop-filter: blur(5px);
+  max-height: 70vh;
 }
 
 .hotel-container {
@@ -202,85 +211,68 @@ export default {
   margin-bottom: 20px;
   border-radius: 5px;
   margin: 0 auto;
-  margin-top: 5em;
+  margin-top: 0;
   overflow: auto;
+  backdrop-filter: blur(5px);
 }
 
 .nameAndImage {
   display: block;
   margin-left: 1em;
 }
-.nameAndImage img{
+
+.nameAndImage img {
   height: 250px;
-  width: 250px; 
+  width: 250px;
 }
 
 .old-container {
   display: flex;
 }
 
-#list {
-  list-style: none;
-  display: flex;
-}
-ul{
-  margin: 0;
-  padding: 0;
-  margin-left: 1em;
-  margin-right: 1em;
-  
-}
 .oldText {
-  width:100%;
+  width: 100%;
 }
-.oldText table{
-  width:100%;
+
+.oldText table {
+  width: 100%;
   margin-top: 75px;
 }
-#rooms {
-  display: flex;
-  width:100%;
-  justify-content: space-evenly;
-  border-bottom: 1px solid rgb(187, 184, 184);
-  margin-bottom: 35px;
-  padding-bottom: 15px;
-  vertical-align: middle;
+
+#editBookingButton {
+  width: 100px;
+  height: 45px;
 }
-.room-text{
-display:flex;
-justify-content: space-evenly;
-width:100%;
-}
-#roomPic{
-  height: 150px;
-  width: 200px;
-  object-fit: cover;
-}
-#boardChoice{
-  width: 130px;
-  height:35px ;
-  outline: none;
-}
-#editBookingButton{
-width:100px;
-height:45px;
-}
-#bookedRoomsH3{
+
+#bookedRoomsH3 {
   margin-bottom: 80px;
 }
-.buttons{
-  float:right;
+
+.buttons {
+  float: right;
 }
-.buttons button{
+
+.buttons button {
   margin-left: 20px;
-
 }
 
-#deleteBooking{
-  background-color:rgb(251, 76, 76);
+#deleteBooking {
+  background-color: rgb(251, 76, 76);
 }
-#deleteBooking:hover{
+
+#deleteBooking:hover {
   background-color: white;
   color: rgb(251, 76, 76);
+}
+
+.rooms-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#roomFlexList {
+  display: flex;
+  flex-direction: row;
 }
 </style>

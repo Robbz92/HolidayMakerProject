@@ -59,6 +59,7 @@ export default {
 .bokFav-container {
   max-height: 78vh;
   overflow: auto;
+  margin-top: 0;
 }
 
 ::-webkit-scrollbar {

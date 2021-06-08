@@ -301,18 +301,14 @@ export default {
 
   async mounted(){
     if(this.toDateExists){
-      console.log("To date DOES exist")
       this.toDate = new Date(this.$store.state.toDate)
     }else{
-      console.log("To date does NOT exist")
       this.toDate = addDays()
     }
 
     if(this.fromDateExists){
-      console.log("From date DOES exist")
       this.fromDate = new Date(this.$store.state.fromDate)
     }else{
-      console.log("From date does NOT exist")
       this.fromDate = new Date()
     }
 

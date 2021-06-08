@@ -1,18 +1,21 @@
 <template>
-  <div class="content">
-    <div>
-      <BookRoom
-        v-for="(room, index) in getRoomsToBook"
-        :key="index"
-        class="perRoom"
-        :room="room"
-        :index="index"
-      />
+  <div class="main-container">
+    <div class="hotel-container">
+      <div class="rooms-container">
+        <BookRoom
+          v-for="(room, index) in getRoomsToBook"
+          :key="index"
+          class="perRoom"
+          :room="room"
+          :index="index"
+          id="roomFlexList"
+        />
+      </div>
     </div>
-  </div>
-  <div id="next">
-    <button type="submit" class="next" @click="clickPopup(true)">Next</button>
-    <popup v-if="showPopup" :roomList="bookingsArray" />
+    <div id="next">
+      <button type="submit" class="next" @click="clickPopup(true)">Next</button>
+      <popup v-if="showPopup" :roomList="bookingsArray" />
+    </div>
   </div>
 </template>
 
@@ -98,7 +101,6 @@ export default {
       let totalPrice = 0;
       this.bookingsArray.forEach((object) => {
         totalPrice += object.totalCost;
-      
       });
 
       return totalPrice;
@@ -119,9 +121,8 @@ export default {
     },
 
     async makeBooking(isPayed) {
-      
       // hanterar betalnings status
-      var paymentState = isPayed == true ? "Paid" : "Not Paid"
+      var paymentState = isPayed == true ? "Paid" : "Not Paid";
 
       var boardChoice = document.getElementById("board");
       this.boardResult = parseInt(
@@ -166,7 +167,7 @@ export default {
           toDate: toDate,
           bookings: bookingIDObject,
         };
-        
+
         await fetch("http://localhost:3000/auth/bookRoom", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -179,29 +180,44 @@ export default {
 </script>
 
 <style scoped>
-.perRoom {
-  background-color: rgba(255, 255, 255, 0.15);
-  margin: 10px auto;
-  padding-top: 20px;
-  display: flex;
-  justify-content: center;
-  width: 70%;
-}
-
 #roomName {
   margin: 0 0;
 }
 
-.content {
+.main-container {
   max-height: 80vh;
   overflow-y: auto;
+}
+
+.hotel-container {
+  list-style-type: none;
+  border: 1px solid rgb(187, 184, 184);
+  background-color: rgba(255, 255, 255, 0.438);
+  width: 90%;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 0;
+  overflow: auto;
+  backdrop-filter: blur(5px);
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
 
-#next{
+#next {
   margin: 10px auto;
+}
+
+.rooms-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#roomFlexList {
+  display: flex;
+  flex-direction: row;
 }
 </style>

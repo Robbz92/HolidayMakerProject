@@ -57,15 +57,29 @@ export default {
         email: this.email,
         password: this.password,
       };
-      await fetch("http://localhost:3000/rest/register", {
+      let user = await this.tryUser(credentials)
+
+      if(user.id == 0){
+        alert("User already exists with that email")
+      }else{
+        alert("User created!")
+        this.$router.push("/login")
+      }
+    },
+
+    async tryUser(credentials){
+      let user
+       await fetch("http://localhost:3000/rest/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
-      });
-      alert("Registered successfully");
+      })
+      .then(async response => {
+      user = await response.json()
+      })
 
-      this.$router.push("/");
-    },
+      return user;
+    }
   },
 };
 </script>
