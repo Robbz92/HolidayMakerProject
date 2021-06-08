@@ -315,6 +315,7 @@ export default createStore({
     async fetchFavorites() {
       await axios.get("http://localhost:3000/auth/favorites")
         .then(response => {
+          console.log(response.data)
           this.commit("setFavoriteList", response.data)
         })
     },

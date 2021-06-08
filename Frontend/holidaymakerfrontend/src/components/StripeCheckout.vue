@@ -10,7 +10,7 @@
             @loading="v => loading = v"
         />
         <!-- The almighty "Pay now!" button -->
-        <button @click="submit">Pay now!</button>
+        <button @click="submit" id="payButton">Pay now!</button>
     </div>
 </template>
 
@@ -60,3 +60,11 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+#payButton {
+  width: 100px;
+  height: 40px;
+  margin: 1em;
+}
+</style>

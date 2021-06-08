@@ -94,8 +94,7 @@ export default {
         if(this.filters.length > 0){
           this.filters.forEach(element => {
             //Sparar en variabel ifall hotellet redan är tillagd i listan
-            let hotelToCheck = newHotelList.find(hotelToCompareAgainst => 
-              hotelToCompareAgainst.name == hotel.name)
+            let hotelToCheck = filteredHotelList.find(hotelToCompareAgainst => hotelToCompareAgainst.name == hotel.name)
             //Kollar så att hotellet inte är empty, och ifall den är tillagd
             if(this.filterComfortsAndAttractions(hotel) != undefined){
               if(!hotelToCheck){
@@ -130,7 +129,6 @@ export default {
   methods: {
     async combineHotelLists(hotelList){
       this.hotelList = hotelList
-      this.$store.commit("setHotelList", hotelList)
     },
 
     filterComfortsAndAttractions(hotel){
@@ -160,14 +158,17 @@ export default {
 
     updateCountryList() {
       this.countryList = this.$store.getters.getCountries;
+      console.log(this.countryList);
     },
 
     updateCityList() {
       this.cityList = this.$store.getters.getCities;
+      console.log(this.cityList);
     },
 
     updateHotelList() {
       this.hotelList = this.$store.getters.getHotels;
+      console.log(this.hotelList);
     },
     viewHotel(id) {
       this.$store.commit("setChosenHotel", id);
@@ -209,8 +210,8 @@ export default {
       Animations funktion
       */
     mounted(){
-      var hasSearched = this.$store.getters.getHasSearched
-      if(hasSearched == true){
+      var x = this.$store.getters.getHasSearched
+      if(x == true){
         document.getElementById("forAnimationOnly").style.top = "7.5vh"
       }
     }
@@ -220,7 +221,7 @@ export default {
 <style scoped>
 
 #hotelList {
-  margin-top: -30px;
+  margin-top: 100px;
   margin-bottom: 10%;
 }
 
@@ -233,7 +234,7 @@ export default {
   overflow-x: hidden;
   width: 82.5vw;
   margin: auto;
-  margin-top: 14vh;
+  margin-top: 12vh;
   padding: 0;
   transition: top .5s;
 }

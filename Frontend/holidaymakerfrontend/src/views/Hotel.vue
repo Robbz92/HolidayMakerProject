@@ -54,7 +54,40 @@
         </ul>
       </div>
     </div>
-    <!-- People container, för att ändra antalet personer i bokningen -->
+    <button @click="toggleSearchMenu" id="menuButton">
+      <p v-if="!showUpdateSearch">Show search menu</p>
+      <p v-else>Hide search menu</p>
+    </button>
+    <!-- Div som håller hela UPDATE datum och personer -->
+    <div id="updateSearch" v-if="showUpdateSearch">
+      <!-- Datum för att ändra inne på hotel -->
+      <div class="date">
+        <div class="checkIn">
+          <h6>Check-in</h6>
+          <date-picker
+            id="fromDate"
+            v-model="fromDate"
+            :lowerLimit="fromDateLimit"
+            language="en"
+            type="date"
+            format="YYYY-MM-DD"
+            :style="styleObject"
+          ></date-picker>
+        </div>
+        <div class="checkOut">
+          <h6>Check-out</h6>
+          <date-picker
+            id="toDate"
+            v-model="toDate"
+            :lowerLimit="toDateLimit"
+            language="en"
+            type="date"
+            format="YYYY-MM-DD"
+            :style="styleObject"
+          ></date-picker>
+        </div>
+      </div>
+      <!-- People container, för att ändra antalet personer i bokningen -->
       <div class="groupAdults">
         <div class="label-container">
           <h6>People</h6>
@@ -103,35 +136,8 @@
           </option>
         </select>
       </div>
-    <!-- Datum för att ändra inne på hotel -->
-    <div class="date">
-      <div class="checkIn">
-        <h6>Check-in</h6>
-        <date-picker
-          id="fromDate"
-          v-model="fromDate"
-            :lowerLimit= "fromDateLimit"
-          language="en"
-          type="date"
-          format="YYYY-MM-DD"
-          :style="styleObject"
-        ></date-picker>
-      </div>
-      <div class="checkOut">
-        <h6>Check-out</h6>
-        <date-picker
-          id="toDate"
-          v-model="toDate"
-            :lowerLimit="toDateLimit"
-          language="en"
-          type="date"
-          format="YYYY-MM-DD"
-          :style="styleObject"
-        ></date-picker>
-        <button @click="updateSearch()">Search new dates</button>
-      </div>
+      <button @click="updateSearch()" id="updateButton">Update search</button>
     </div>
-    <!-- Datum slutar -->
     <div id="allRooms">
       <h2>Rooms</h2>
       <h3 v-if="getRoomList.length == 0">
@@ -205,8 +211,8 @@ export default {
     return {
       roomList: [],
       hotelName: "",
-      fromDate: '',
-      toDate: '',
+      fromDate: "",
+      toDate: "",
       fromDateLimit: new Date(),
       toDateLimit: dateLimit(),
       room: 1,
@@ -215,6 +221,7 @@ export default {
       childrenAges: [],
       show: false,
       cuantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      showUpdateSearch: false,
     };
   },
 
@@ -270,12 +277,12 @@ export default {
     },
   },
   methods: {
-    updateSearch(){
-      this.sendDateSearch()
-      this.sendSizeSearch()
+    updateSearch() {
+      this.sendSizeSearch();
+      this.sendDateSearch();
     },
 
-    sendDateSearch(){
+    sendDateSearch() {
       var d = new Date(this.fromDate),
         month = "" + (d.getMonth() + 1),
         day = "" + d.getDate(),
@@ -287,26 +294,25 @@ export default {
       var newDate = [year, month, day].join("-");
       this.$store.commit("setFromDate", newDate);
 
-      
-      d = new Date(this.toDate),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
+      (d = new Date(this.toDate)),
+        (month = "" + (d.getMonth() + 1)),
+        (day = "" + d.getDate()),
+        (year = d.getFullYear());
 
       if (month.length < 2) month = "0" + month;
       if (day.length < 2) day = "0" + day;
 
       newDate = [year, month, day].join("-");
       this.$store.commit("setToDate", newDate);
-      
+
       this.$store.dispatch("fetchHotel");
     },
 
-    sendSizeSearch(){
-      this.$store.state.roomAmount = this.room
-      this.$store.state.adults = this.adults
-      this.$store.state.children = this.children
-      this.$store.state.childrenAges = this.childrenAges
+    sendSizeSearch() {
+      this.$store.state.roomAmount = this.room;
+      this.$store.state.adults = this.adults;
+      this.$store.state.children = this.children;
+      this.$store.state.childrenAges = this.childrenAges;
 
       var person = Number(this.adults) + Number(this.children);
       var size = person / this.room;
@@ -314,11 +320,10 @@ export default {
     },
 
     addRoom(room) {
-  
       this.roomList.push(room);
-      localStorage.setItem("localStorageRoom",JSON.stringify(this.roomList));
-      document.getElementsByClassName("room" + room.id)[0].style.display = "none";//adds a roomobject to the basket
-     
+      localStorage.setItem("localStorageRoom", JSON.stringify(this.roomList));
+      document.getElementsByClassName("room" + room.id)[0].style.display =
+        "none"; //adds a roomobject to the basket
     },
 
     showRoom(room) {
@@ -361,39 +366,42 @@ export default {
         this.$store.dispatch("fetchFavorites");
       }
     },
-    
+
     showAll() {
       this.show = !this.show;
+    },
+
+    toggleSearchMenu() {
+      this.showUpdateSearch = !this.showUpdateSearch;
     },
   },
 
   beforeMount() {
-
-    if(this.$store.state.loggedInUser){
+    if (this.$store.state.loggedInUser) {
       this.$store.dispatch("fetchFavorites");
     }
-    
-    this.fromDate = new Date(this.$store.state.fromDate)
-    this.toDate = new Date(this.$store.state.toDate)
+
+    this.fromDate = new Date(this.$store.state.fromDate);
+    this.toDate = new Date(this.$store.state.toDate);
   },
 
-  async mounted(){
-    if(this.$store.state.adults != 0){
-      this.adults = this.$store.state.adults
+  async mounted() {
+    if (this.$store.state.adults != 0) {
+      this.adults = this.$store.state.adults;
     }
 
-    if(this.$store.state.children != 0){
-      this.children = this.$store.state.children
+    if (this.$store.state.children != 0) {
+      this.children = this.$store.state.children;
     }
 
-    if(this.$store.state.roomAmount != 0){
-      this.room = this.$store.state.roomAmount
+    if (this.$store.state.roomAmount != 0) {
+      this.room = this.$store.state.roomAmount;
     }
 
-    if(this.$store.state.childrenAges != ''){
-      this.childrenAges = this.$store.state.childrenAges
+    if (this.$store.state.childrenAges != "") {
+      this.childrenAges = this.$store.state.childrenAges;
     }
-  }
+  },
 };
 </script>
 
@@ -589,13 +597,13 @@ ul {
   z-index: 5;
   display: block;
   position: absolute;
-  top: 47.6%;
-  right: 17%;
+  top: 50.5%;
+  right: 42%;
   background-color: white;
   border-radius: 0 0 5px 5px;
 }
 
-#adultChildren{
+#adultChildren {
   display: flex;
   padding: 10px;
   outline: none;
@@ -614,5 +622,42 @@ ul {
 li {
   list-style: none;
   outline: none;
+}
+
+#menuButton {
+  width: 200px;
+  height: 45px;
+}
+
+#menuButton p {
+  margin: 0;
+}
+
+#updateSearch {
+  margin: 15px auto;
+}
+
+#updateSearch h6 {
+  font-size: 13px;
+  margin: 5px auto;
+}
+
+.date {
+  display: flex;
+  flex-direction: row;
+  margin: 15px;
+  margin-left: 38.8%;
+}
+
+#updateButton{
+  margin-top: 15px;
+}
+
+.checkIn{
+  margin: 5px;
+}
+
+.checkOut{
+  margin: 5px;
 }
 </style>

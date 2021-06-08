@@ -20,7 +20,7 @@
       <h3>Upcoming bookings</h3>
       <ul v-for="(newBooking, index) in newBookings" :key="index">
         <li id="booking">
-          <div class="hotelPicture" @click="sendToHotel(newBooking)">
+          <div class="hotelPicture">
             <h2>{{ newBooking.name }}</h2>
             <img id="hotelPic" :src="newBooking.hotel_img" />
           </div>
@@ -72,7 +72,7 @@
         id="oldBookings"
       >
         <li id="booking">
-          <div class="hotelPicture" @click="sendToHotel(bookings)">
+          <div class="hotelPicture">
             <h2>{{ oldBooking.name }}</h2>
             <img id="hotelPic" :src="oldBooking.hotel_img" />
           </div>

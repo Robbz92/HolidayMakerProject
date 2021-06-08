@@ -20,6 +20,6 @@ public interface ReviewRepo extends JpaRepository<Review, Long> {
     @Query(value="SELECT first_name, last_name, text, score FROM users INNER JOIN reviews ON users.id = reviews.user_id WHERE hotel_id = ?1",nativeQuery = true)
     List<Map> getReviews(long id);
 
-    @Query(value = "SELECT hotel_id from reviews where user_id = ?", nativeQuery = true)
+    @Query(value = "SELECT booking_id from reviews where user_id = ?", nativeQuery = true)
     List<Integer> findReviews(long id);
 }
