@@ -6,7 +6,7 @@
       </div>
       <div class="room-text">
         <p>Choose board</p>
-        <select id="boardChoice" @change="calculatePrice()" v-model="board">
+        <select id="board" @change="calculatePrice()" v-model="board">
           <option value="1">
             All inclusive
             {{ Math.round(chosenRoom.price * 0.2) * numberOfDays }}:-
@@ -159,7 +159,7 @@ export default {
   margin: auto;
 }
 
-#boardChoice {
+#board {
   height: 25px;
   margin: 5px 0;
 }
