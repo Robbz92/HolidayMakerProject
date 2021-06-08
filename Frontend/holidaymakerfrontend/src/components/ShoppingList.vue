@@ -58,6 +58,7 @@ export default {
       this.roomList.splice(index, 1);
       
       // TODO: ta bort från local storage...
+      window.localStorage.removeItem("localStorageRoom", 1)
       localStorage.setItem("localStorageRoom", JSON.stringify(this.roomList));
 
       this.$parent.showRoom(roomItemID);
