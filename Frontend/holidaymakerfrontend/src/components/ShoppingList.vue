@@ -70,7 +70,7 @@ export default {
     bookRoom(room) {
       console.log(JSON.parse(localStorage.getItem("localStorageRoom")));
       if (this.loggedInUser == null) {
-        alert("Du måste logga in eller skapa ett konto innan du ska boka.");
+        alert("you have to be logged in or create an account before you make a booking.");
       } else {
         if (localStorage.length > 0) {
           //Sparar för hotell id't
