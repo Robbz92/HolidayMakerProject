@@ -76,6 +76,7 @@ export default {
   margin: 1em;
   display: flex;
 }
+
 .buttons h4{
   margin-right: 1em;
 }

@@ -27,7 +27,7 @@
         <p>Total price: {{ totalCost }}:-</p>
 
         <div class="payBtn">
-          <Stripe id="btn" :fromMyBookings="true" :totalPrice="totalCost" />
+          <Stripe :fromMyBookings="true" :totalPrice="totalCost" />
           <button id="btn" @click="paylater()">Pay later</button>
         </div>
       </div>
@@ -157,7 +157,9 @@ export default {
 }
 
 #btn {
-  margin: 5px;
+  width: 100px;
+  height: 40px;
+  margin: 1em;
 }
 
 .description{
