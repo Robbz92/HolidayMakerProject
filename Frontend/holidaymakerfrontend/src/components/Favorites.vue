@@ -42,7 +42,6 @@
 
 <script>
 export default {
-
   computed: {
     getFavoriteList() {
       return this.$store.getters.getFavoriteList;
@@ -50,10 +49,9 @@ export default {
   },
 
   methods: {
-
-    deleteFavorite(favoriteId) {
+    async deleteFavorite(favoriteId) {
       if(confirm("Are you sure you want to delete this favorite?")) {
-        this.$store.dispatch("deleteFavorite", favoriteId);
+        await this.$store.dispatch("deleteFavorite", favoriteId);
         this.$store.dispatch("fetchFavorites")
       }
     },
