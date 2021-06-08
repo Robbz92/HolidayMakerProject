@@ -1,12 +1,6 @@
 <template>
-  <div class="shoppingList"  v-if="roomList !=0 || getStorage !=null">
-    <div v-if="getStorage && loggedInUser">
-      <div v-for="(item, index) in getStorage" :key="index">
-        {{ getHotel }} - {{ item.type }}
-      </div>
-
-    </div>
-
+  <div class="shoppingList" v-if="roomList != 0 || getStorage != null">
+    <div v-if="getStorage && loggedInUser"></div>
     <ul class="theList">
       <li
         class="roomItemList"
@@ -52,13 +46,22 @@ export default {
     },
   },
 
+  mounted() {
+    let storeList = JSON.parse(localStorage.getItem("localStorageRoom"));
+    if (storeList != null) {
+      console.log(storeList);
+      storeList.forEach((element) => {
+        this.$parent.addRoom(element);
+      });
+    }
+  },
 
   methods: {
     removeRoom(index, roomItemID) {
       this.roomList.splice(index, 1);
-      
+
       // TODO: ta bort från local storage...
-      window.localStorage.removeItem("localStorageRoom", 1)
+      window.localStorage.removeItem("localStorageRoom", 1);
       localStorage.setItem("localStorageRoom", JSON.stringify(this.roomList));
 
       this.$parent.showRoom(roomItemID);
@@ -120,7 +123,6 @@ export default {
 #checkOutBtn {
   margin: 5px;
   margin-top: 30px;
-  
 }
 
 .removeBtn {
