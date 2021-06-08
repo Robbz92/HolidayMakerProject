@@ -46,7 +46,7 @@
       </div>
     </li>
     <p id="roomPrice">
-      Room price: {{ newPrice }}:- for {{ numberOfDays }} days
+      Room price: {{ newTotalPrice }}:- for {{ numberOfDays }} days
     </p>
   </div>
 </template>
