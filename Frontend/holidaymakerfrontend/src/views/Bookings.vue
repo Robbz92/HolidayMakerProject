@@ -31,8 +31,6 @@ export default {
   data() {
     return {
       newPrice: [],
-      accept: [],//används inte
-      roomItem: [],//används inte
       boardResult: [],
       extraBed: [],
       bookingID: 0,
