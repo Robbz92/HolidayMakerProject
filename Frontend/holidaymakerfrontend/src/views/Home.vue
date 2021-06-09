@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <hotelList :searchResultText="searchResultText"/>
+    <hotelList :searchResultText="searchResultText" :filters="filters"/>
     <div id="search">
       <searchBar />
-      <filterOptions v-if="gotClicked" />
+      <sortOptions id="sortOption" v-if="gotClicked"/>
     </div>
   </div>
 </template>
 
 <script>
 import searchBar from "../components/SearchBar.vue";
-import filterOptions from "../components/FilterOptions.vue";
+import sortOptions from "../components/SortingOptions.vue"
 import hotelList from "../components/HotelList.vue";
 
 export default {
@@ -18,20 +18,23 @@ export default {
   components: {
     hotelList,
     searchBar,
-    filterOptions,
+    sortOptions
   },
 
     data(){
       return{
         hasClicked: false,
-        searchResultText: "Loading.."
+        searchResultText: "Loading..",
+        filters: []
       }
     },
 
     computed:{
       gotClicked(){
         return this.$store.getters.getHasSearched
-      }
+      },
+
+      
     },
 
     methods:{
@@ -43,22 +46,29 @@ export default {
         if(!this.hasClicked){
           this.searchResultText = "Loading.."
           var e = document.getElementById('search')
-          e.style.bottom = "83%";
+          e.style.top = "3%";
           this.$store.commit("setHasSearched", true)
-          console.log("set to true")
-          document.getElementById("forAnimationOnly").style.top = "7.5vh"
+          document.getElementById("forAnimationOnly").style.top = "7.5vh";
+          document.getElementById("headline").style.display="none";
 
         setTimeout(() => this.searchResultText = "Cannot find any hotels matching searchphrase", 1000)
         }
       },
+
+      onFilter(filter){
+        this.filters = filter
+      }    
     },
 
     mounted(){
       this.hasClicked = this.$store.getters.getHasSearched
       if(this.hasClicked == true){
           var e = document.getElementById('search')
-          e.style.bottom = "83%";
+          e.style.top = "3%";
+          document.getElementById("headline").style.display="none";
       }
+
+      localStorage.clear();
     }
   
 };
@@ -67,14 +77,15 @@ export default {
 <style scoped>
 #search {
   position: absolute;
-  bottom: 50%;
-  left: 30%;
-  width: 40%;
-  transition: bottom 0.5s;
+  top: 25%;
+  transition: top 0.5s;
 }
 
 .home {
-  margin: none;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
   overflow: hidden;
 }
+
 </style>

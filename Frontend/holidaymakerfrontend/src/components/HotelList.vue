@@ -1,6 +1,8 @@
 <template>
   <div id="bigList">
     <div class="lists" id="forAnimationOnly">
+      <div>
+      </div>
       <h3 v-if="hotelList != ''"></h3>
       <ol id="hotelList">
         <li
@@ -11,28 +13,7 @@
           <Card :card="hotel" :imageUrl="hotel.hotelImg" />
         </li>
       </ol>
-      <h3 v-if="cityList != ''"></h3>
-      <ol id="cityList">
-        <li
-          v-for="(city, index) in setCities"
-          :key="index"
-          @click="onClick(city.id)"
-        >
-          <Card :card="city" :imageUrl="city.hotelImg"/>
-        </li>
-      </ol>
-
-      <h3 v-if="countryList != ''"></h3>
-      <ol id="countryList">
-        <li
-          v-for="(country, index) in setCountries"
-          :key="index"
-          @click="onClick(country.id)"
-        >
-          <Card :card="country" :imageUrl="country.hotelImg" />
-        </li>
-      </ol>
-      <h3 v-if="hotelList == '' && cityList == '' && countryList == ''">
+      <h3 v-if="hotelList == ''">
         {{searchResultText}}
       </h3>
     </div>
@@ -51,8 +32,9 @@ import Card from "./HotelCard.vue";
 
 export default {
   props:[
-      "searchResultText"
-  ],
+      'searchResultText', 
+      'filters'
+    ],
 
   components: {
     Card,
@@ -66,27 +48,77 @@ export default {
     };
   },
 
+//Vi har inte lagt till filtrerings funktionaliteten på länder eller städer
+//Hade bara varit att klippa och klistra från setHotels,
+//Vi har distkuterat om vi skulle ha allt som en lista,
+//eller fortfarande ha dom som separata
   computed: {
-    getHotels() {
-      return this.$store.getter.getHotels;
-    },
-    setCountries() {
-      var countries = this.$store.getters.getCountries;
-      this.updateCountryList();
-      return countries;
-    },
-
-    setCities() {
-      var cities = this.$store.getters.getCities;
-      this.updateCityList();
-      return cities;
-    },
-
     setHotels() {
+      var countries = this.$store.getters.getCountries;
+      var cities = this.$store.getters.getCities;
       var hotels = this.$store.getters.getHotels;
-      this.updateHotelList();
-      return hotels;
-    }
+
+      let newHotelList = []
+      let duplicateChecker = []
+
+      countries.forEach(hotel => {
+        console.log(hotel)
+        newHotelList.push(hotel)
+        duplicateChecker.push(hotel.id)
+      })
+
+      cities.forEach(hotel => {
+        if(duplicateChecker.includes(hotel.id)){
+          console.log("is already in list")
+        }
+        else{
+          newHotelList.push(hotel)
+          duplicateChecker.push(hotel.id)
+        }
+      })
+
+      hotels.forEach(hotel => {
+        if(duplicateChecker.includes(hotel.id)){
+          console.log("is already in list")
+        }
+        else{
+          newHotelList.push(hotel)
+        }
+      })
+
+      this.combineHotelLists(newHotelList)
+      
+      var filteredHotelList = [];
+      //Kör en filtrering på en ny variabel
+      let filteredHotels = newHotelList.filter((hotel) => {
+        if(this.filters.length > 0){
+          this.filters.forEach(element => {
+            //Sparar en variabel ifall hotellet redan är tillagd i listan
+            let hotelToCheck = filteredHotelList.find(hotelToCompareAgainst => hotelToCompareAgainst.name == hotel.name)
+            //Kollar så att hotellet inte är empty, och ifall den är tillagd
+            if(this.filterComfortsAndAttractions(hotel) != undefined){
+              if(!hotelToCheck){
+                if(element) //ANVÄNDS ENDAST FÖR ATT ELEMENT SKA ANVÄNDAS
+                  console.log()
+
+                filteredHotelList.push(this.filterComfortsAndAttractions(hotel))
+              }
+            }
+            return hotel
+          });
+        }else
+        return hotel
+      });
+      //Ifall där finns filter
+      if(this.filters.length > 0){
+        return filteredHotelList
+      }else{ //Eller inte
+        if(filteredHotels)
+          console.log()
+        filteredHotelList = newHotelList
+        return filteredHotelList
+      }
+    },
   },
 
   /*
@@ -95,6 +127,26 @@ export default {
   */
 
   methods: {
+    async combineHotelLists(hotelList){
+      this.hotelList = hotelList
+    },
+
+    filterComfortsAndAttractions(hotel){
+      //Boolean som bestämmer ifall ett hotell finns med i båda
+      //filtrerings listorna, i så fall return, annars är den empty
+      let willShow = true;
+      this.filters.forEach(element => {
+        if(!hotel.comfortList.includes(element.filter) && element.type == "comfort" ||
+        !hotel.attractionList.includes(element.filter) && element.type == "attraction"){
+          willShow = false
+        }
+      });
+
+      if(willShow){
+        return hotel
+      }
+    },
+
     onClick(id) {
       this.viewHotel(id);
       this.allReviews(id);
@@ -120,7 +172,9 @@ export default {
     },
     viewHotel(id) {
       this.$store.commit("setChosenHotel", id);
-      this.$store.dispatch("searchFor");
+      if(this.$store.state.searchPhrase != ""){
+        this.$store.dispatch("searchFor");
+      }
       this.$store.dispatch("fetchHotel");
       this.$router.push("/hotel");
     },
@@ -180,7 +234,7 @@ export default {
   overflow-x: hidden;
   width: 82.5vw;
   margin: auto;
-  margin-top: 5vh;
+  margin-top: 12vh;
   padding: 0;
   transition: top .5s;
 }

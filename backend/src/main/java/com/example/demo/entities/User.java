@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name= "users")
@@ -18,9 +20,6 @@ public class User {
     private String firstName;
     private String lastName;
 
-    public User(){
-    }
-
     public User(String email, String password, String firstName, String lastName) {
         this.email = email;
         this.password = password;
@@ -28,10 +27,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public User() {
+    }
+
     public long getId() {
         return id;
     }
 
+    @JsonProperty
     public void setId(long id) {
         this.id = id;
     }
@@ -70,11 +73,11 @@ public class User {
         this.lastName = lastName;
     }
 
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

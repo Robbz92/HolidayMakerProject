@@ -17,8 +17,11 @@ public class RoomService {
     tar emot fromDate + toDate + HotelID
     skickar till repo
      */
-    public List<Map> getFreeRooms(String dateOne, String dateTwo, long hotelID) {
-        return roomRepo.findFreeRoomsOnDate(hotelID,dateOne, dateTwo);
+    public List<Map> getFreeRooms(String dateOne, String dateTwo, long hotelID, double size) {
+        return roomRepo.findFreeRoomsOnDate(hotelID,dateOne, dateTwo, size);
     }
 
+    public List<Room> getAllRoomsOnHotelId(int id) {
+        return roomRepo.getAllroomsOnHotelId(id);
+    }
 }

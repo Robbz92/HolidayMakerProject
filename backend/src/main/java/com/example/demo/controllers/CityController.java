@@ -25,6 +25,7 @@ public class CityController {
     /*
     Hämtar alla städer baserat på fras(phrase)
      */
-    @GetMapping("citySearch/{phrase}")
-    public List<Hotel> getByName(@PathVariable String phrase){ return cityService.getByPhrase(phrase); }
+    @GetMapping("citySearch/{phrase}/{fromDate}/{toDate}/{size}/{room}")
+    public List<Hotel> getByName(@PathVariable String phrase, @PathVariable String fromDate,@PathVariable String toDate,@PathVariable double size,@PathVariable long room){
+        return cityService.getByPhrase(phrase, fromDate, toDate, size, room); }
 }

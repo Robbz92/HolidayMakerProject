@@ -36,10 +36,6 @@ export default {
     };
   },
 
-  mounted() {
-    console.log("mounted Login");
-  },
-
   methods: {
    /*
    Skapar login object och postar det till back end
@@ -61,14 +57,15 @@ export default {
     /*
     kollar vem/om som är inloggad
     */
-      let user = await fetch("/api/auth/whoami");
+      let user = await fetch("/rest/whoami");
       try {
         user = await user.json();
         this.$store.commit("setLoggedInUser", user);
       } catch {
         alert("Wrong credentials! Please check username or password.");
       }
-      this.$router.push("/");
+      //this.$router.push("/");
+      window.history.back();
     },
   },
 };

@@ -30,7 +30,7 @@ public class CityService {
     tar emot en fras som ska matcha med en stad.
     Visar alla hotell som matchar denna stad.
      */
-    public List<Hotel> getByPhrase(String phrase) {
+    public List<Hotel> getByPhrase(String phrase, String fromDate, String toDate, double size, long room) {
         List<City> cityList = new ArrayList<>();
         List<Hotel> hotelList = new ArrayList<>();
         if(cityRepo.findByName(phrase) != null){
@@ -38,7 +38,7 @@ public class CityService {
             cityList.add(cityRepo.findByName(phrase));
 
             for(City city : cityList){
-                hotelList.addAll(hotelService.getByCity(city.getId()));
+                hotelList.addAll(hotelService.getByCity(city.getId(), fromDate, toDate, size, room));
             }
         }
         return hotelList;

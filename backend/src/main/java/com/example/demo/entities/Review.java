@@ -1,5 +1,8 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,21 +15,38 @@ public class Review {
     private String text;
     private int score;
     private long user_id;
+    private long bookingId;
+
+    @Column(name = "hotel_id")
     private long hotel_id;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_id", insertable = false, updatable = false) //, insertable = false, updatable = false
+    private Hotel hotel;
 
     public Review() {}
 
-    public Review(String text, int score, long user_id, long hotel_id) {
+    public Review(long bookingId, String text, int score, long user_id, long hotel_id) {
         this.text = text;
         this.score = score;
         this.user_id = user_id;
         this.hotel_id = hotel_id;
+        this.bookingId = bookingId;
     }
 
+    public long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(long bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    @JsonIgnore
     public long getId() {
         return id;
     }
-
+    @JsonProperty
     public void setId(long id) {
         this.id = id;
     }
@@ -55,10 +75,12 @@ public class Review {
         this.user_id = user_id;
     }
 
+    @JsonIgnore
     public long getHotel_id() {
         return hotel_id;
     }
 
+    @JsonProperty
     public void setHotel_id(long hotel_id) {
         this.hotel_id = hotel_id;
     }

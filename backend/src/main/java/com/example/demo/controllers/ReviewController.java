@@ -1,11 +1,9 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.Review;
 import com.example.demo.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +17,10 @@ public class ReviewController {
     /*
     hämtar reviews baserat på HotelID
      */
+
     @GetMapping("/reviews/{id}")
     public List<Map> getReviews(@PathVariable long id){return reviewService.getReviewsByHotelId(id);}
+
+    @GetMapping("/findReviews/")
+    public List<Integer> getHotelidList(){return reviewService.getHotelidList();}
 }
