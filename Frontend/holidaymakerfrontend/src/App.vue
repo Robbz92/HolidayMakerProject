@@ -103,5 +103,4 @@ export default {
   right: 80px;
   text-decoration: none;
 }
-
 </style>

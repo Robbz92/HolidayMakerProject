@@ -31,8 +31,8 @@ export default {
   data() {
     return {
       newPrice: [],
-      accept: [],
-      roomItem: [],
+      accept: [],//används inte
+      roomItem: [],//används inte
       boardResult: [],
       extraBed: [],
       bookingID: 0,
@@ -84,26 +84,28 @@ export default {
     console.log(this.$store.getters.getRoomsToBook)
   },
   methods: {
+    //show popup if boolean=true 
     clickPopup(boolean) {
       if (!this.checkForDuplicates()) {
         alert("Rooms are not unique");
+        //if boolean is false
       } else {
         this.showPopup = boolean;
       }
     },
 
-    fillBookingArray(index, object) {
-      this.bookingsArray[index] = object;
+    fillBookingArray(index, room) {
+      this.bookingsArray[index] = room;
     },
 
     getNumberOfDays() {
       return this.$store.getters.getNumberOfDays;
     },
 
-    getPriceFromObject() {
+    getPriceFromRoom() {
       let totalPrice = 0;
-      this.bookingsArray.forEach((object) => {
-        totalPrice += object.totalCost;
+      this.bookingsArray.forEach((room) => {
+        totalPrice += room.totalCost;
       });
 
       return totalPrice;
@@ -137,7 +139,7 @@ export default {
         hotelId: this.$store.state.chosenRoom.hotel_id,
         fromDate: this.getFromDate,
         toDate: this.getToDate,
-        totalCost: this.getPriceFromObject(),
+        totalCost: this.getPriceFromRoom(),
         paymentState: paymentState,
       };
 

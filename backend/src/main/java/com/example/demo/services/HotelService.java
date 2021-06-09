@@ -111,6 +111,7 @@ public class HotelService {
         return hotelRepo.attractionsPerHotel(id);
     }
 
+    //hämtar land och stad som en string
     private String getPlaceName(Long id){
         String placeName = hotelRepo.placeName(id);
         String[] newName = placeName.split(",");

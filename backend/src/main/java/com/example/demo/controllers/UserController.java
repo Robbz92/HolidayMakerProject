@@ -39,5 +39,4 @@ public class UserController {
     @GetMapping("auth/bookedRoomsById/{bookingId}")
     public List<Map> getBookedRooms(@PathVariable long bookingId){return userService.bookedRoomsById(bookingId);}
 
-
 }

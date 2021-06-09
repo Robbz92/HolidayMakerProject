@@ -9,6 +9,7 @@
       :name="name"
       :id="id"
       :hotel_id="hotel_id"
+      :paymentState="payment_state"
       :room="{
         extra_bed_amount: extra_bed_amount,
         type: type,

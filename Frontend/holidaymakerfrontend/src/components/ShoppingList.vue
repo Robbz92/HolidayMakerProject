@@ -1,6 +1,5 @@
 <template>
   <div class="shoppingList" v-if="roomList != 0 || getStorage != null">
-    <div v-if="getStorage && loggedInUser"></div>
     <ul class="theList">
       <li
         class="roomItemList"

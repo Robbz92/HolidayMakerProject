@@ -54,7 +54,7 @@ export default {
                 this.$parent.updateBooking(this.bookingID)
             }
             
-            //Sending you to the checkout page from stripe
+            //Sending you to the checkout page from stripe method comes from Stripe library
             this.$refs.checkoutRef.redirectToCheckout();
         }
     },
