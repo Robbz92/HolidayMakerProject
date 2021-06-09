@@ -93,6 +93,8 @@ export default {
 <style scoped>
 #text {
   width: 80%;
+  outline: none;
+  font-family: inherit;
 }
 #theInfo {
   display: flex;

@@ -162,11 +162,13 @@ export default {
 #board {
   height: 25px;
   margin: 5px 0;
+  outline: none;
 }
 
 #chosenRoom {
   height: 25px;
   margin: 5px 0;
+  outline: none;
 }
 
 #roomPrice {
@@ -185,4 +187,5 @@ export default {
   margin-left: 5px;
   margin-top: 4.5px;
 }
+
 </style>

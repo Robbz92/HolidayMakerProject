@@ -222,6 +222,13 @@ export default {
       show: false,
       cuantity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
       showUpdateSearch: false,
+      styleObject: {
+        outline: "none",
+        border: "none",
+        height: "1.65em",
+        width: "10em",
+        fontFamily: "inherit",
+      },
     };
   },
 
@@ -659,5 +666,9 @@ li {
 
 .checkOut{
   margin: 5px;
+}
+
+#fromDate{
+  font-family: inherit;
 }
 </style>

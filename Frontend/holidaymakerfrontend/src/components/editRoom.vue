@@ -199,11 +199,13 @@ export default {
 #boardChoice {
   height: 25px;
   margin: 5px 0;
+  outline: none;
 }
 
 #chosenRoom {
   height: 25px;
   margin: 5px 0;
+  outline: none;
 }
 
 #roomPrice {
