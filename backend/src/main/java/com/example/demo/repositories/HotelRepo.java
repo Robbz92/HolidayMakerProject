@@ -119,8 +119,8 @@ public interface HotelRepo extends JpaRepository<Hotel, Long> {
             "          INNER JOIN countries ON countries.id = cities.country_id\n" +
             "          INNER JOIN rooms ON hotels.id = rooms.hotel_id\n" +
             "          INNER JOIN room_types on rooms.room_type_id = room_types.id\n" +
-            "WHERE countries.temperature >= ?4\n" +
-            "AND countries.temperature <= ?5 AND room_types.size >= ?3\n" +
+            "WHERE countries.temperature >= ?5\n" +
+            "AND countries.temperature <= ?6 AND room_types.size >= ?3\n" +
             "AND rooms.id\n" +
             "           NOT IN (SELECT rooms_id FROM booked_rooms WHERE from_date BETWEEN ?1 AND ?2 Or to_date BETWEEN ?1 AND ?2) \n" +
             "   GROUP BY hotels.name\n" +
